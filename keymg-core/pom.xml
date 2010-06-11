@@ -6,33 +6,33 @@
       <relativePath>../parent</relativePath>
    </parent>
    <modelVersion>4.0.0</modelVersion>
-   <artifactId>keymg-api</artifactId>
+   <artifactId>keymg-core</artifactId>
    <packaging>jar</packaging>
-   <name>KeyMG API</name>
+   <name>KeyMG Core</name>
    <url>http://codehaus.org/keymg</url>
-   <description>KeyMG API contains the api to use on the model</description>
+   <description>KeyMG Core contains the main integration classes</description>
    <licenses>
       <license>
          <name>lgpl</name>
          <url>http://www.gnu.org/licenses/lgpl.html</url>
       </license>
    </licenses>
-
    <dependencies>
-     <dependency>
-       <groupId>org.codehaus</groupId>
-       <artifactId>keymg-core</artifactId>
-       <version>${version}</version>
-     </dependency>
      <dependency>
        <groupId>org.codehaus</groupId>
        <artifactId>keymg-model</artifactId>
        <version>${version}</version>
      </dependency>
      <dependency>
+       <groupId>org.apache</groupId>
+       <artifactId>xmlsec</artifactId>
+       <version>1.4.3</version>
+     </dependency>
+     <dependency>
        <groupId>junit</groupId>
        <artifactId>junit</artifactId>
        <scope>test</scope>
      </dependency>
-  </dependencies>
+   </dependencies>
+
 </project>

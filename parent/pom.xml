@@ -26,14 +26,23 @@
           <target>1.5</target>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+           <printSummary>true</printSummary>
+           <disableXmlReport>false</disableXmlReport>
+           <testFailureIgnore>false</testFailureIgnore>
+           <includes>
+             <include>**/*Test*.java</include>
+           </includes>
+           <forkMode>pertest</forkMode>
+           <useFile>false</useFile>
+           <trimStackTrace>false</trimStackTrace>
+        </configuration>
+      </plugin>
+
     </plugins>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav</artifactId>
-        <version>1.0-beta-1</version>
-      </extension>
-    </extensions>
   </build>
 
   <repositories>
@@ -57,7 +66,7 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>3.8.1</version>
+        <version>4.8.1</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
