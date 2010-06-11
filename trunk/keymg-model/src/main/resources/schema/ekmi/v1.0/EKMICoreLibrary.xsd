@@ -1,0 +1,1678 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : EKMICoreLibrary.xsd
+    Author     : Arshad Noor
+    Version    : DRAFT version 8.0
+    Description: This document defines the core XML Schema data-types for
+                 the EKMI TC's Symmetric Key Services Markup Language (SKSML).
+                 
+    Modified on : November 18, 2008, 10:17 AM             
+    Changes in DRAFT 8.0  (current version)
+    
+    01) Created the X509CertificateType to support sending the encryption 
+        certificate to the SKS server when requesting a symmetric-key.  This
+        allows the SKMS to be encrypt the response to the client without
+        having to have the requester's encryption certificate in the SKMS DB.
+        
+    Modified on : November 03, 2008, 3:17 PM             
+    Changes in DRAFT 7.0
+    
+    01) Created the SymkeyWorkInProgressType to support asynchronous requests
+        and responses between SKCLs and SKS servers.  While the SKSML request 
+        will still be enclosed in a SOAP element with a digital signature, the 
+        request may now be sent over other protocols besides HTTP (such as SMTP).
+        
+    02) Created a SymkeyRequestID element and SymkeyRequestIDType to allow the
+        client and server to track an asynchronous request and response.
+        
+    03) Created the RequestCheckIntervalType to allows the SKS server to tell
+        clients how frequently they may poll a server on a work-in-progress 
+        request.
+        
+    04) Modified SymkeyType to include the SymkeyRequestID element.
+    
+    05) Modified SymekyError to include the SymkeyRequestID element.
+        
+    Modified on : June 23, 2008, 3:17 PM             
+    Changes in DRAFT 6.0
+    
+    01) Added the "any" attribute which has either a "true" or "false" value.
+        This attribute will be used in all the "Permitted..." sub-elements of
+        the Permissions element.
+        
+    02) Added a DurationType element.  This used to be the PermittedDurationsType
+        element in earlier versions.
+        
+    03) Added a NumberOfTransactionsType element.  This used to be the 
+        PermittedNumberOfTransactionsType element in earlier versions.
+        
+    04) Changed PermittedDurationsType to wrap DurationType with the "any"
+        attribute.
+        
+    05) Changed PermittedNumberOfTransactionsType to wrap NumberOfTransactionsType
+        with the "any" attribute.
+        
+    06) Modified the Permissions element to now require all sub-elements to
+        be "nillable" if the "any" attribute in them is "true".
+    
+    07) Moved the SymkeyType and SymkeyErrorType from symkeyResponse to this 
+        EKMICoreLibrary.xsd file.
+    
+    08) Removed the globally defined KeyUsePolicy element; it was not required
+        since the SymkeyResponse refers to the KeyUsePolicyType directly.
+        
+    Modified on : June 18, 2008, 9:17 PM             
+    Changes in DRAFT 5.1
+    
+    01) Changed the element name of <PermittedTransactions> to
+        <PermittedNumberOfTransactions> to remove ambiguity that it may be
+        referring to transaction types or transaction names.
+        
+    02) Changed the order of the <Permissions> element to re-order the
+        elements in alphabetical order, after the change of the 
+        <PermittedTransactions> to <PermittedNumberOfTransactions>
+                 
+    Modified on : June 18, 2008, 8:17 PM             
+    Changes in DRAFT 5
+    
+    01) Added a KeyClass element to the KeyCachePolicyType to allow for an
+        EKMI to cache keys at different intervals based on the key-class the
+        key belongs to.
+        
+    02) Moved the KeyCachePolicy element to become a sub-element of a 
+        KeyCachePolicyResponse element, sent in response to a KeyCachePolicy 
+        request from a client.  The KeyCachePolicyResponse element contains
+        a sequence of KeyCachePolicyTypes to allow for multiple key-cache 
+        policies to be returned to the client, where each policy applies to 
+        a class of symmetric keys.  The previous DRAFTs only allowed for a 
+        single policy to be returned that applied to all keys of any class.
+        
+    Version    : DRAFT version 4.0
+    Description: This document defines the core XML Schema data-types for
+                 the EKMI TC's Symmetric Key Services Markup Language (SKSML).
+                 
+    Modified on : June 03, 2008, 8:17 PM             
+    Changes in DRAFT 4
+    
+    01) Added a PermittedDaysType element for the PermissionsType element
+        to accommodate the need to have a key available for use only on
+        weekdays, weekends, specific day-of-the-week, etc.
+        
+    02) Added a PermittedDayType element for the different days of the
+        week and the "weekday" and "weekend" catchalls.
+    
+    Created on : April 24, 2008, 8:17 PM
+    Author     : Arshad Noor
+    Version    : DRAFT version 3.1
+                 
+    Changes in 3.1:
+    
+    01) Expanded all acronyms in slement names to display the full names.
+    
+        
+    Created on : February 05, 2008, 2:17 PM
+    Author     : Arshad Noor
+    Version    : DRAFT version 3.0
+                 
+    Changes in 3.0:
+    
+    01) KeyUsePolicy to modified to include a "KeyClass" element to define a
+        user-defined value that identifies the key as belonging to a specific 
+        class.  
+        
+    02) SymkeyRequest is modified to include an optional element to request
+        symmetric keys of one or more classes.  A request message can now ask
+        for multiple keys of different classes within a single request called
+        "KeyClasses".  Within the KeyClasses element is a list of "KeyClass"
+        elements, each corresponding to some user-defined value known to the 
+        SKS server.  In earlier versions of the protocol, only a single key 
+        could be requested and KeyClass could not be defined.
+
+    03) SymkeyResponse is modified to allow the SKS server to return multiple
+        symmetric keys within a single response, each belonging to a specific
+        requested KeyClass.  The SymkeyResponse may consist of two types of
+        elements - a Symkey or a SymkeyError.  There may be multiple instances
+        of Symkey and SymkeyError in a SymkeyResponse.
+                 
+                 
+    Created on : December 27, 2007, 11:17 AM
+    Author     : Arshad Noor
+    Version    : DRAFT version 2.0
+                 
+    DRAFT Version 02 is very different from DRAFT Version 01.  It has
+    incorporated input from many TC members and consists of the following
+    changes (in the order of their appearance in this file):
+    
+    01) An XSD group called LocationCoordinateGroup has been created to 
+        enforce that a location coordinate includes the longitude and
+        latitude, if specified, or not at all.
+       
+    02) An XSD group called MessageDigestGroup has been created to enforce
+        that DigestAlgorithm and DigestValue are specified together, or
+        not at all.
+        
+    03) Three ID types have been created to accomodate for the concatenated
+        identifier types found within EKMI objects, each consisting of one,
+        two and three parts to their identifiers.  They are aptly named: 
+        OnePartIDType, TwoPartIDType and ThreePartIDType.
+       
+    04) An EncryptionAlgorithmType was created to enumerate the different
+        encryption algorithms supported within the Symmetric Key Management
+        System (SKMS).
+    
+    05) The GlobalKeyID in the GlobalKeyIDType was modified to include a Domain ID (DID) 
+        based on the IANA-issued Private Enterprise Number thus expanding 
+        the namespace to the internet, and extending the maximum length of 
+        the GlobalKeyID to be 62-bytes.
+       
+    06) Added a KeySizeType to enumerate the different sizes of symmetric
+        keys supported within the SKMS.
+       
+    07) Added a LevelClassificationType to enumerate the different security
+        classifications supported in the Bell-LaPadula model of access control.
+        
+    08) Added a PermittedDurationType to indicate the validity duration of
+        a symmetric key (in seconds) under the new Permissions model for 
+        KeyUsePolicy.
+    
+    09) Added a PermittedTransactionsType to indicate the number of encryption
+        transactions a client application can perform with a specific 
+        symmetric key under the new Permissions model for KeyUsePolicy.
+       
+    10) Added an ApplicationsType to identify details of an application that
+        is permitted to use a symmetric key within a specific KUP.  
+       
+    11) Added a PermittedApplicationsType to identify the list of applications
+        permitted to use a symmetric key defined within a KUP.  If this element
+        is missing, by default, all applications are assumed to be permitted
+        to use the symmetric key.
+        
+    12) Added a PermittedDatesType to implement the older date-based KUP.  It
+        identifies a list of dates during which the symmetric key defined 
+        within such a  KUP can be used.  If this element is missing, it is
+        assumed that the symmetric key can be used on any date.
+    
+    13) Added a PermittedLevelsType to identify the list of levels (from a
+        Multi-Level Security, or MLS, based system) that a symmetric key can
+        be used.  If this element is missing, it is assumed that the symmetric 
+        key can be used at all MLS levels.  The element also adds an "Other"
+        element of "anyType" to permit the addition of custom XML elements to 
+        extend the capability of this schema.
+    
+    14) Added a PermittedLocationsType to identify the list of locations that 
+        a symmetric key can be used.  If this element is missing, it is assumed 
+        that the symmetric key can be used in all locations.  The element also 
+        adds an "Other" element of "anyType" to permit the addition of custom 
+        XML elements to extend the capability of this schema.
+        
+    15) Added a PermittedTimesType to identify a list of times during the day,
+        during which the symmetric key defined within such a  KUP can be used.  
+        If this element is missing, it is assumed that the symmetric key can 
+        be used at all times during a 24-hour day.
+        
+    16) Added a PermittedUsesType to identify the list of uses that a symmetric 
+        key can be used for.  If this element is missing, it is assumed that 
+        the symmetric key can be used for all purposes.  The element also adds 
+        an "Other" element of "anyType" to permit the addition of custom XML 
+        elements to extend the capability of this schema.
+        
+    17) Added a PermissionsType which creates a new, more flexible and 
+        extensible model for defining key-use policies.  It replaces the old
+        Date, Duration and TxAllowed-based policies from DRAFT version 01 and
+        allows implementers to customize which applications can use a key, on
+        what dates, times, at which locations, for what purposes, etc. It also 
+        adds an "Other" element of "anyType" to permit the addition of custom 
+        XML elements to extend the capability of the Permissions model.
+        
+    18) Added a StatusType to enumerate the various status values that KCPs
+        and KUPs can have.
+        
+    19) Added a KeyCacheDetailType to organize the detail information that
+        SKMS clients need to manage their symmetric key-cache.
+        
+    20) Changed the KeyCachePolicyType element to better organize it by
+        creating a NewKeysCacheDetail and UsedKeysCacheDetail element of 
+        KeyCacheDetailType, and adding a PolicyCheckInterval to indicate 
+        the frequency interval at which an SKMS client checks for updates.
+        
+    21) The KeyCachePolicyID within the KeyCachePolicyType is no longer an integer, but 
+        a string containing a DomainID concatenated with a unique policy ID 
+        within that domain.  The string can now have a maximum length of 
+        41-bytes.
+       
+    22) Removed the maxnewdays and maxuseddays within KeyCachePolicyType and
+        replaced it with the KeyCacheDetailype elements.
+       
+    23) Removed the usefirst element from KeyCachePolicyType; it is redundant.
+    
+    24) Reorganized the KeyUsePolicyType to implement the new Permissions
+        model for defining the policy for how keys may be used.
+        
+    25) The KeyUsePolicyID within the KeyUsePolicyType is no longer an integer, but 
+        a string containing a DomainID concatenated with a unique policy ID 
+        within that domain.  The string can now have a maximum length of 
+        41-bytes.
+    -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://docs.oasis-open.org/ekmi/2008/01"
+            elementFormDefault="qualified" 
+            xmlns:tns="http://docs.oasis-open.org/ekmi/2008/01"
+            xmlns:xenc="http://www.w3.org/2001/04/xmlenc#">
+    <!--
+    =======================================================================
+    Schema Imports
+    =======================================================================
+    -->
+    <xsd:import schemaLocation="xenc-schema.xsd" namespace="http://www.w3.org/2001/04/xmlenc#"/>
+    
+    <!--
+    =======================================================================
+    Attributes
+    =======================================================================
+    -->
+    
+    <!--
+    =============================================
+    Any
+    =============================================
+    -->
+    <xsd:attribute name="any">
+        <xsd:annotation>
+            <xsd:documentation>
+                This attribute is used in the "Permitted.." sub-elements to 
+                define whether a key may be used at "any" value of the
+                permission or only during specified values of the permission.
+                
+                For example, a key with a "PermittedDays" permission might 
+                indicate that the specific key can be used on "any" day - by
+                the attribute "any" being set to "true" - or only on specific 
+                days - where the attribute "any" would be set to "false" and 
+                the permitted days would be listed as sub-elements to 
+                "PermittedDays".
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+                <xsd:enumeration value="false"/>
+                <xsd:enumeration value="true"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+    </xsd:attribute>
+    
+    <!--
+    =======================================================================
+    Groups
+    =======================================================================
+    -->
+    
+    <!--
+    =============================================
+    LocationCoordinateGroup
+    =============================================
+    -->
+    <xsd:group name="LocationCoordinateGroup">
+        <xsd:sequence>
+            <xsd:element name="Latitude">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The latitude coordinate of a location.  It is 
+                        expressed as a decimal with a fraction, where 
+                        the minutes and seconds are collapsed into a 
+                        single decimal.  An example is 37.385562.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:decimal">
+                        <xsd:totalDigits value="10"/>
+                        <xsd:fractionDigits value="7"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="Longitude">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The longitude coordinate of a location.  It is 
+                        expressed as a decimal with a fraction, where 
+                        the minutes and seconds are collapsed into a 
+                        single decimal.  An example is -121.993387.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:decimal">
+                        <xsd:totalDigits value="10"/>
+                        <xsd:fractionDigits value="7"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:group>
+    
+    <!--
+    =============================================
+    MessageDigestGroup
+    =============================================
+    -->
+    <xsd:group name="MessageDigestGroup">
+        <xsd:sequence>
+            <xsd:element name="DigestAlgorithm">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The type of message digest - SHA-1, SHA-256, SHA-512 etc.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:anyURI">
+                        <xsd:enumeration value="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                        <xsd:enumeration value="http://www.w3.org/2001/04/xmlenc#sha256"/>
+                        <xsd:enumeration value="http://www.w3.org/2001/04/xmlenc#sha512"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="DigestValue">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The base64-encoded message digest of the application.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:base64Binary">
+                        <xsd:maxLength value="1024"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:group>
+    
+    
+    
+    
+    <!--
+    =======================================================================
+    Simple Types
+    =======================================================================
+    -->
+    
+    <!--
+    =============================================
+    OnePartIDType
+    =============================================
+    -->
+    <xsd:simpleType name="OnePartIDType">
+        <xsd:annotation>
+            <xsd:documentation>
+                An identifier type that consists of only a 
+                single ASCII decimal element that ranges from 
+                the value 1 to 18446744073709551615.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="20"/>
+            <xsd:pattern value="[1-9][0-9]{0,19}"/>
+            <xsd:whiteSpace value="collapse"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!--
+    =============================================
+    TwoPartIDType
+    =============================================
+    -->
+    <xsd:simpleType name="TwoPartIDType">
+        <xsd:annotation>
+            <xsd:documentation>
+                An identifier type that consists of two 20-character
+                ASCII decimal numbers separated by a hyphen ("-").
+                Each 20-character decimal element ranges from the 
+                value 1 to 18446744073709551615.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="3"/>
+            <xsd:maxLength value="41"/>
+            <xsd:pattern value="[1-9][0-9]{0,19}-[1-9][0-9]{0,19}"/>
+            <xsd:whiteSpace value="collapse"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!--
+    =============================================
+    ThreePartIDType
+    =============================================
+    -->
+    <xsd:simpleType name="ThreePartIDType">
+        <xsd:annotation>
+            <xsd:documentation>
+                An identifier type that consists of three 20-character
+                ASCII decimal numbers separated by a hyphen ("-").
+                Each 20-character decimal element ranges from the 
+                value 1 to 18446744073709551615.  This is different
+                from the GlobalKeyIDType in that the GlobalKeyIDType permits each
+                part to contain the numeral "0", but the ThreePartIDType
+                does not; the minimum value of each part must be "1".
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="5"/>
+            <xsd:maxLength value="62"/>
+            <xsd:pattern value="[1-9][0-9]{0,19}-[1-9][0-9]{0,19}-[1-9][0-9]{0,19}"/>
+            <xsd:whiteSpace value="collapse"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!--
+    =============================================
+    DurationType
+    =============================================
+    -->
+    <xsd:simpleType name="DurationType">
+        <xsd:annotation>
+            <xsd:documentation>
+                The number of seconds a symmetric key may be used for, once
+                the client application starts using the key.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:positiveInteger">
+            <xsd:minInclusive value="1"/>
+            <xsd:maxInclusive value="18446744073709551615"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!--
+    =============================================
+    EncryptionAlgorithmType
+    =============================================
+    -->
+    <xsd:simpleType name="EncryptionAlgorithmType">
+        <xsd:annotation>
+            <xsd:documentation>
+                The W3C XML Encryption specified algorithm that this
+                symmetric key must be used with for cryptographic
+                operations.  The reason for supporting only the XML
+                Encryption standard has to do with the extensive use
+                of the XML Encryption schema for ciphertext by the
+                current open-source implementation of this protocol.
+                It would be wiser to have newer algorithms supported
+                and specified by W3C in the XML Encrytpion standard
+                before using them, rather than making up one's own
+                algorithm URIs.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:anyURI">
+            <xsd:enumeration value="http://www.w3.org/2001/04/xmlenc#tripledes-cbc">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The Triple-DES with Cipher Block Chaining encryption algorithm
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="http://www.w3.org/2001/04/xmlenc#aes128-cbc">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The 128-bit AES with Cipher Block Chaining encryption algorithm
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="http://www.w3.org/2001/04/xmlenc#aes192-cbc">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The 192-bit AES with Cipher Block Chaining encryption algorithm
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="http://www.w3.org/2001/04/xmlenc#aes256-cbc">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The 256-bit AES with Cipher Block Chaining encryption algorithm
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!--
+    =============================================
+    GlobalKeyIDType
+    =============================================
+    -->
+    <xsd:simpleType name="GlobalKeyIDType">
+        <xsd:annotation>
+            <xsd:documentation>
+                The Global Key-ID (GlobalKeyID) is a string identifier of a 
+                symmetric key, consisting of five parts:
+                
+                1) a non-negative integer identifying the Domain ID (DID).  
+                The DID identifies the IANA-issued Private Enterprise Number 
+                (PEN) as issued and published at 
+                http://www.iana.org/assignments/enterprise-numbers
+                and is used within the EKMI to constrain the ownership of 
+                objects in the EKMI;
+                2) a literal hyphen ("-");                        
+                3) a non-negative integer identifying the Server ID of the 
+                server that originally generated the key;
+                4) another literal hyphen ("-");
+                5) a non-negative integer identifying the Key ID;
+                
+                Combined, the five components of this element make up a unique 
+                identifier for a symmetric key across the internet.
+                
+                A minimal GlobalKeyID element instance would look like:  
+                
+                "10514-0-0" 
+                
+                which represents a request for a new symmetric key (since 
+                there can be no ServerID or a KeyID with a value of "0" other 
+                than to specify a request for a new symmetric key).
+                
+                To accomodate the limitations on SQL databases, the maximum 
+                value of the GlobalKeyID element must be (a 62-byte ASCII 
+                decimal):
+                
+                "18446744073709551615-18446744073709551615-18446744073709551615"
+                
+                In practice, an enterprise will more than likely manage only 
+                its own domain, and within the domain have no more than a few 
+                dozen Symmetric Key Services (SKS) servers, and perhaps a few 
+                billion keys; so we would expect large GlobalKeyID's to look 
+                like the following:
+                
+                "10514-2-16777215"
+                "15966-5-1073741823"
+                "22408-13-4294967295"
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="5"/>
+            <xsd:maxLength value="62"/>
+            <xsd:pattern value="[0-9]{1,20}-[0-9]{1,20}-[0-9]{1,20}"/>
+            <xsd:whiteSpace value="collapse"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!--
+    =============================================
+    KeyClassType
+    =============================================
+    -->
+    <xsd:simpleType name="KeyClassType">
+        <xsd:annotation>
+            <xsd:documentation>
+                A user-defined class for symmetric keys that can
+                be used by applications to encrypt specific classes
+                of data.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="255"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!--
+    =============================================
+    KeySizeType
+    =============================================
+    -->
+    <xsd:simpleType name="KeySizeType">
+        <xsd:annotation>
+            <xsd:documentation>
+                The size of the symmetric encryption  key.  Given the
+                currently supported algorithms, this will range from
+                128 to 256.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:unsignedShort">
+            <xsd:totalDigits value="3"/>
+            <xsd:fractionDigits value="0"/>
+            <xsd:enumeration value="128">
+                <xsd:annotation>
+                    <xsd:documentation>128-bit key</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="192">
+                <xsd:annotation>
+                    <xsd:documentation>192-bit key</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="256">
+                <xsd:annotation>
+                    <xsd:documentation>256-bit key</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!--
+    =============================================
+    LevelClassificationType
+    =============================================
+    -->
+    <xsd:simpleType name="LevelClassificationType">
+        <xsd:annotation>
+            <xsd:documentation>
+                An enumeration of the classification levels based on the
+                Bell-LaPadula model.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Unclassified">
+                <xsd:annotation>
+                    <xsd:documentation>Data that is deemed public.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Confidential">
+                <xsd:annotation>
+                    <xsd:documentation>Data that is deemed confidential.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Secret">
+                <xsd:annotation>
+                    <xsd:documentation>Data that is deemed secret.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Top-Secret">
+                <xsd:annotation>
+                    <xsd:documentation>Data that is deemed top-secret.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!--
+    =============================================
+    NumberOfTransactionsType
+    =============================================
+    -->
+    <xsd:simpleType name="NumberOfTransactionsType">
+        <xsd:annotation>
+            <xsd:documentation>
+                The number of encryption transactions permitted with this 
+                symmetric key.  It does not limit decryption transactions.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:positiveInteger">
+            <xsd:minInclusive value="1"/>
+            <xsd:maxInclusive value="18446744073709551615"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!--
+    =============================================
+    PermittedDayType
+    =============================================
+    -->
+    <xsd:simpleType name="PermittedDayType">
+        <xsd:annotation>
+            <xsd:documentation>
+                The day of week a symmetric key may be used by applications.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Sunday"/>
+            <xsd:enumeration value="Monday"/>
+            <xsd:enumeration value="Tuesday"/>
+            <xsd:enumeration value="Wednesday"/>
+            <xsd:enumeration value="Thursday"/>
+            <xsd:enumeration value="Friday"/>
+            <xsd:enumeration value="Saturday"/>
+            <xsd:enumeration value="Weekday"/>
+            <xsd:enumeration value="Weekend"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!--
+    =============================================
+    RequestCheckIntervalType
+    =============================================
+    -->
+    <xsd:simpleType name="RequestCheckIntervalType">
+        <xsd:annotation>
+            <xsd:documentation>
+                The number of seconds a client must wait before it can query
+                the SKS server on the status of a work-in-progress request
+                for a symmetric key.  The minimum is 1-minute, while the
+                maximum is 1-week.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:positiveInteger">
+            <xsd:minInclusive value="60"/>
+            <xsd:maxInclusive value="604800"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!--
+    =============================================
+    StatusType
+    =============================================
+    -->
+    <xsd:simpleType name="StatusType">
+        <xsd:annotation>
+            <xsd:documentation>
+                An indicator if the policy containing this element type
+                is currently "Active", "Default", "Inactive" or "Other".
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Active">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        An active policy.  If this element is in the
+                        KeyCachePolicy object, it indicates that symmetric 
+                        keys may be cached with this KCP.  If it is in the
+                        KeyUsePolicy object, it indicates that the symmetric
+                        key may be used for encryption.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Default">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The default policy in the absence of a named KCP or 
+                        KUP.  It is automatically active, unless over-ridden.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Inactive">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A policy that, in the case of the KCP, must not be 
+                        used for caching any symmetric keys or in the case
+                        of a KUP for encryption.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Other">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A policy that has an implementation-specific action.  
+                        Recommended only for test-use.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!--
+    =============================================
+    SymkeyRequestIDType
+    =============================================
+    -->
+    <xsd:simpleType name="SymkeyRequestIDType">
+        <xsd:annotation>
+            <xsd:documentation>
+                The symmetric key request identifer (SymeyRequestID) is a string 
+                identifier of a request for a symmetric key, consist of five 
+                parts:
+                
+                1) a non-negative integer identifying the Domain ID (DID).  
+                The DID identifies the IANA-issued Private Enterprise Number 
+                (PEN) as issued and published at 
+                http://www.iana.org/assignments/enterprise-numbers
+                and is used within the EKMI to constrain the ownership of 
+                objects in the EKMI;
+                2) a literal hyphen ("-");                        
+                3) a non-negative integer identifying the Server ID of the 
+                server that originally generated the key;
+                4) another literal hyphen ("-");
+                5) a non-negative integer identifying the Request ID;
+                
+                Combined, the five components of this element make up a unique 
+                identifier for a request for a symmetric key across the internet.
+                All SymkeyRequestID's have real numbers in them and the number
+                zero (0) should not appear in any part of this element.
+                
+                To accomodate the limitations on SQL databases, the maximum 
+                value of the SymkeyRequestID element must be (a 62-byte ASCII 
+                decimal):
+                
+                "18446744073709551615-18446744073709551615-18446744073709551615"
+                
+                In practice, an enterprise will more than likely manage only 
+                its own domain, and within the domain have no more than a few 
+                dozen Symmetric Key Services (SKS) servers.  Each server, 
+                however, can field only 18446744073709551615 requests.  Before
+                a company reaches that point, it will need to establish new
+                SKS servers to accomodate new requests.  SymkeyRequestID's may
+                look like the following:
+                
+                "10514-2-16777215"
+                "15966-5-1073741823"
+                "22408-13-4294967295"
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="5"/>
+            <xsd:maxLength value="62"/>
+            <xsd:pattern value="[0-9]{1,20}-[0-9]{1,20}-[0-9]{1,20}"/>
+            <xsd:whiteSpace value="collapse"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!--
+    =============================================
+    X509CertificateType
+    =============================================
+    -->
+    <xsd:simpleType name="X509CertificateType">
+        <xsd:annotation>
+            <xsd:documentation>
+                The X509-compliant digital certificate sent by SKMS clients
+                and used by SKS servers to encrypt the symmetric-key payload
+                when responding to the client.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:base64Binary"/>
+    </xsd:simpleType>
+    
+    <!--
+    =======================================================================
+    Complex Types
+    =======================================================================
+    -->
+    
+    <!--
+    =============================================
+    ApplicationsType
+    =============================================
+    -->
+    <xsd:complexType name="ApplicationsType">
+        <xsd:sequence>
+            <xsd:element name="ApplicationID" type="tns:TwoPartIDType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The unique identifier of the application.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ApplicationName">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The name of the application.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="256"/>
+                        <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="Version" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The version number of the application.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="32"/>
+                        <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:group ref="tns:MessageDigestGroup" minOccurs="0"/>
+            <xsd:element name="Other" type="xsd:anyType" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    KeyCacheDetailType
+    =============================================
+    -->
+    <xsd:complexType name="KeyCacheDetailType">
+        <xsd:sequence>
+            <xsd:element name="MaximumKeys" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The maximum number of keys permitted to be cached
+                        on the client.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:integer">
+                        <xsd:minInclusive value="0"/>
+                        <xsd:maxInclusive value="18446744073709551615"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="MaximumDuration" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The maximum number of seconds keys are permitted to
+                        be cached on the client.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:integer">
+                        <xsd:minInclusive value="0"/>
+                        <xsd:maxInclusive value="18446744073709551615"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    KeyCachePolicyType
+    =============================================
+    -->
+    <xsd:complexType name="KeyCachePolicyType" mixed="true">
+        <xsd:annotation>
+            <xsd:documentation>
+                The KeyCachePolicyType document is returned as part of
+                the response to a request for a key-caching policy from a
+                Symmetric Key Services (SKS) server.  The KCP tells the
+                SKMS client if it may cache symmetric keys, and if so, how 
+                many new and used keys it may cache, for how long, etc.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="KeyCachePolicyID" type="tns:TwoPartIDType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The unique Policy ID of the KeyCachePolicy is a 
+                        concatenation of the DomainID and the unique 
+                        key-caching policy ID within that domain.  It is 
+                        a 41-byte ASCII decimal value.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="PolicyName">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The name of the KeyCachePolicy, as defined by the
+                        enterprise running this Symmetric Key Management
+                        System (SKMS).
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="255"/>
+                        <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="Description" nillable="true">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A detailed description of the KeyCachePolicy, for
+                        human readers, as defined by the enterprise running 
+                        this Symmetric Key Management System (SKMS).
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="2048"/>
+                        <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="KeyClass" type="tns:KeyClassType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The class of keys to which this KeyCachePolicy applies.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="StartDate" type="xsd:dateTime">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The date and time on which this KeyCachePolicy becomes 
+                        effective.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="EndDate" type="xsd:dateTime" nillable="true">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The date and time when this KeyCachePolicy becomes 
+                        obsolete.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="PolicyCheckInterval">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The number of seconds that must elapse before which
+                        the client sends a KeyCachePolicy Request message to
+                        the SKS server for an update on the policy.  This is
+                        to ensure that clients are always updated on any KCP
+                        changes at the server.  Maximum value is 30 days.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:nonNegativeInteger">
+                        <xsd:minInclusive value="0"/>
+                        <xsd:maxInclusive value="2592000"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="Status" type="tns:StatusType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        An indicator if the KeyCachePolicy is currently "Active",
+                        "Default", "Inactive" or "Other".
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="NewKeysCacheDetail" type="tns:KeyCacheDetailType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Details about the maximum number of new (unused for 
+                        any encryption transaction by the client) symmetric 
+                        keys that may be cached by the client and for how long.
+                        If the element is missing from a KCP response, it means
+                        that new symmetric keys may NOT be cached on the client.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="UsedKeysCacheDetail" type="tns:KeyCacheDetailType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Details about the maximum number of used (used for 
+                        any encryption transaction by the client) symmetric 
+                        keys that may be cached by the client and for how long.
+                        If the element is missing from a KCP response, it means
+                        that used symmetric keys may NOT be cached on the client.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    KeyClassesType
+    =============================================
+    -->
+    <xsd:complexType name="KeyClassesType">
+        <xsd:sequence>
+            <xsd:element name="KeyClass" type="tns:KeyClassType" minOccurs="1" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A list of KeyClass elements that will be used in
+                        requests to ask for multiple symmetric keys, each
+                        corresponding to a KeyClass type in this list.
+                        This is useful in applications that need to encrypt
+                        a single data document for multiple targets, each 
+                        with their own access policies and restrictions.
+                        If KeyClasses is used in a request, there must be
+                        least one KeyClass child within it.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    KeyUsePolicyType
+    =============================================
+    -->
+    <xsd:complexType name="KeyUsePolicyType" mixed="true">
+        <xsd:annotation>
+            <xsd:documentation>
+                The KeyUsePolicyType document is returned as part of the 
+                response to a request for a symmetric key from a Symmetric 
+                Key Services (SKS) server.  The KUP tells the client how 
+                it must use the associated symmetric key.  At least one
+                permission-type will provide the policy definition.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="KeyUsePolicyID" type="tns:TwoPartIDType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The unique Policy ID of the KeyUsePolicy is a 
+                        concatenation of the DomainID and the unique 
+                        key-use policy ID within that domain.  It is 
+                        a 41-byte ASCII decimal value.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="PolicyName">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The name of the KeyUsePolicy, as defined by the
+                        enterprise running this Symmetric Key Management
+                        System (SKMS).
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="255"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="KeyClass" type="tns:KeyClassType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A user-defined class for keys generated with this 
+                        KeyUsePolicy.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="KeyAlgorithm" type="tns:EncryptionAlgorithmType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The type of algorithm used by this symmetric key policy.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="KeySize" type="tns:KeySizeType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The size of the symmetric encryption  key.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Status" type="tns:StatusType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        An indicator if the KeyUsePolicy is currently "Active",
+                        "Default", "Inactive" or "Other".
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Permissions" type="tns:PermissionsType" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The permissions that define the policy for how this
+                        symmetric key may be used.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    PermittedApplicationsType
+    =============================================
+    -->
+    <xsd:complexType name="PermittedApplicationsType">
+        <xsd:sequence>
+            <xsd:element name="PermittedApplication" type="tns:ApplicationsType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A list of applications that are permitted to use 
+                        this key.  The interpretation of the application 
+                        element is user application-defined.  It may consist 
+                        of a name, version number, a message digest, etc.
+                        
+                        When the "any" attribute is set to "true", no
+                        PermittedApplication elements must appear in this
+                        element.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute ref="tns:any" use="required"/>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    PermittedDatesType
+    =============================================
+    -->
+    <xsd:complexType name="PermittedDatesType">
+        <xsd:sequence>
+            <xsd:element name="PermittedDate" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A list of the dates when this key may be used.  If it 
+                        exists, the key must be used only between the given
+                        sets of StartDate-EndDate with the start and end dates
+                        inclusive.  Must use the following format: YYYY-MM-DD.
+                        
+                        When the "any" attribute is set to "true", no
+                        PermittedDate elements must appear in this element.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="StartDate">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:date">
+                                    <xsd:pattern value="\p{Nd}{4}-\p{Nd}{2}-\p{Nd}{2}"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="EndDate">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:date">
+                                    <xsd:pattern value="\p{Nd}{4}-\p{Nd}{2}-\p{Nd}{2}"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute ref="tns:any" use="required"/>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    PermittedDaysType
+    =============================================
+    -->
+    <xsd:complexType name="PermittedDaysType">
+        <xsd:sequence>
+            <xsd:element name="PermittedDay" type="tns:PermittedDayType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A list of days of the week that the symmetric key 
+                        may be used.  Its meaning is application-specific.
+                        
+                        When the "any" attribute is set to "true", no
+                        PermittedDay elements must appear in this element.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute ref="tns:any" use="required"/>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    PermittedDurationType
+    =============================================
+    -->
+    <xsd:complexType name="PermittedDurationType">
+        <xsd:annotation>
+            <xsd:documentation>
+                A complex-type to wrap the DurationType with the "any"
+                attribute.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleContent>
+            <xsd:extension base="tns:DurationType">
+                <xsd:attribute ref="tns:any" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    PermittedLevelsType
+    =============================================
+    -->
+    <xsd:complexType name="PermittedLevelsType">
+        <xsd:sequence>
+            <xsd:element name="PermittedLevel" type="tns:LevelClassificationType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A list of classification levels within which an 
+                        application is permitted to use the key.  Its 
+                        interpretation is application-specific.
+                        
+                        When the "any" attribute is set to "true", no
+                        PermittedLevel elements must appear in this element.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Other" type="xsd:anyType" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute ref="tns:any" use="required"/>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    PermittedLocationsType
+    =============================================
+    -->
+    <xsd:complexType name="PermittedLocationsType">
+        <xsd:annotation>
+            <xsd:documentation>
+                A list of physical locations of the client, where the key 
+                may be used.  This is specific to the application and may 
+                consist of GPS coordinates, Building numbers, secure rooms, 
+                cities, etc.  Its meaning is application-defined.
+                
+                When the "any" attribute is set to "true", no PermittedLocation
+                elements must appear in this element.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="PermittedLocation" minOccurs="0" maxOccurs="unbounded">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="LocationName">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:maxLength value="256"/>
+                                    <xsd:whiteSpace value="preserve"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:group ref="tns:LocationCoordinateGroup" minOccurs="0" maxOccurs="unbounded"/>
+                        <xsd:element name="Other" type="xsd:anyType" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute ref="tns:any" use="required"/>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    PermittedNumberOfTransactionsType
+    =============================================
+    -->
+    <xsd:complexType name="PermittedNumberOfTransactionsType">
+        <xsd:annotation>
+            <xsd:documentation>
+                A complex-type to wrap the NumberOfTransactionsType with 
+                the "any" attribute.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleContent>
+            <xsd:extension base="tns:NumberOfTransactionsType">
+                <xsd:attribute ref="tns:any" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    PermittedTimesType
+    =============================================
+    -->
+    <xsd:complexType name="PermittedTimesType">
+        <xsd:sequence>
+            <xsd:element name="PermittedTime" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A list of the times of day when this key may be used.  
+                        If it exists, the key must be used only between the 
+                        start_time and end_time, with the start and end times 
+                        inclusive.  Must use 24-hour clock in the following 
+                        format: HH:MM:SS.
+                        
+                        When the "any" attribute is set to "true", no 
+                        PermittedTime elements must appear in this element.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="StartTime">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:time">
+                                    <xsd:pattern value="\p{Nd}{2}:\p{Nd}{2}:\p{Nd}{2}"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="EndTime">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:time">
+                                    <xsd:pattern value="\p{Nd}{2}:\p{Nd}{2}:\p{Nd}{2}"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute ref="tns:any" use="required"/>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    PermittedUsesType
+    =============================================
+    -->
+    <xsd:complexType name="PermittedUsesType" mixed="true">
+        <xsd:sequence>
+            <xsd:element name="PermittedUse" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A list of uses that describes how the symmetric key 
+                        may be used.  Its meaning is application-specific.
+                        
+                        When the "any" attribute is set to "true", no 
+                        PermittedUse elements must appear in this element.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="256"/>
+                        <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="Other" type="xsd:anyType" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute ref="tns:any" use="required"/>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    PermissionsType
+    =============================================
+    -->
+    <xsd:complexType name="PermissionsType">
+        <xsd:annotation>
+            <xsd:documentation>
+                This is a required element that allows companies to define 
+                how the symmetric key may be used.  It will be included in 
+                the KUP object returned with the symmetric key.  Applications 
+                must parse through the permissions before using the key and 
+                only allow what is permitted for that permission type.  
+                
+                All "Permitted..." sub-elements - except for the Other element - 
+                are required.  However, if the attribute "any" for each of the 
+                "Permitted..." sub-elements is set to "true", then the xsi:nil 
+                attribute must also be set to "true" and the sub-element must 
+                be empty.  If the value of the "any" attribute for a specific
+                "Permitted..." sub-element is "false", then at least one child 
+                element must exist for the "Permitted..." sub-element and the
+                xsi:nil attribute must not exist.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="PermittedApplications" type="tns:PermittedApplicationsType" minOccurs="1" nillable="true"/>
+            <xsd:element name="PermittedDates" type="tns:PermittedDatesType" minOccurs="1" nillable="true"/>
+            <xsd:element name="PermittedDays" type="tns:PermittedDaysType" minOccurs="1" nillable="true"/>
+            <xsd:element name="PermittedDuration" type="tns:PermittedDurationType" minOccurs="1" nillable="true"/>
+            <xsd:element name="PermittedLevels" type="tns:PermittedLevelsType" minOccurs="1" nillable="true"/>
+            <xsd:element name="PermittedLocations" type="tns:PermittedLocationsType" minOccurs="1" nillable="true"/>
+            <xsd:element name="PermittedNumberOfTransactions" type="tns:PermittedNumberOfTransactionsType" minOccurs="1" nillable="true"/>
+            <xsd:element name="PermittedTimes" type="tns:PermittedTimesType" minOccurs="1" nillable="true"/>
+            <xsd:element name="PermittedUses" type="tns:PermittedUsesType" minOccurs="1" nillable="true"/>
+            <xsd:element name="Other" type="xsd:anyType" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    SymkeyType
+    =============================================
+    -->
+    <xsd:complexType name="SymkeyType">
+        <xsd:annotation>
+            <xsd:documentation>
+                A symmetric key object, which is the succesfully response
+                of a request for a key from an SKMS client to an SKS server.
+                While the
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="SymkeyRequestID" type="tns:SymkeyRequestIDType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The request identifier of the symmetric key request that
+                        resulted in this object.  When a client requests a
+                        symmetric-key asynchronously, the server returns a
+                        SymkeyRequestID in its initial response.  When the server
+                        has completed its processing, it returns the symmetric
+                        key asynchronously to the client.  The SymkeyRequestID
+                        is the value that allows the client to associate a key
+                         with a pending request.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="GlobalKeyID" type="tns:GlobalKeyIDType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The global key-identifier of the symmetric key in
+                        this object.  This will always be non-zero (10514-0-0) 
+                        in a successful response from an SKS server.  Note
+                        that in DRAFT 01 of SKSML, the GlobalKeyID was specified
+                        in a KeyName element.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="KeyUsePolicy" type="tns:KeyUsePolicyType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        This element defines a policy for how clients may use
+                        symmetric keys on the client device.  Note that this
+                        element used to be in the EncryptionProperties element 
+                        in DRAFT 01.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="EncryptionMethod" type="xenc:EncryptionMethodType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The type of encryption used to protect the symmetric
+                        key in this payload.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element ref="xenc:CipherData">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The encrypted symmetric key.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    SymkeyErrorType
+    =============================================
+    -->
+    <xsd:complexType name="SymkeyErrorType">
+        <xsd:annotation>
+            <xsd:documentation>
+                A response with an error message in the event that a request
+                was not successful.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="SymkeyRequestID" type="tns:SymkeyRequestIDType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The request identifier of the symmetric key request.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="RequestedGlobalKeyID" type="tns:GlobalKeyIDType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The global key-identifier of the symmetric key that
+                        was requested by the client.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="RequestedKeyClass" type="tns:KeyClassType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The requested key-class for a new symmetric key, if any.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ErrorCode">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        An application-specific error code.
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="255"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="ErrorMessage">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        An application-specific error message that provides
+                        detail on the error
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="1024"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <!--
+    =============================================
+    SymkeyWorkInProgressType
+    =============================================
+    -->
+    <xsd:complexType name="SymkeyWorkInProgressType">
+        <xsd:annotation>
+            <xsd:documentation>
+                A response to an asynchronous request for a symmetric key,
+                indicating that the request is being worked on by the SKS
+                server.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="RequestedGlobalKeyID" type="tns:GlobalKeyIDType" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The global key-identifier of the symmetric key that
+                        was requested by the client.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="RequestedKeyClass" type="tns:KeyClassType" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The requested key-class for a new symmetric key, if any.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="SymkeyRequestID" type="tns:SymkeyRequestIDType" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A unique request identifier that allows the client to
+                        either poll the SKS server for status on the request, 
+                        or correlate a specific request with an asynchronous
+                        response received from the server (this is necessary,
+                        because the client may have sent many asynchronous
+                        requests and may be receiving responses out of order).
+                        The SymkeyRequestID should not be confused with the
+                        GlobalKeyID despite their identical look.  While the
+                        first two parts of the GlobalKeyID and SymkeyRequestID
+                        reference the same identifier (DomainID and ServerID),
+                        the last part of the GlobalKeyID refers to a unique
+                        KeyID on an SKS server, while the last part of the
+                        SymkeyRequestID refers to a unique request identifer.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="RequestCheckInterval" type="tns:RequestCheckIntervalType" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A value, in seconds, that tells the client how frequently
+                        the client may query the SKS server for updates on the
+                        symmetric-key request.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+</xsd:schema>

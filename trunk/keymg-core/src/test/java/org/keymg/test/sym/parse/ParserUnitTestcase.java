@@ -1,0 +1,240 @@
+/* 
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+package org.keymg.test.sym.parse;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import org.junit.Test;
+import org.keymg.core.sym.parse.Parser;
+import org.keymg.sym.model.ekmi.ApplicationsType;
+import org.keymg.sym.model.ekmi.EncryptionMethodType;
+import org.keymg.sym.model.ekmi.KeyClassType;
+import org.keymg.sym.model.ekmi.KeyClassesType;
+import org.keymg.sym.model.ekmi.KeyUsePolicyType;
+import org.keymg.sym.model.ekmi.PermissionsType;
+import org.keymg.sym.model.ekmi.PermittedApplicationsType;
+import org.keymg.sym.model.ekmi.PermittedDatesType;
+import org.keymg.sym.model.ekmi.PermittedDayType;
+import org.keymg.sym.model.ekmi.PermittedDaysType;
+import org.keymg.sym.model.ekmi.PermittedDurationType;
+import org.keymg.sym.model.ekmi.PermittedLevelsType;
+import org.keymg.sym.model.ekmi.PermittedNumberOfTransactionsType;
+import org.keymg.sym.model.ekmi.PermittedTimesType;
+import org.keymg.sym.model.ekmi.PermittedUsesType;
+import org.keymg.sym.model.ekmi.SymkeyRequest;
+import org.keymg.sym.model.ekmi.SymkeyResponse;
+import org.keymg.sym.model.ekmi.SymkeyType;
+import org.keymg.sym.model.ekmi.ValidResponseType;
+import org.keymg.sym.model.ekmi.PermittedDatesType.PermittedDate;
+import org.keymg.sym.model.ekmi.PermittedTimesType.PermittedTime;
+
+/**
+ * @author anil@apache.org
+ * @since Aug 24, 2009
+ */
+public class ParserUnitTestcase
+{
+	@Test
+	public void testSymKeyRequest01() throws Exception
+	{
+		ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+		InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/symkeyrequest-01.xml");
+		assertNotNull(inputStream);
+		Parser parser = new Parser();
+		parser.parse(inputStream);
+		
+		Object parsed = parser.getParsedObject();
+		assertTrue(parsed instanceof SymkeyRequest);
+		SymkeyRequest symKeyRequest = (SymkeyRequest) parsed;
+		assertEquals("10514-0-0", symKeyRequest.getGlobalKeyID().get(0));
+	}
+	
+	@Test
+	public void testSymKeyRequest02() throws Exception
+	{
+		ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+		InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/symkeyrequest-02.xml");
+		assertNotNull(inputStream);
+		Parser parser = new Parser();
+		parser.parse(inputStream);
+		
+		Object parsed = parser.getParsedObject();
+		assertTrue(parsed instanceof SymkeyRequest);
+		SymkeyRequest symKeyRequest = (SymkeyRequest) parsed;
+		assertEquals("10514-0-0", symKeyRequest.getGlobalKeyID().get(0));
+		KeyClassesType keyClassesType = symKeyRequest.getKeyClasses();
+		assertNotNull( "keyClassesType is null?", keyClassesType);
+		
+		KeyClassType[] keyClassTypeArr = keyClassesType.getKeyClassType();
+		assertEquals( 1, keyClassTypeArr.length );
+		KeyClassType keyClassType = keyClassTypeArr[0];
+		assertEquals( "HR-Class", keyClassType.getValue());
+	}
+
+	@Test
+	public void testSymKeyResponse01() throws Exception
+	{
+		ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+		InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/symkeyresponse-01.xml");
+		assertNotNull(inputStream);
+		Parser parser = new Parser();
+		parser.parse(inputStream);
+
+		Object parsed = parser.getParsedObject();
+		assertTrue(parsed instanceof SymkeyResponse);
+		SymkeyResponse resp = (SymkeyResponse) parsed; 
+		List<ValidResponseType> responses = resp.getResponse();
+		assertNotNull( responses );
+		assertEquals( 1, responses.size() );
+		
+		SymkeyType symKey = (SymkeyType) responses.get( 0 );
+		assertEquals( "10514-1-7476", symKey.getSymkeyRequestID().getValue() );
+		assertEquals( "10514-1-235", symKey.getGlobalKeyID().getValue() );
+		assertEquals( EncryptionMethodType.RSA, symKey.getEncryptionMethod());
+		
+		KeyUsePolicyType keyUsePolicyType = symKey.getKeyUsePolicy();
+		assertNotNull("KeyUsePolicyType is null?", keyUsePolicyType);
+		assertEquals( "KeyUsePolicyID" , "10514-4", keyUsePolicyType.getKeyUsePolicyID().getValue() );
+		assertEquals( "ekmi:PolicyName" , "DES-EDE KeyUsePolicy", keyUsePolicyType.getPolicyName() );
+		assertEquals( "KeyClass" , "HR-Class", keyUsePolicyType.getKeyClass().getValue() );
+		assertEquals( "ekmi:KeyAlgorithm" , "http://www.w3.org/2001/04/xmlenc#tripledes-cbc", keyUsePolicyType.getKeyAlgorithm().get() );
+		assertEquals( "ekmi:KeySize" , 192, keyUsePolicyType.getKeySize().getValue());
+		assertEquals( "ekmi:Status" , "Active", keyUsePolicyType.getStatus().value() ); 
+		
+		PermissionsType permissionsType = keyUsePolicyType.getPermissions();
+		assertNotNull( "Permissions is not null?", permissionsType );
+		
+		PermittedApplicationsType permittedApplications = permissionsType.getPermittedApplications();
+		assertNotNull( "PermittedApplicationsType is not null?", permittedApplications);
+		
+		List<ApplicationsType> permittedAppList = permittedApplications.getPermittedApplication();
+		assertEquals( 1, permittedAppList.size() );
+		
+		ApplicationsType app = permittedAppList.get(0);
+		assertEquals( "<ekmi:ApplicationID>", "10514-23", app.getApplicationID() );
+		assertEquals( "<ekmi:ApplicationName>", "Payroll Application", app.getApplicationName() );
+		assertEquals( "<ekmi:ApplicationVersion>", "1.0", app.getVersion() );
+		assertEquals( "http://www.w3.org/2000/09/xmldsig#sha1", app.getDigestAlgorithm());
+
+		assertEquals( "NIG4bKkt4cziEqFFuOoBTM81efU=", new String( app.getDigestValue() ));
+		
+		//PermittedDates
+		PermittedDatesType permittedDates = permissionsType.getPermittedDates();
+		assertNotNull(permittedDates);
+		
+		List<PermittedDate> permittedDatesList = permittedDates.getPermittedDate();
+		assertEquals(1, permittedDatesList.size());
+		PermittedDate permittedDate = permittedDatesList.get(0);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
+		assertEquals( sdf.parse("2008-01-01"), permittedDate.getStartDate() );
+		assertEquals( sdf.parse("2008-12-31"), permittedDate.getEndDate() );
+		
+		//Permitted Days
+		PermittedDaysType permittedDays = permissionsType.getPermittedDays();
+		assertNotNull( permittedDays );
+		
+		List<PermittedDayType> permittedDayList = permittedDays.getPermittedDay();
+		assertEquals( 0 , permittedDayList.size() );
+		
+		//PermittedDuration
+		PermittedDurationType permittedDuration = permissionsType.getPermittedDuration();
+		assertNotNull( permittedDuration );
+		
+		//PermittedLevels
+		PermittedLevelsType permittedLevels = permissionsType.getPermittedLevels();
+		assertNotNull( permittedLevels );
+		
+		//PermittedNumberOfTransactions
+		PermittedNumberOfTransactionsType permittedNumOfTransactions = permissionsType.getPermittedNumberOfTransactions();
+		assertNotNull( permittedNumOfTransactions );
+		
+		//PermittedTimes
+		PermittedTimesType permittedTimes = permissionsType.getPermittedTimes();
+		assertNotNull( permittedTimes );
+		List<PermittedTime> permittedTimeList = permittedTimes.getPermittedTime();
+		assertEquals( 1, permittedTimeList.size() );
+		
+		PermittedTime permittedTime = permittedTimeList.get( 0 );
+	    sdf = new SimpleDateFormat("HH:mm:ss"); 
+		assertEquals( sdf.parse("07:00:00"), permittedTime.getStartTime() );
+		assertEquals( sdf.parse("19:00:00"), permittedTime.getEndTime() );
+		
+		//PermittedUses
+		PermittedUsesType permittedUses = permissionsType.getPermittedUses();
+		assertNotNull( permittedUses );
+		
+		/**
+		 ekmi:Permissions>
+				<ekmi:PermittedApplications ekmi:any="false">
+					<ekmi:PermittedApplication>
+						<ekmi:ApplicationID>10514-23</ekmi:ApplicationID>
+						<ekmi:ApplicationName> Payroll Application</ekmi:ApplicationName>
+						<ekmi:ApplicationVersion>1.0</ekmi:ApplicationVersion>
+						<ekmi:ApplicationDigestAlgorithm>
+							http://www.w3.org/2000/09/xmldsig#sha1
+						</ekmi:ApplicationDigestAlgorithm>
+						<ekmi:ApplicationDigestValue> NIG4bKkt4cziEqFFuOoBTM81efU=
+						</ekmi:ApplicationDigestValue>
+					</ekmi:PermittedApplication>
+				</ekmi:PermittedApplications>
+				<ekmi:PermittedDates ekmi:any="false">
+					<ekmi:PermittedDate>
+						<ekmi:StartDate>2008-01-01</ekmi:StartDate>
+						<ekmi:EndDate>2008-12-31</ekmi:EndDate>
+					</ekmi:PermittedDate>
+				</ekmi:PermittedDates>
+				<ekmi:PermittedDays ekmi:any="true" xsi:nil="true" />
+				<ekmi:PermittedDuration ekmi:any="true"
+					xsi:nil="true" />
+				<ekmi:PermittedLevels ekmi:any="true" xsi:nil="true" />
+				<ekmi:PermittedLocations ekmi:any="true"
+					xsi:nil="true" />
+				<ekmi:PermittedNumberOfTransactions
+					ekmi:any="true" xsi:nil="true" />
+				<ekmi:PermittedTimes ekmi:any="false">
+					<ekmi:PermittedTime>
+						<ekmi:StartTime>07:00:00</ekmi:StartTime>
+						<ekmi:EndTime>19:00:00</ekmi:EndTime>
+					</ekmi:PermittedTime>
+				</ekmi:PermittedTimes>
+				<ekmi:PermittedUses ekmi:any="true" xsi:nil="true" />
+			</ekmi:Permissions>
+		 */
+	}
+
+	@Test
+	public void testSymKeyResponseWithIETF() throws Exception
+	{
+		ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+		InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/symkeyresponseWithIETF-01.xml");
+		assertNotNull(inputStream);
+		Parser parser = new Parser();
+		parser.parse(inputStream);
+
+		Object parsed = parser.getParsedObject();
+		assertTrue(parsed instanceof SymkeyResponse);
+		SymkeyResponse symKeyResponse = (SymkeyResponse) parsed; 
+		assertNotNull(symKeyResponse);
+	}
+}

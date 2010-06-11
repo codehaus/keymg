@@ -1,0 +1,15 @@
+<projectDescription>
+  <name>keymg-core</name>
+  <comment>KeyMG Core contains the main integration classes</comment>
+  <projects>
+    <project>keymg-model</project>
+  </projects>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+</projectDescription>
