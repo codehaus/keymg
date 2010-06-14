@@ -16,7 +16,16 @@
  */
 package org.keymg.core.sym.config;
 
+import java.io.File;
+import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PublicKey;
+
 import org.keymg.core.sym.SymKeyConstants;
+import org.keymg.core.sym.pki.KeyStorePKIManager;
+import org.keymg.core.sym.pki.PKIManager;
+import org.keymg.core.sym.pki.PKIRepositoryException;
 import org.keymg.sym.model.ekmi.KeyAlgorithmType;
 import org.keymg.sym.model.ekmi.KeySizeType;
 import org.keymg.sym.model.ekmi.KeyUsePolicyType;
@@ -24,29 +33,43 @@ import org.keymg.sym.model.ekmi.StatusType;
 
 /**
  * <p> Acts as a central configuration manager.</p>
+ * <p> This class is a singleton. </p>
+ * <p> By default, the underlying {@code PKIManager} is a {@code KeyStorePKIManager}
+ * which looks for a keystore on the classpath at "keystore/keymg.keystore" with
+ * a keypass of "keymg$" </p>
+ * <p> Implementations should create their own instance of {@code PKIManager}
+ * and use the {@code KeymgConfigurationManager#setPKIManager(PKIManager)} 
+ * to set the {@code PKIManager} implementation.</p>
+ * 
  * @author anil@apache.org
  * @since Jun 7, 2010
  */
 public class KeymgConfigurationManager
-{
-   private String domainID = "1111";
-   
+{   
    private String serverID = "1111";
    
    private String keyAlgorithm = SymKeyConstants.AES_ALGORITHM_URI;
    
-   private int keySize = 256;
+   private int keySize = 256; 
 
-   public String getDomainID()
+   private static PKIManager pkiManager = null;
+   
+   private static KeymgConfigurationManager instance = new KeymgConfigurationManager();
+   
+   private KeymgConfigurationManager()
+   {   
+   } 
+   
+   public static KeymgConfigurationManager getInstance()
    {
-      return domainID;
+      return instance;
    }
-
-   public void setDomainID(String domainID)
+   
+   public static void setPKIManager( PKIManager pki )
    {
-      this.domainID = domainID;
+      pkiManager = pki; 
    }
-
+   
    public String getServerID()
    {
       return serverID;
@@ -65,8 +88,7 @@ public class KeymgConfigurationManager
    public void setKeyAlgorithm(String keyAlgorithm)
    {
       this.keyAlgorithm = keyAlgorithm;
-   } 
-
+   }  
    
    public int getKeySize()
    {
@@ -86,4 +108,22 @@ public class KeymgConfigurationManager
       keyUsePolicy.setStatus( StatusType.ACTIVE );
       return keyUsePolicy;
    }
+   
+   public PublicKey getPublicKeyForDomain( String domainID ) throws PKIRepositoryException
+   {
+      if( KeymgConfigurationManager.pkiManager == null)
+      {
+         ClassLoader tccl = AccessController.doPrivileged( new PrivilegedAction<ClassLoader>()
+         {
+            public ClassLoader run()
+            {
+               return Thread.currentThread().getContextClassLoader();
+            }
+         });
+         URL keyStoreURL = tccl.getResource( "keystore/keymg.keystore" );
+         //Let us build the default KeyStorePKIManager
+         pkiManager = new KeyStorePKIManager( new File( keyStoreURL.getPath() ), "keymg$".toCharArray() );
+      }
+      return pkiManager.getPublicKey( domainID );
+   } 
 }

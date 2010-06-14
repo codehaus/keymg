@@ -14,27 +14,36 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.keymg.test.api.sym;
+package org.keymg.core.sym.pki;
 
-import org.junit.Test;
-import org.keymg.api.sym.KeyGenerator;
-import org.keymg.core.sym.util.DocumentUtil;
-import org.w3c.dom.Document;
+import java.security.GeneralSecurityException;
 
 /**
- * <p>
- * Unit Test the {@code KeyGenerator}
- * </p>
+ * Exception in the {@code PublicKeyManager} implementation
  * @author anil@apache.org
- * @since Jun 7, 2010
+ * @since Jun 14, 2010
  */
-public class KeyGeneratorUnitTestCase
+public class PKIRepositoryException extends GeneralSecurityException
 {
-   @Test
-   public void testKeyGen() throws Exception
+   private static final long serialVersionUID = 1L;
+
+   public PKIRepositoryException()
    {
-      KeyGenerator gen = new KeyGenerator();
-      Document doc = gen.generate( "11111-0-0" );
-      System.out.println( DocumentUtil.asString(doc));
+      super(); 
+   }
+
+   public PKIRepositoryException(String arg0, Throwable arg1)
+   {
+      super(arg0, arg1); 
+   }
+
+   public PKIRepositoryException(String arg0)
+   {
+      super(arg0); 
+   }
+
+   public PKIRepositoryException(Throwable arg0)
+   {
+      super(arg0); 
    } 
 }

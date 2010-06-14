@@ -14,27 +14,36 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.keymg.test.api.sym;
+package org.keymg.test.sym.pki;
+
+import static org.junit.Assert.assertNotNull;
+
+import java.io.File;
+import java.net.URL;
+import java.security.PublicKey;
 
 import org.junit.Test;
-import org.keymg.api.sym.KeyGenerator;
-import org.keymg.core.sym.util.DocumentUtil;
-import org.w3c.dom.Document;
+import org.keymg.core.sym.pki.KeyStorePKIManager;
 
 /**
  * <p>
- * Unit Test the {@code KeyGenerator}
+ * Unit test the {@code PKIManager}
  * </p>
  * @author anil@apache.org
- * @since Jun 7, 2010
+ * @since Jun 14, 2010
  */
-public class KeyGeneratorUnitTestCase
+public class KeyStorePKIManagerUnitTestCase
 {
    @Test
-   public void testKeyGen() throws Exception
+   public void testPKIManager() throws Exception
    {
-      KeyGenerator gen = new KeyGenerator();
-      Document doc = gen.generate( "11111-0-0" );
-      System.out.println( DocumentUtil.asString(doc));
+      String ksPath = "keystore/keymg_test.keystore";
+      char[] keyPass = "testkeymg".toCharArray();
+      URL ksURL = Thread.currentThread().getContextClassLoader().getResource( ksPath );
+      File keyStoreFile = new File( ksURL.getPath() );
+      KeyStorePKIManager pki = new KeyStorePKIManager(keyStoreFile, keyPass);
+      
+      PublicKey publicKey = pki.getPublicKey( "99999" );
+      assertNotNull( "public key is not null" , publicKey );
    } 
 }
