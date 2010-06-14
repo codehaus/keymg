@@ -17,7 +17,7 @@
 package org.keymg.api.sym;
  
 import java.security.GeneralSecurityException;
-import java.security.KeyPair;
+import java.security.PublicKey;
 import java.util.StringTokenizer;
 
 import org.keymg.api.sym.exceptions.SymKeyGenerationException;
@@ -39,11 +39,10 @@ import org.w3c.dom.Document;
  * </p>
  * @author anil@apache.org
  * @since Aug 24, 2009
- */
-
+ */ 
 public class KeyGenerator 
 {
-   private KeymgConfigurationManager configurationManager = new KeymgConfigurationManager();
+   private KeymgConfigurationManager configurationManager = KeymgConfigurationManager.getInstance();
    
    private static int last = 0;
    
@@ -79,7 +78,7 @@ public class KeyGenerator
       SymkeyResponse response = new SymkeyResponse();
       
       String tokenPart1 = stringTokenizer.nextToken();
-      String domainID = configurationManager.getDomainID();
+      String domainID = tokenPart1;
       if( tokenPart1.equals( domainID ) == false )
          throw new IllegalArgumentException( "Domain ID of " + tokenPart1 + " does not match with expected " + domainID );
       String tokenPart2 = stringTokenizer.nextToken();
@@ -94,9 +93,12 @@ public class KeyGenerator
             String keyAlgorithm = SymKeyConstants.AES_ALGORITHM_URI;
             byte[] symmetricKey = symKeyGenerator.generate( keyAlgorithm );
             
-            KeyPair keyPair = SymKeyGenUtil.getRSAKeyPair();
+            PublicKey publicKey = configurationManager.getPublicKeyForDomain( domainID );
             
-            byte[] encryptedKey = symKeyGenerator.encrypt( symmetricKey, keyPair.getPublic(), keyAlgorithm );  
+            if( publicKey == null )
+               throw new IllegalStateException( "no public key found for domain id:" + domainID );
+            
+            byte[] encryptedKey = symKeyGenerator.encrypt( symmetricKey, publicKey, keyAlgorithm );  
             
             String base64EncodedKey = SymKeyGenUtil.base64EncodeSymmetricKeyAsString( encryptedKey ); 
             
@@ -107,7 +109,7 @@ public class KeyGenerator
             symKey.setEncryptionMethod( EncryptionMethodType.RSA );
             symKey.setCipherData( cipherDataType );
             
-            symKey.setGlobalKeyID( getGlobalKey() ); 
+            symKey.setGlobalKeyID( getGlobalKey( domainID ) ); 
             
             symKey.setKeyUsePolicy( configurationManager.getKeyUsePolicyType() ); 
             response.add( symKey );
@@ -134,10 +136,10 @@ public class KeyGenerator
       throw new RuntimeException( "NYI" );
    }
    
-   private GlobalKeyIDType getGlobalKey()
+   private GlobalKeyIDType getGlobalKey( String domainID )
    {
       StringBuilder builder = new StringBuilder();
-      builder.append( configurationManager.getDomainID() ).append( "-" ).append( configurationManager.getServerID() );
+      builder.append( domainID ).append( "-" ).append( configurationManager.getServerID() );
       builder.append("-").append( ++last );
       return new GlobalKeyIDType( builder.toString() );
    }
