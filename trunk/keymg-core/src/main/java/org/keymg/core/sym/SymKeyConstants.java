@@ -39,6 +39,8 @@ public interface SymKeyConstants
     String ENCRYPTION_METHOD = "EncryptionMethod";
 	String END_DATE = "EndDate"; 
 	String END_TIME = "EndTime"; 
+    String ERROR_CODE = "ErrorCode"; 
+    String ERROR_MSG = "ErrorMessage"; 
 	
 	String GLOBAL_KEY_ID = "GlobalKeyID";
 	
@@ -68,9 +70,14 @@ public interface SymKeyConstants
 	String START_TIME = "StartTime";
 	String STATUS = "Status";
 	String SYMKEY = "Symkey";
+	
+	String SYMKEY_ERROR = "SymkeyError";
 	String SYMKEY_REQUEST = "SymkeyRequest";
 	String SYMKEY_RESPONSE = "SymkeyResponse";
 	
+	String REQUESTED_GLOBAL_KEY_ID = "RequestedGlobalKeyID";
+	String REQUESTED_KEY_CLASS = "RequestedKeyClass";
+    
 	String SYMKEY_REQUEST_ID = "SymkeyRequestID";
 	
 	String X509_ENCRYPTION_CERT = "X509EncryptionCertificate";

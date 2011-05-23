@@ -42,6 +42,7 @@ import org.keymg.sym.model.ekmi.PermittedLevelsType;
 import org.keymg.sym.model.ekmi.PermittedNumberOfTransactionsType;
 import org.keymg.sym.model.ekmi.PermittedTimesType;
 import org.keymg.sym.model.ekmi.PermittedUsesType;
+import org.keymg.sym.model.ekmi.SymkeyErrorType;
 import org.keymg.sym.model.ekmi.SymkeyRequest;
 import org.keymg.sym.model.ekmi.SymkeyResponse;
 import org.keymg.sym.model.ekmi.SymkeyType;
@@ -301,5 +302,31 @@ public class ParserUnitTestcase
         SymkeyRequest symKeyRequest = (SymkeyRequest) parsed;
         byte[] encCert = symKeyRequest.getX509EncryptionCertificate();
         assertNotNull(encCert);
+    }
+	
+	@Test
+    public void testSymKeyResponseWithError() throws Exception
+    {
+        ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+        InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/resp-error.xml");
+        assertNotNull(inputStream);
+        Parser parser = new Parser();
+        parser.parse(inputStream);
+
+        Object parsed = parser.getParsedObject();
+        assertTrue(parsed instanceof SymkeyResponse);
+        SymkeyResponse symKeyResponse = (SymkeyResponse) parsed; 
+        assertNotNull(symKeyResponse);
+        List<ValidResponseType> resp = symKeyResponse.getResponse();
+        assertEquals( 1, resp.size());
+        
+        ValidResponseType vrt = resp.get(0);
+        assertTrue( vrt instanceof SymkeyErrorType);
+        SymkeyErrorType err = (SymkeyErrorType) vrt;
+        assertEquals("10514-2-1044", err.getSymkeyRequestID());
+        assertEquals("10514-2-22", err.getRequestedGlobalKeyID());
+        assertEquals("Payroll", err.getRequestedKeyClass());
+        assertEquals("SKS-100004", err.getErrorCode());
+        assertEquals("Unauthorized request for key", err.getErrorMessage());
     }
 }

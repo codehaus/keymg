@@ -32,6 +32,7 @@ import javax.xml.stream.events.XMLEvent;
 import org.keymg.core.sym.SymKeyConstants;
 import org.keymg.sym.model.ekmi.EncryptionMethodType;
 import org.keymg.sym.model.ekmi.GlobalKeyIDType;
+import org.keymg.sym.model.ekmi.SymkeyErrorType;
 import org.keymg.sym.model.ekmi.SymkeyRequestIDType;
 import org.keymg.sym.model.ekmi.SymkeyResponse;
 import org.keymg.sym.model.ekmi.SymkeyType;
@@ -66,6 +67,18 @@ public class SymkeyParser implements XMLParser
    public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException 
    { 
       SymkeyResponse response = (SymkeyResponse) populateObject;
+      if( xmlEvent instanceof StartElement)
+      {
+         StartElement startEl = (StartElement) xmlEvent;
+         String local = startEl.getName().getLocalPart();
+         if( SymKeyConstants.SYMKEY_ERROR.equals(local))
+         {
+            SymkeyErrorType symErr = handleError(xmlEventReader, xmlEvent, populateObject);
+            response.add(symErr);
+            return;
+         }
+      }
+      
       SymkeyType symKey = new SymkeyType();
       response.add(symKey);
 
@@ -131,4 +144,73 @@ public class SymkeyParser implements XMLParser
          log.log( Level.SEVERE, "Unable to parse:" , e );
       }
    } 
+   
+   private SymkeyErrorType handleError(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException 
+   {
+      SymkeyErrorType symError = new SymkeyErrorType();
+      
+      try 
+      {
+         while(xmlEventReader.hasNext())
+         {
+            XMLEvent ev = xmlEventReader.nextEvent();
+
+            switch(ev.getEventType())
+            {
+               case XMLStreamConstants.START_ELEMENT:
+                  StartElement nextStartElement = (StartElement) ev;
+                  QName elementName = nextStartElement.getName();
+                  String localPart = elementName.getLocalPart();
+
+                  if( SymKeyConstants.SYMKEY_REQUEST_ID.equals( localPart ))
+                  { 
+                     String requestID = xmlEventReader.getElementText().trim();
+                     symError.setSymkeyRequestID( requestID ); 
+                  }  
+                  else if( SymKeyConstants.REQUESTED_GLOBAL_KEY_ID.equals( localPart ))
+                  {
+                     String globalKeyId = xmlEventReader.getElementText().trim();
+                     symError.setRequestedGlobalKeyID( globalKeyId );
+                  } 
+                  else if( SymKeyConstants.REQUESTED_KEY_CLASS.equals( localPart ))
+                  {
+                     String globalKeyClass = xmlEventReader.getElementText().trim();
+                     symError.setRequestedKeyClass( globalKeyClass );
+                  } 
+                  else if( SymKeyConstants.ERROR_CODE.equals( localPart ))
+                  {
+                     String errorCode = xmlEventReader.getElementText().trim();
+                     symError.setErrorCode( errorCode );
+                  } 
+                  else if( SymKeyConstants.ERROR_MSG.equals( localPart ))
+                  {
+                     String errorMsg = xmlEventReader.getElementText().trim();
+                     symError.setErrorMessage( errorMsg );
+                  } 
+                  else
+                     throw new RuntimeException("Unknown Element:"+localPart);
+                  break;
+
+               case XMLStreamConstants.END_ELEMENT:  
+
+                  EndElement endElement = (EndElement) ev;
+                  localPart = endElement.getName().getLocalPart();
+
+                  if( localPart.equals( SymKeyConstants.SYMKEY ) )
+                     break;
+                  break;
+
+               case XMLStreamConstants.END_DOCUMENT:
+                  break; 
+            } 
+         }
+      }
+      catch (XMLStreamException e) 
+      { 
+         log.log( Level.SEVERE, "Unable to parse:" , e );
+      }
+      
+      
+      return symError;
+   }
 }
