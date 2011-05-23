@@ -36,7 +36,7 @@ public interface SymKeyConstants
 	String APPLICATION_DIGEST_VALUE = "ApplicationDigestValue";
 	String APPLICATION_VERSION = "ApplicationVersion"; 
 	
-	String ENCRYPTION_METHOD = "EncryptionMethod";
+    String ENCRYPTION_METHOD = "EncryptionMethod";
 	String END_DATE = "EndDate"; 
 	String END_TIME = "EndTime"; 
 	
@@ -72,6 +72,8 @@ public interface SymKeyConstants
 	String SYMKEY_RESPONSE = "SymkeyResponse";
 	
 	String SYMKEY_REQUEST_ID = "SymkeyRequestID";
+	
+	String X509_ENCRYPTION_CERT = "X509EncryptionCertificate";
 	
 	public enum QNameConstants
 	{

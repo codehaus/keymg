@@ -80,6 +80,13 @@ public class SymkeyRequestParser implements XMLParser
                      KeyClassesParser keyClassesParser = new KeyClassesParser();
                      keyClassesParser.handle( xmlEventReader, nextStartElement, symKeyRequest ); 
                   }
+                  else if( localPart.equals( SymKeyConstants.X509_ENCRYPTION_CERT ))
+                  {
+                     String cert = xmlEventReader.getElementText().trim();
+                     symKeyRequest.setX509EncryptionCertificate(cert.getBytes());
+                  }
+                  else
+                     throw new RuntimeException("Unknown element:" + localPart);
                   break;
 
                case XMLStreamConstants.END_ELEMENT: 
@@ -118,7 +125,7 @@ public class SymkeyRequestParser implements XMLParser
 
       public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent,
             Object populateObject) throws XMLStreamException 
-            {
+      {
          SymkeyRequest symKeyRequest = (SymkeyRequest) populateObject;
          KeyClassesType keyClassesType = new KeyClassesType();
          symKeyRequest.setKeyClasses(keyClassesType);
@@ -150,13 +157,11 @@ public class SymkeyRequestParser implements XMLParser
                      return ; 
                }
 
-
             }
          } catch (XMLStreamException e) 
          { 
             e.printStackTrace();
          }
-
-            }
+      }
    }
 }

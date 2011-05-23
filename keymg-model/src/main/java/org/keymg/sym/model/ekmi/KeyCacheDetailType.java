@@ -110,4 +110,40 @@ public class KeyCacheDetailType
         this.maximumDuration = value;
     }
 
+   @Override
+   public int hashCode()
+   {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + ((maximumDuration == null) ? 0 : maximumDuration.hashCode());
+      result = prime * result + ((maximumKeys == null) ? 0 : maximumKeys.hashCode());
+      return result;
+   }
+
+   @Override
+   public boolean equals(Object obj)
+   {
+      if (this == obj)
+         return true;
+      if (obj == null)
+         return false;
+      if (getClass() != obj.getClass())
+         return false;
+      KeyCacheDetailType other = (KeyCacheDetailType) obj;
+      if (maximumDuration == null)
+      {
+         if (other.maximumDuration != null)
+            return false;
+      }
+      else if (!maximumDuration.equals(other.maximumDuration))
+         return false;
+      if (maximumKeys == null)
+      {
+         if (other.maximumKeys != null)
+            return false;
+      }
+      else if (!maximumKeys.equals(other.maximumKeys))
+         return false;
+      return true;
+   }
 }

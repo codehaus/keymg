@@ -24,12 +24,14 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+import javax.xml.transform.Source;
 
 import org.keymg.core.sym.SymKeyConstants;
 import org.keymg.sym.model.ekmi.SymkeyRequest;
 import org.keymg.sym.model.ekmi.SymkeyResponse;
 
 /**
+ * Main Parser for SKSML
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
@@ -42,22 +44,39 @@ public class Parser
 		ParserFactory.addXMLParser(new SymkeyParser()); 
 	}
 	
+	public void parse( Source source ) throws XMLStreamException
+	{
+	   XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance(); 
+	   XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(source);
+	   parseNow(xmlEventReader);
+	}
+	
 	public void parse(InputStream inputStream) throws XMLStreamException
 	{
 		XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance(); 
 		XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(inputStream);
-		while(xmlEventReader.hasNext())
-		{
-			XMLEvent xmlEvent = xmlEventReader.nextEvent();
-			if(xmlEvent instanceof StartElement)
-			{
-				StartElement startElement = (StartElement) xmlEvent;
-				this.handleStartElement(xmlEventReader, startElement);
-			}
-		}
+		parseNow(xmlEventReader);
 	}
 	
-	public void handleStartElement(XMLEventReader xmlEventReader, StartElement startElement) throws XMLStreamException
+    public Object getParsedObject()
+    {
+        return this.parsedObject;
+    }
+
+   private void parseNow(XMLEventReader xmlEventReader) throws XMLStreamException
+   {
+      while(xmlEventReader.hasNext())
+      {
+         XMLEvent xmlEvent = xmlEventReader.nextEvent();
+         if(xmlEvent instanceof StartElement)
+         {
+            StartElement startElement = (StartElement) xmlEvent;
+            this.handleStartElement(xmlEventReader, startElement);
+         }
+      }
+   }
+	
+	private void handleStartElement(XMLEventReader xmlEventReader, StartElement startElement) throws XMLStreamException
 	{
 		QName elementName = startElement.getName();
 		String namespace = elementName.getNamespaceURI();
@@ -78,10 +97,5 @@ public class Parser
 			SymkeyResponseParser symKeyResponseParser = new SymkeyResponseParser();
 			symKeyResponseParser.handle( xmlEventReader, startElement, parsedObject );  
 		}
-	}
-	
-	public Object getParsedObject()
-	{
-		return this.parsedObject;
 	}
 }
