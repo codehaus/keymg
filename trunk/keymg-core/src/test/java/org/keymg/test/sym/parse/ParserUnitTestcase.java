@@ -384,4 +384,20 @@ public class ParserUnitTestcase
         assertEquals( "10514-0-0", wip.getRequestedGlobalKeyID());
         assertEquals("10514-4-7235", wip.getSymkeyRequestID());
     }
+	
+	@Test
+    public void testRequestPendingID() throws Exception
+    {
+        ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+        InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/req-pending-wip.xml");
+        assertNotNull(inputStream);
+        Parser parser = new Parser();
+        parser.parse(inputStream);
+        
+        Object parsed = parser.getParsedObject();
+        assertTrue(parsed instanceof SymkeyRequest);
+        SymkeyRequest symKeyRequest = (SymkeyRequest) parsed;
+        assertEquals( 1, symKeyRequest.getSymkeyRequestIDList().size());
+        assertEquals("10514-4-7235", symKeyRequest.getSymkeyRequestIDList().get(0));
+    }
 }

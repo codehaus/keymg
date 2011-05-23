@@ -17,6 +17,7 @@
 package org.keymg.sym.model.ekmi;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -50,38 +51,30 @@ import java.util.List;
  */
 public class SymkeyRequest {
 
-    protected List<String> globalKeyID;
+    protected List<String> globalKeyID = new ArrayList<String>();
     protected KeyClassesType keyClasses;
     protected byte[] x509EncryptionCertificate;
-    protected List<String> symkeyRequestID;
+    protected List<String> symkeyRequestID = new ArrayList<String>();
 
     /**
-     * Gets the value of the globalKeyID property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the globalKeyID property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getGlobalKeyID().add(newItem);
-     * </pre>
-     * 
-     * 
+     * Add a Global Key Id
+     * @param gid
+     */
+    public void addGlobalKeyID(String gid)
+    {
+       this.globalKeyID.add(gid);
+    }
+    
+    /**
+     * Gets the value of the globalKeyID property. 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
      * 
      * 
      */
-    public List<String> getGlobalKeyID() {
-        if (globalKeyID == null) {
-            globalKeyID = new ArrayList<String>();
-        }
-        return this.globalKeyID;
+    public List<String> getGlobalKeyID() { 
+        return Collections.unmodifiableList(this.globalKeyID);
     }
 
     /**
@@ -131,20 +124,25 @@ public class SymkeyRequest {
     }
 
     /**
-     * Gets the value of the symkeyRequestID property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the symkeyRequestID property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getSymkeyRequestID().add(newItem);
-     * </pre>
-     * 
+     * Add a sym key request id
+     * @param symKeyR
+     */
+    public void addSymkeyRequestID(String symKeyR)
+    {
+       symkeyRequestID.add(symKeyR);
+    }
+    
+    /**
+     * Remove a sym key request id
+     * @param symKeyR
+     */
+    public void removeSymkeyRequestID(String symKeyR)
+    {
+       symkeyRequestID.remove(symKeyR);
+    }
+    
+    /**
+     * Gets the value of the symkeyRequestID property. 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
@@ -152,11 +150,7 @@ public class SymkeyRequest {
      * 
      * 
      */
-    public List<String> getSymkeyRequestID() {
-        if (symkeyRequestID == null) {
-            symkeyRequestID = new ArrayList<String>();
-        }
-        return this.symkeyRequestID;
+    public List<String> getSymkeyRequestIDList() { 
+        return Collections.unmodifiableList(this.symkeyRequestID);
     }
-
 }
