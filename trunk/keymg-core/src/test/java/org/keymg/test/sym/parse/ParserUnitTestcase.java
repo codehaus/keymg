@@ -29,6 +29,7 @@ import org.junit.Test;
 import org.keymg.core.sym.parse.Parser;
 import org.keymg.sym.model.ekmi.ApplicationsType;
 import org.keymg.sym.model.ekmi.EncryptionMethodType;
+import org.keymg.sym.model.ekmi.KeyCachePolicyRequestType;
 import org.keymg.sym.model.ekmi.KeyClassType;
 import org.keymg.sym.model.ekmi.KeyClassesType;
 import org.keymg.sym.model.ekmi.KeyUsePolicyType;
@@ -399,5 +400,20 @@ public class ParserUnitTestcase
         SymkeyRequest symKeyRequest = (SymkeyRequest) parsed;
         assertEquals( 1, symKeyRequest.getSymkeyRequestIDList().size());
         assertEquals("10514-4-7235", symKeyRequest.getSymkeyRequestIDList().get(0));
+    }
+	
+	@Test
+    public void testKeyCachePolicyRequest() throws Exception
+    {
+        ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+        InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/req-keycachepolicy.xml");
+        assertNotNull(inputStream);
+        Parser parser = new Parser();
+        parser.parse(inputStream);
+        
+        Object parsed = parser.getParsedObject();
+        assertTrue(parsed instanceof KeyCachePolicyRequestType);
+        KeyCachePolicyRequestType kcpRequest = (KeyCachePolicyRequestType) parsed;
+        assertNotNull(kcpRequest.getSignature());
     }
 }

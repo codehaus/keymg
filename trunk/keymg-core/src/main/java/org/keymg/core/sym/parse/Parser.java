@@ -27,6 +27,7 @@ import javax.xml.stream.events.XMLEvent;
 import javax.xml.transform.Source;
 
 import org.keymg.core.sym.SymKeyConstants;
+import org.keymg.sym.model.ekmi.KeyCachePolicyRequestType;
 import org.keymg.sym.model.ekmi.SymkeyRequest;
 import org.keymg.sym.model.ekmi.SymkeyResponse;
 
@@ -97,5 +98,11 @@ public class Parser
 			SymkeyResponseParser symKeyResponseParser = new SymkeyResponseParser();
 			symKeyResponseParser.handle( xmlEventReader, startElement, parsedObject );  
 		}
+		else if( SymKeyConstants.KEY_CACHE_POLICY_REQUEST.equals(localPart) )
+        {
+           parsedObject = new KeyCachePolicyRequestType();
+           KeyCachePolicyRequestParser kcpParser = new KeyCachePolicyRequestParser();
+           kcpParser.handle( xmlEventReader, startElement, parsedObject );  
+       }
 	}
 }
