@@ -31,6 +31,7 @@ import org.keymg.core.sym.SymKeyConstants;
 import org.keymg.sym.model.ekmi.KeyClassType;
 import org.keymg.sym.model.ekmi.KeyClassesType;
 import org.keymg.sym.model.ekmi.SymkeyRequest;
+import org.keymg.sym.model.ekmi.SymkeyRequestIDType;
 
 
 /**
@@ -53,7 +54,7 @@ public class SymkeyRequestParser implements XMLParser
 
    public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent,
          Object populateObject) throws XMLStreamException 
-         {
+   {
       SymkeyRequest symKeyRequest = (SymkeyRequest) populateObject;
 
       try 
@@ -73,7 +74,7 @@ public class SymkeyRequestParser implements XMLParser
                   if(localPart.equals( SymKeyConstants.GLOBAL_KEY_ID ))
                   {
                      String gid = xmlEventReader.getElementText();
-                     symKeyRequest.getGlobalKeyID().add(gid); 
+                     symKeyRequest.addGlobalKeyID(gid); 
                   }
                   else if( localPart.equals( SymKeyConstants.KEY_CLASSES ))
                   {
@@ -85,6 +86,11 @@ public class SymkeyRequestParser implements XMLParser
                      String cert = xmlEventReader.getElementText().trim();
                      symKeyRequest.setX509EncryptionCertificate(cert.getBytes());
                   }
+                  else if( SymKeyConstants.SYMKEY_REQUEST_ID.equals( localPart ))
+                  { 
+                     String requestID = xmlEventReader.getElementText().trim();
+                     symKeyRequest.addSymkeyRequestID( requestID ); 
+                  } 
                   else
                      throw new RuntimeException("Unknown element:" + localPart);
                   break;
@@ -107,7 +113,7 @@ public class SymkeyRequestParser implements XMLParser
       { 
          log.log( Level.SEVERE, "Unable to parse:" , e );
       }  
-         }
+   }
 
 
    private static class KeyClassesParser implements XMLParser
@@ -158,7 +164,8 @@ public class SymkeyRequestParser implements XMLParser
                }
 
             }
-         } catch (XMLStreamException e) 
+         } 
+         catch (XMLStreamException e) 
          { 
             e.printStackTrace();
          }
