@@ -31,7 +31,6 @@ import org.keymg.core.sym.SymKeyConstants;
 import org.keymg.sym.model.ekmi.KeyClassType;
 import org.keymg.sym.model.ekmi.KeyClassesType;
 import org.keymg.sym.model.ekmi.SymkeyRequest;
-import org.keymg.sym.model.ekmi.SymkeyRequestIDType;
 
 
 /**

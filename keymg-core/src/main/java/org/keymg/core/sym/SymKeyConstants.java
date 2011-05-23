@@ -50,6 +50,7 @@ public interface SymKeyConstants
 	String KEY_SIZE = "KeySize";
 	String KEY_USE_POLICY = "KeyUsePolicy";
 	String KEY_USE_POLICY_ID = "KeyUsePolicyID";
+	String KEY_CACHE_POLICY_REQUEST = "KeyCachePolicyRequest";
 	
 	String PERMISSIONS = "Permissions";
 	String PERMITTED_APPLICATIONS = "PermittedApplications";
