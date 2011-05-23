@@ -46,6 +46,7 @@ import org.keymg.sym.model.ekmi.SymkeyErrorType;
 import org.keymg.sym.model.ekmi.SymkeyRequest;
 import org.keymg.sym.model.ekmi.SymkeyResponse;
 import org.keymg.sym.model.ekmi.SymkeyType;
+import org.keymg.sym.model.ekmi.SymkeyWorkInProgressType;
 import org.keymg.sym.model.ekmi.ValidResponseType;
 import org.keymg.sym.model.ekmi.PermittedDatesType.PermittedDate;
 import org.keymg.sym.model.ekmi.PermittedTimesType.PermittedTime;
@@ -361,5 +362,26 @@ public class ParserUnitTestcase
         assertEquals("Payroll", err.getRequestedKeyClass());
         assertEquals("SKS-100004", err.getErrorCode());
         assertEquals("Unauthorized request for key", err.getErrorMessage());
+    }
+	
+	@Test
+    public void testSymKeyResponseWorkInProgress() throws Exception
+    {
+        ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+        InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/resp-work-in-progress.xml");
+        assertNotNull(inputStream);
+        Parser parser = new Parser();
+        parser.parse(inputStream);
+
+        Object parsed = parser.getParsedObject();
+        assertTrue(parsed instanceof SymkeyResponse);
+        SymkeyResponse symKeyResponse = (SymkeyResponse) parsed; 
+        assertNotNull(symKeyResponse);
+        List<ValidResponseType> resp = symKeyResponse.getResponse();
+        assertEquals( 1, resp.size());
+        ValidResponseType vrt = resp.get(0);
+        SymkeyWorkInProgressType wip = (SymkeyWorkInProgressType) vrt;
+        assertEquals( "10514-0-0", wip.getRequestedGlobalKeyID());
+        assertEquals("10514-4-7235", wip.getSymkeyRequestID());
     }
 }
