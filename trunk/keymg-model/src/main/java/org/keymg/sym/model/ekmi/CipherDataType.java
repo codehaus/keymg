@@ -43,4 +43,33 @@ public class CipherDataType
 		builder.append( "<xenc:CipherData><xenc:CipherValue>").append( cipherValue ).append( "</xenc:CipherValue> </xenc:CipherData>" );
 		return builder.toString();
 	}
+
+   @Override
+   public int hashCode()
+   {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + ((cipherValue == null) ? 0 : cipherValue.hashCode());
+      return result;
+   }
+
+   @Override
+   public boolean equals(Object obj)
+   {
+      if (this == obj)
+         return true;
+      if (obj == null)
+         return false;
+      if (getClass() != obj.getClass())
+         return false;
+      CipherDataType other = (CipherDataType) obj;
+      if (cipherValue == null)
+      {
+         if (other.cipherValue != null)
+            return false;
+      }
+      else if (!cipherValue.equals(other.cipherValue))
+         return false;
+      return true;
+   }
 }

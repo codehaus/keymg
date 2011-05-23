@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -49,6 +50,7 @@ import org.keymg.sym.model.ekmi.PermittedDatesType.PermittedDate;
 import org.keymg.sym.model.ekmi.PermittedTimesType.PermittedTime;
 
 /**
+ * Unit Test the Parser
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
@@ -237,4 +239,67 @@ public class ParserUnitTestcase
 		SymkeyResponse symKeyResponse = (SymkeyResponse) parsed; 
 		assertNotNull(symKeyResponse);
 	}
+	
+	@Test
+	public void testSymKeyMultipleNewKeys() throws Exception
+	{
+	   ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+       InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/req-multiple-new-keys-01.xml");
+       assertNotNull(inputStream);
+       Parser parser = new Parser();
+       parser.parse(inputStream);
+
+       Object parsed = parser.getParsedObject();
+       assertTrue(parsed instanceof SymkeyRequest);
+       SymkeyRequest symKeyReq = (SymkeyRequest) parsed; 
+       assertNotNull(symKeyReq);
+       KeyClassesType keyClasses = symKeyReq.getKeyClasses();
+       KeyClassType keys[] = keyClasses.getKeyClassType();
+       assertEquals(9, keys.length);
+       
+       List<KeyClassType> list = Arrays.asList(keys);
+       assertTrue(list.contains(new KeyClassType("EHR-CDC")));
+       assertTrue(list.contains(new KeyClassType("EHR-CRO")));
+       assertTrue(list.contains(new KeyClassType("EHR-DEF")));
+       assertTrue(list.contains(new KeyClassType("EHR-EMT")));
+       assertTrue(list.contains(new KeyClassType("EHR-HOS")));
+       assertTrue(list.contains(new KeyClassType("EHR-INS")));
+       assertTrue(list.contains(new KeyClassType("EHR-NUR")));
+       assertTrue(list.contains(new KeyClassType("EHR-PAT")));
+       assertTrue(list.contains(new KeyClassType("EHR-PHY")));
+	}
+	
+	@Test
+    public void testSymKeyResponseForMultipleNewKeys() throws Exception
+    {
+        ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+        InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/resp-multiple-new-keys-01.xml");
+        assertNotNull(inputStream);
+        Parser parser = new Parser();
+        parser.parse(inputStream);
+
+        Object parsed = parser.getParsedObject();
+        assertTrue(parsed instanceof SymkeyResponse);
+        SymkeyResponse symKeyResponse = (SymkeyResponse) parsed; 
+        assertNotNull(symKeyResponse);
+        
+        List<ValidResponseType> valList = symKeyResponse.getResponse();
+        assertEquals(9, valList.size());
+    }
+	
+	@Test
+    public void testRequestEncCertificate() throws Exception
+    {
+        ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+        InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/req-enc-cert.xml");
+        assertNotNull(inputStream);
+        Parser parser = new Parser();
+        parser.parse(inputStream);
+        
+        Object parsed = parser.getParsedObject();
+        assertTrue(parsed instanceof SymkeyRequest);
+        SymkeyRequest symKeyRequest = (SymkeyRequest) parsed;
+        byte[] encCert = symKeyRequest.getX509EncryptionCertificate();
+        assertNotNull(encCert);
+    }
 }

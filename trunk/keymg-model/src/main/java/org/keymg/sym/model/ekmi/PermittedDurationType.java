@@ -98,5 +98,4 @@ public class PermittedDurationType {
     public void setAny(String value) {
         this.any = value;
     }
-
 }

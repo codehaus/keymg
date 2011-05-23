@@ -64,6 +64,9 @@ public class KeyGenerator
     */
    public Document generate( String keyID ) throws SymKeyGenerationException
    {
+      if( keyID == null )
+         throw new IllegalArgumentException( "keyID is null" );
+      
       //Parse the keyid
       StringTokenizer stringTokenizer = new StringTokenizer( keyID, "-" );
       int tokens = stringTokenizer != null ? stringTokenizer.countTokens() : 0;
