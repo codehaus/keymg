@@ -74,9 +74,11 @@ public interface SymKeyConstants
 	String SYMKEY_ERROR = "SymkeyError";
 	String SYMKEY_REQUEST = "SymkeyRequest";
 	String SYMKEY_RESPONSE = "SymkeyResponse";
+    String SYMKEY_WORK_IN_PROGRESS = "SymkeyWorkInProgress";
 	
 	String REQUESTED_GLOBAL_KEY_ID = "RequestedGlobalKeyID";
 	String REQUESTED_KEY_CLASS = "RequestedKeyClass";
+	String REQUEST_CHECKIN_INTERVAL = "RequestCheckInterval";
     
 	String SYMKEY_REQUEST_ID = "SymkeyRequestID";
 	
