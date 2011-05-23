@@ -329,4 +329,37 @@ public class ParserUnitTestcase
         assertEquals("SKS-100004", err.getErrorCode());
         assertEquals("Unauthorized request for key", err.getErrorMessage());
     }
+	
+	@Test
+    public void testSymKeyResponseKeyPlusError() throws Exception
+    {
+        ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+        InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/resp-key-plus-error.xml");
+        assertNotNull(inputStream);
+        Parser parser = new Parser();
+        parser.parse(inputStream);
+
+        Object parsed = parser.getParsedObject();
+        assertTrue(parsed instanceof SymkeyResponse);
+        SymkeyResponse symKeyResponse = (SymkeyResponse) parsed; 
+        assertNotNull(symKeyResponse);
+        List<ValidResponseType> resp = symKeyResponse.getResponse();
+        assertEquals( 2, resp.size());
+        
+        ValidResponseType krt = resp.get(0);
+        assertTrue( krt instanceof SymkeyType);
+        SymkeyType symKey = (SymkeyType) krt;
+        assertEquals( "10514-1-7476", symKey.getSymkeyRequestID().getValue() );
+        assertEquals( "10514-1-235", symKey.getGlobalKeyID().getValue() );
+        assertEquals( EncryptionMethodType.RSA, symKey.getEncryptionMethod());
+        
+        ValidResponseType vrt = resp.get(1);
+        assertTrue( vrt instanceof SymkeyErrorType);
+        SymkeyErrorType err = (SymkeyErrorType) vrt;
+        assertEquals("10514-2-1044", err.getSymkeyRequestID());
+        assertEquals("10514-2-22", err.getRequestedGlobalKeyID());
+        assertEquals("Payroll", err.getRequestedKeyClass());
+        assertEquals("SKS-100004", err.getErrorCode());
+        assertEquals("Unauthorized request for key", err.getErrorMessage());
+    }
 }
