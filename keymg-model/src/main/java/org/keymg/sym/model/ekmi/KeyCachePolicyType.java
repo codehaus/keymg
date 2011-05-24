@@ -16,7 +16,7 @@
  */
 package org.keymg.sym.model.ekmi;
 
-import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.Date;
 
 
 /**
@@ -88,9 +88,9 @@ public class KeyCachePolicyType
 	
 	private KeyClassType keyClassType;
 	
-	private XMLGregorianCalendar startDate;
+	private Date startDate;
 	
-	private XMLGregorianCalendar endDate;
+	private Date endDate;
 	
 	private NonNegativeInteger policyCheckInterval;
     
@@ -140,22 +140,22 @@ public class KeyCachePolicyType
 		this.keyClassType = keyClassType;
 	}
 
-	public XMLGregorianCalendar getStartDate() 
+	public Date getStartDate() 
 	{
 		return startDate;
 	}
 
-	public void setStartDate(XMLGregorianCalendar startDate) 
+	public void setStartDate(Date startDate) 
 	{
 		this.startDate = startDate;
 	}
 
-	public XMLGregorianCalendar getEndDate() 
+	public Date getEndDate() 
 	{
 		return endDate;
 	}
 
-	public void setEndDate(XMLGregorianCalendar endDate) 
+	public void setEndDate(Date endDate) 
 	{
 		this.endDate = endDate;
 	}

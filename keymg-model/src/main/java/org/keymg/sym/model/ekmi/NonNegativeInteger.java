@@ -23,6 +23,14 @@ package org.keymg.sym.model.ekmi;
 public class NonNegativeInteger 
 {
 	private Integer value;
+	
+	public NonNegativeInteger()
+	{}
+	
+	public NonNegativeInteger(Integer val)
+	{
+	   this.value = val;
+	}
 
 	public Integer getValue() 
 	{

@@ -1,0 +1,25 @@
+<ekmi:KeyCachePolicyResponse xmlns:ekmi='http://docs.oasis-open.org/ekmi/2008/01'
+	xmlns:xenc='http://www.w3.org/2001/04/xmlenc#'>
+	<ekmi:KeyCachePolicy>
+		<ekmi:KeyCachePolicyID>10514-17</ekmi:KeyCachePolicyID>
+		<ekmi:PolicyName>Corporate Laptop Key Caching Policy</ekmi:PolicyName>
+		<ekmi:Description>
+			This policy defines how company-issued laptops will manage symmetric
+			keys used for file/disk encryption in their local cache. This
+			policy must be used by all laptops that use the company EKMI.
+		</ekmi:Description>
+		<ekmi:KeyClass>LaptopKeysCachingClass</ekmi:KeyClass>
+		<ekmi:StartDate>2008-01-01T00:00:01.0</ekmi:StartDate>
+		<ekmi:EndDate>2008-12-31T00:00:01.0</ekmi:EndDate>
+		<ekmi:PolicyCheckInterval>2592000</ekmi:PolicyCheckInterval>
+		<ekmi:Status>Active</ekmi:Status>
+		<ekmi:NewKeysCacheDetail>
+			<ekmi:MaximumKeys>3</ekmi:MaximumKeys>
+			<ekmi:MaximumDuration>7776000</ekmi:MaximumDuration>
+		</ekmi:NewKeysCacheDetail>
+		<ekmi:UsedKeysCacheDetail>
+			<ekmi:MaximumKeys>6</ekmi:MaximumKeys>
+			<ekmi:MaximumDuration>7776000</ekmi:MaximumDuration>
+		</ekmi:UsedKeysCacheDetail>
+	</ekmi:KeyCachePolicy>
+</ekmi:KeyCachePolicyResponse>

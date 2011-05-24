@@ -36,6 +36,8 @@ public interface SymKeyConstants
 	String APPLICATION_DIGEST_VALUE = "ApplicationDigestValue";
 	String APPLICATION_VERSION = "ApplicationVersion"; 
 	
+	String DESCRIPTION = "Description";
+	
     String ENCRYPTION_METHOD = "EncryptionMethod";
 	String END_DATE = "EndDate"; 
 	String END_TIME = "EndTime"; 
@@ -50,7 +52,15 @@ public interface SymKeyConstants
 	String KEY_SIZE = "KeySize";
 	String KEY_USE_POLICY = "KeyUsePolicy";
 	String KEY_USE_POLICY_ID = "KeyUsePolicyID";
-	String KEY_CACHE_POLICY_REQUEST = "KeyCachePolicyRequest";
+	String KEY_CACHE_POLICY = "KeyCachePolicy";
+    String KEY_CACHE_POLICY_REQUEST = "KeyCachePolicyRequest";
+    String KEY_CACHE_POLICY_RESPONSE = "KeyCachePolicyResponse";
+	String KEY_CACHE_POLICY_ID = "KeyCachePolicyID";
+	
+	String MAXIMUM_KEYS = "MaximumKeys";
+	String MAXIMUM_DURATION = "MaximumDuration";
+	
+	String NEW_KEYS_CACHE_DETAIL = "NewKeysCacheDetail";
 	
 	String PERMISSIONS = "Permissions";
 	String PERMITTED_APPLICATIONS = "PermittedApplications";
@@ -66,6 +76,7 @@ public interface SymKeyConstants
 	String PERMITTED_TIME = "PermittedTime";
 	String PERMITTED_USES = "PermittedUses";
 	String POLICY_NAME = "PolicyName";
+	String POLICY_CHECK_INTERVAL = "PolicyCheckInterval";
 	
 	String START_DATE = "StartDate";
 	String START_TIME = "StartTime";
@@ -82,6 +93,8 @@ public interface SymKeyConstants
 	String REQUEST_CHECKIN_INTERVAL = "RequestCheckInterval";
     
 	String SYMKEY_REQUEST_ID = "SymkeyRequestID";
+	
+	String USED_KEYS_CACHE_DETAIL = "UsedKeysCacheDetail";
 	
 	String X509_ENCRYPTION_CERT = "X509EncryptionCertificate";
 	

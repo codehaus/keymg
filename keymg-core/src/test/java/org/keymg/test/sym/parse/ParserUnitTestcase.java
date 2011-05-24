@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
@@ -29,19 +30,25 @@ import org.junit.Test;
 import org.keymg.core.sym.parse.Parser;
 import org.keymg.sym.model.ekmi.ApplicationsType;
 import org.keymg.sym.model.ekmi.EncryptionMethodType;
+import org.keymg.sym.model.ekmi.KeyCacheDetailType;
 import org.keymg.sym.model.ekmi.KeyCachePolicyRequestType;
+import org.keymg.sym.model.ekmi.KeyCachePolicyResponseType;
+import org.keymg.sym.model.ekmi.KeyCachePolicyType;
 import org.keymg.sym.model.ekmi.KeyClassType;
 import org.keymg.sym.model.ekmi.KeyClassesType;
 import org.keymg.sym.model.ekmi.KeyUsePolicyType;
+import org.keymg.sym.model.ekmi.NonNegativeInteger;
 import org.keymg.sym.model.ekmi.PermissionsType;
 import org.keymg.sym.model.ekmi.PermittedApplicationsType;
 import org.keymg.sym.model.ekmi.PermittedDatesType;
+import org.keymg.sym.model.ekmi.PermittedDatesType.PermittedDate;
 import org.keymg.sym.model.ekmi.PermittedDayType;
 import org.keymg.sym.model.ekmi.PermittedDaysType;
 import org.keymg.sym.model.ekmi.PermittedDurationType;
 import org.keymg.sym.model.ekmi.PermittedLevelsType;
 import org.keymg.sym.model.ekmi.PermittedNumberOfTransactionsType;
 import org.keymg.sym.model.ekmi.PermittedTimesType;
+import org.keymg.sym.model.ekmi.PermittedTimesType.PermittedTime;
 import org.keymg.sym.model.ekmi.PermittedUsesType;
 import org.keymg.sym.model.ekmi.SymkeyErrorType;
 import org.keymg.sym.model.ekmi.SymkeyRequest;
@@ -49,8 +56,6 @@ import org.keymg.sym.model.ekmi.SymkeyResponse;
 import org.keymg.sym.model.ekmi.SymkeyType;
 import org.keymg.sym.model.ekmi.SymkeyWorkInProgressType;
 import org.keymg.sym.model.ekmi.ValidResponseType;
-import org.keymg.sym.model.ekmi.PermittedDatesType.PermittedDate;
-import org.keymg.sym.model.ekmi.PermittedTimesType.PermittedTime;
 
 /**
  * Unit Test the Parser
@@ -188,44 +193,6 @@ public class ParserUnitTestcase
 		//PermittedUses
 		PermittedUsesType permittedUses = permissionsType.getPermittedUses();
 		assertNotNull( permittedUses );
-		
-		/**
-		 ekmi:Permissions>
-				<ekmi:PermittedApplications ekmi:any="false">
-					<ekmi:PermittedApplication>
-						<ekmi:ApplicationID>10514-23</ekmi:ApplicationID>
-						<ekmi:ApplicationName> Payroll Application</ekmi:ApplicationName>
-						<ekmi:ApplicationVersion>1.0</ekmi:ApplicationVersion>
-						<ekmi:ApplicationDigestAlgorithm>
-							http://www.w3.org/2000/09/xmldsig#sha1
-						</ekmi:ApplicationDigestAlgorithm>
-						<ekmi:ApplicationDigestValue> NIG4bKkt4cziEqFFuOoBTM81efU=
-						</ekmi:ApplicationDigestValue>
-					</ekmi:PermittedApplication>
-				</ekmi:PermittedApplications>
-				<ekmi:PermittedDates ekmi:any="false">
-					<ekmi:PermittedDate>
-						<ekmi:StartDate>2008-01-01</ekmi:StartDate>
-						<ekmi:EndDate>2008-12-31</ekmi:EndDate>
-					</ekmi:PermittedDate>
-				</ekmi:PermittedDates>
-				<ekmi:PermittedDays ekmi:any="true" xsi:nil="true" />
-				<ekmi:PermittedDuration ekmi:any="true"
-					xsi:nil="true" />
-				<ekmi:PermittedLevels ekmi:any="true" xsi:nil="true" />
-				<ekmi:PermittedLocations ekmi:any="true"
-					xsi:nil="true" />
-				<ekmi:PermittedNumberOfTransactions
-					ekmi:any="true" xsi:nil="true" />
-				<ekmi:PermittedTimes ekmi:any="false">
-					<ekmi:PermittedTime>
-						<ekmi:StartTime>07:00:00</ekmi:StartTime>
-						<ekmi:EndTime>19:00:00</ekmi:EndTime>
-					</ekmi:PermittedTime>
-				</ekmi:PermittedTimes>
-				<ekmi:PermittedUses ekmi:any="true" xsi:nil="true" />
-			</ekmi:Permissions>
-		 */
 	}
 
 	@Test
@@ -415,5 +382,69 @@ public class ParserUnitTestcase
         assertTrue(parsed instanceof KeyCachePolicyRequestType);
         KeyCachePolicyRequestType kcpRequest = (KeyCachePolicyRequestType) parsed;
         assertNotNull(kcpRequest.getSignature());
+    }
+	
+	@Test
+    public void testResponseKeyCachePolicy() throws Exception
+    {
+        ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+        InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/resp-keycachepolicy.xml");
+        assertNotNull(inputStream);
+        Parser parser = new Parser();
+        parser.parse(inputStream);
+
+        Object parsed = parser.getParsedObject();
+        assertTrue(parsed instanceof KeyCachePolicyResponseType);
+        KeyCachePolicyResponseType kcpResponse = (KeyCachePolicyResponseType) parsed; 
+        assertNotNull(kcpResponse);
+        List<KeyCachePolicyType> resp = kcpResponse.policies();
+        assertEquals( 1, resp.size());
+        KeyCachePolicyType kcp = resp.get(0);
+        
+        assertEquals("10514-1", kcp.getKeyCachePolicyID().getValue());
+        assertEquals("No Caching Policy", kcp.getPolicyName());
+        assertEquals("NoCachingClass", kcp.getKeyClassType().getValue());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd" ) ;
+        assertEquals(dateFormat.parse("2008-01-01T00:00:01.0"), kcp.getStartDate());
+        assertEquals(dateFormat.parse("1969-01-01T00:00:00.0"), kcp.getEndDate());
+        assertEquals(new NonNegativeInteger(Integer.valueOf("2592000")), kcp.getPolicyCheckInterval());
+        assertEquals("Active", kcp.getStatus().value());
+    }
+	
+	@Test
+    public void testResponseKeyCachePolicyExtended() throws Exception
+    {
+        ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+        InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/resp-keycachepolicy-ext.xml");
+        assertNotNull(inputStream);
+        Parser parser = new Parser();
+        parser.parse(inputStream);
+
+        Object parsed = parser.getParsedObject();
+        assertTrue(parsed instanceof KeyCachePolicyResponseType);
+        KeyCachePolicyResponseType kcpResponse = (KeyCachePolicyResponseType) parsed; 
+        assertNotNull(kcpResponse);
+        List<KeyCachePolicyType> resp = kcpResponse.policies();
+        assertEquals( 1, resp.size());
+        KeyCachePolicyType kcp = resp.get(0);
+        
+        assertEquals("10514-17", kcp.getKeyCachePolicyID().getValue());
+        assertEquals("Corporate Laptop Key Caching Policy", kcp.getPolicyName());
+        assertEquals("LaptopKeysCachingClass", kcp.getKeyClassType().getValue());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd" ) ;
+        assertEquals(dateFormat.parse("2008-01-01T00:00:01.0"), kcp.getStartDate());
+        assertEquals(dateFormat.parse("2008-12-31T00:00:01.0"), kcp.getEndDate());
+        assertEquals(new NonNegativeInteger(Integer.valueOf("2592000")), kcp.getPolicyCheckInterval());
+        assertEquals("Active", kcp.getStatus().value());
+        
+        KeyCacheDetailType newKCD = kcp.getNewKeysCacheDetail();
+        assertNotNull(newKCD);
+        assertEquals(BigInteger.valueOf(3), newKCD.getMaximumKeys());
+        assertEquals(BigInteger.valueOf(7776000), newKCD.getMaximumDuration());
+        
+        KeyCacheDetailType usedKCD = kcp.getUsedKeysCacheDetail();
+        assertNotNull(usedKCD);
+        assertEquals(BigInteger.valueOf(6), usedKCD.getMaximumKeys());
+        assertEquals(BigInteger.valueOf(7776000), usedKCD.getMaximumDuration());
     }
 }
