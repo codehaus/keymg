@@ -447,4 +447,51 @@ public class ParserUnitTestcase
         assertEquals(BigInteger.valueOf(6), usedKCD.getMaximumKeys());
         assertEquals(BigInteger.valueOf(7776000), usedKCD.getMaximumDuration());
     }
+	
+	@Test
+    public void testResponseKeyCachePolicies() throws Exception
+    {
+        ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+        InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/resp-keycachepolicies.xml");
+        assertNotNull(inputStream);
+        Parser parser = new Parser();
+        parser.parse(inputStream);
+
+        Object parsed = parser.getParsedObject();
+        assertTrue(parsed instanceof KeyCachePolicyResponseType);
+        KeyCachePolicyResponseType kcpResponse = (KeyCachePolicyResponseType) parsed; 
+        assertNotNull(kcpResponse);
+        List<KeyCachePolicyType> resp = kcpResponse.policies();
+        assertEquals( 3, resp.size());
+        KeyCachePolicyType kcp = resp.get(0);
+        
+        assertEquals("10514-1", kcp.getKeyCachePolicyID().getValue());
+        assertEquals("No Caching Policy", kcp.getPolicyName());
+        assertEquals("NoCachingClass", kcp.getKeyClassType().getValue());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd" ) ;
+        assertEquals(dateFormat.parse("2008-01-01T00:00:01.0"), kcp.getStartDate());
+        assertEquals(dateFormat.parse("1969-01-01T00:00:00.0"), kcp.getEndDate());
+        assertEquals(new NonNegativeInteger(Integer.valueOf("2592000")), kcp.getPolicyCheckInterval());
+        assertEquals("Active", kcp.getStatus().value());
+        
+        kcp = resp.get(1);
+        assertEquals("10514-17", kcp.getKeyCachePolicyID().getValue());
+        assertEquals("Corporate Laptop Key Caching Policy", kcp.getPolicyName());
+        assertEquals("LaptopKeysCachingClass", kcp.getKeyClassType().getValue());
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd" ) ;
+        assertEquals(dateFormat.parse("2008-01-01T00:00:01.0"), kcp.getStartDate());
+        assertEquals(dateFormat.parse("2008-12-31T00:00:01.0"), kcp.getEndDate());
+        assertEquals(new NonNegativeInteger(Integer.valueOf("2592000")), kcp.getPolicyCheckInterval());
+        assertEquals("Active", kcp.getStatus().value());
+        
+        KeyCacheDetailType newKCD = kcp.getNewKeysCacheDetail();
+        assertNotNull(newKCD);
+        assertEquals(BigInteger.valueOf(3), newKCD.getMaximumKeys());
+        assertEquals(BigInteger.valueOf(7776000), newKCD.getMaximumDuration());
+        
+        KeyCacheDetailType usedKCD = kcp.getUsedKeysCacheDetail();
+        assertNotNull(usedKCD);
+        assertEquals(BigInteger.valueOf(3), usedKCD.getMaximumKeys());
+        assertEquals(BigInteger.valueOf(7776000), usedKCD.getMaximumDuration());
+    }
 }

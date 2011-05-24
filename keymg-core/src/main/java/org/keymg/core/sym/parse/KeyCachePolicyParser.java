@@ -151,7 +151,7 @@ public class KeyCachePolicyParser implements XMLParser
                   EndElement endElement = (EndElement) ev;
                   localPart = endElement.getName().getLocalPart();
 
-                  if( localPart.equals( SymKeyConstants.PERMISSIONS ) )
+                  if( localPart.equals( SymKeyConstants.KEY_CACHE_POLICY ) )
                      return;
                   break;
                case XMLStreamConstants.END_DOCUMENT:
