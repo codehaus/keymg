@@ -88,7 +88,7 @@ public class KeyCachePolicyRequestParser implements XMLParser
                   EndElement endElement = (EndElement) ev;
                   localPart = endElement.getName().getLocalPart();
 
-                  if( localPart.equals( SymKeyConstants.SYMKEY_REQUEST ) )
+                  if( localPart.equals( SymKeyConstants.KEY_CACHE_POLICY_REQUEST ) )
                      return;
                   break;
 

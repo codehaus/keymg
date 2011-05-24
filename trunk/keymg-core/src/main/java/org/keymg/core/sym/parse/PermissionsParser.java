@@ -61,7 +61,7 @@ public class PermissionsParser implements XMLParser
 
    public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent,
          Object populateObject) throws XMLStreamException 
-         {
+   {
       KeyUsePolicyType keyUsePolicyType = (KeyUsePolicyType) populateObject;
       PermissionsType permissionsType = new PermissionsType();
       keyUsePolicyType.setPermissions( permissionsType );
@@ -237,5 +237,5 @@ public class PermissionsParser implements XMLParser
       {  
          log.log( Level.SEVERE, "Unable to parse:" , e );
       }
-         } 
+   } 
 }
