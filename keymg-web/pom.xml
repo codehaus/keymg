@@ -21,12 +21,17 @@
      <dependency>
        <groupId>org.codehaus</groupId>
        <artifactId>keymg-model</artifactId>
-       <version>${version}</version>
+       <version>${project.version}</version>
      </dependency>
      <dependency>
        <groupId>org.codehaus</groupId>
        <artifactId>keymg-core</artifactId>
-       <version>${version}</version>
+       <version>${project.version}</version>
+     </dependency>
+     <dependency>
+       <groupId>javax.servlet</groupId>
+       <artifactId>servlet-api</artifactId>
+       <version>2.5</version>
      </dependency>
      <dependency>
        <groupId>org.apache</groupId>
