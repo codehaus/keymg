@@ -22,12 +22,12 @@
      <dependency>
        <groupId>org.codehaus</groupId>
        <artifactId>keymg-core</artifactId>
-       <version>${version}</version>
+       <version>${project.version}</version>
      </dependency>
      <dependency>
        <groupId>org.codehaus</groupId>
        <artifactId>keymg-model</artifactId>
-       <version>${version}</version>
+       <version>${project.version}</version>
      </dependency>
      <dependency>
        <groupId>junit</groupId>
