@@ -16,6 +16,7 @@
     <module>parent</module>
     <module>keymg-model</module>
     <module>keymg-core</module>
+    <module>keymg-web</module>
     <module>keymg-api</module>
   </modules>
 
