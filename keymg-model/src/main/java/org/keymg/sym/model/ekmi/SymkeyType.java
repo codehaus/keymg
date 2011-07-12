@@ -182,9 +182,20 @@ public class SymkeyType implements ValidResponseType
     	if( this.symkeyRequestID != null )
     	   builder.append( "<ekmi:SymkeyRequestID>" ).append( this.symkeyRequestID ).append( "</ekmi:SymkeyRequestID>" );
     	builder.append( "<ekmi:GlobalKeyID>" ).append( this.globalKeyID ).append( "</ekmi:GlobalKeyID>");
-    	builder.append( this.keyUsePolicy.toString() );
-    	builder.append( this.encryptionMethod.toString() );
-    	builder.append( this.cipherData.toString() );
+    	if(this.keyUsePolicy == null)
+    	   throw new RuntimeException("Key Use Policy is null");
+    	if(keyUsePolicy != null)
+    	{
+           builder.append( this.keyUsePolicy.toString() ); 
+    	}
+    	if(encryptionMethod != null)
+    	{
+           builder.append( this.encryptionMethod.toString() ); 
+    	}
+    	if(cipherData != null)
+    	{
+           builder.append( this.cipherData.toString() ); 
+    	}
 
         builder.append("</ekmi:Symkey>" );
     	return builder.toString();
