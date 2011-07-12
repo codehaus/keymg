@@ -40,13 +40,15 @@ public class KeyStorePKIManager implements PKIManager
    private KeyStore keyStore;
    private char[] keyStorePassword;
    
+   public static String KEYSTORE_TYPE = "JCEKS";
+   
    public KeyStorePKIManager( File keyStoreFile, char[] keyPass) throws PKIRepositoryException
    {
       this.keyStoreFile = keyStoreFile;
       try
       {
          // Create an empty keystore object 
-         keyStore = KeyStore.getInstance(KeyStore.getDefaultType()); 
+         keyStore = KeyStore.getInstance(KEYSTORE_TYPE); 
          // Load the keystore contents 
          FileInputStream in = new FileInputStream(keyStoreFile); 
          this.keyStore.load(in, keyPass); 

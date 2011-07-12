@@ -14,30 +14,29 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.keymg.test.api.sym;
+package org.keymg.core.sym.policy;
 
-import org.junit.Test;
-import org.keymg.api.sym.KeyGenerator;
-import org.keymg.core.sym.policy.InmemorySymKeyPolicyStore;
-import org.keymg.core.sym.util.DocumentUtil;
-import org.w3c.dom.Document;
+import org.keymg.sym.model.ekmi.KeyUsePolicyType;
 
 /**
- * <p>
- * Unit Test the {@code KeyGenerator}
- * </p>
+ * A simple file based {@link SymKeyPolicyStore}
  * @author anil@apache.org
- * @since Jun 7, 2010
+ * @since Jul 11, 2011
  */
-public class KeyGeneratorUnitTestCase
-{
-   @Test
-   public void testKeyGen() throws Exception
-   {
-      KeyGenerator gen = new KeyGenerator();
-      gen.setServerID("1");
-      gen.setPolicyStore(new InmemorySymKeyPolicyStore());
-      Document doc = gen.generate( "11111-0-0" );
-      System.out.println( DocumentUtil.asString(doc));
-   } 
+public class FileBasedSymKeyPolicyStore implements SymKeyPolicyStore
+{ 
+   public KeyUsePolicyType getKeyUsePolicy(String keyUsePolicyID)
+   { 
+      return null;
+   }
+
+   public KeyUsePolicyType getDefaultKeyUsePolicy(String domainID)
+   { 
+      return null;
+   }
+
+   public KeyUsePolicyType getKeyUsePolicyForKeyClassType(String keyClassType)
+   { 
+      return null;
+   }
 }

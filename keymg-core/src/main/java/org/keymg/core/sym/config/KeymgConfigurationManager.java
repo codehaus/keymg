@@ -19,13 +19,16 @@ package org.keymg.core.sym.config;
 import java.io.File;
 import java.net.URL;
 import java.security.AccessController;
+import java.security.KeyPair;
 import java.security.PrivilegedAction;
 import java.security.PublicKey;
+import java.security.cert.Certificate;
 
 import org.keymg.core.sym.SymKeyConstants;
 import org.keymg.core.sym.pki.KeyStorePKIManager;
 import org.keymg.core.sym.pki.PKIManager;
 import org.keymg.core.sym.pki.PKIRepositoryException;
+import org.keymg.core.sym.policy.SymKeyPolicyStore;
 import org.keymg.sym.model.ekmi.KeyAlgorithmType;
 import org.keymg.sym.model.ekmi.KeySizeType;
 import org.keymg.sym.model.ekmi.KeyUsePolicyType;
@@ -44,7 +47,7 @@ import org.keymg.sym.model.ekmi.StatusType;
  * @author anil@apache.org
  * @since Jun 7, 2010
  */
-public class KeymgConfigurationManager
+public class KeymgConfigurationManager implements SymKeyPolicyStore,PKIManager
 {   
    private String serverID = "1111";
    
@@ -53,6 +56,8 @@ public class KeymgConfigurationManager
    private int keySize = 256; 
 
    private static PKIManager pkiManager = null;
+   
+   private static SymKeyPolicyStore policyStore = null;
    
    private static KeymgConfigurationManager instance = new KeymgConfigurationManager();
    
@@ -70,6 +75,11 @@ public class KeymgConfigurationManager
       pkiManager = pki; 
    }
    
+   public static void setPolicyStore(SymKeyPolicyStore policyStore)
+   {
+      KeymgConfigurationManager.policyStore = policyStore;
+   }
+
    public String getServerID()
    {
       return serverID;
@@ -111,6 +121,51 @@ public class KeymgConfigurationManager
    
    public PublicKey getPublicKeyForDomain( String domainID ) throws PKIRepositoryException
    {
+      ensureKeyStore();
+      return pkiManager.getPublicKey( domainID );
+   }
+
+   public KeyUsePolicyType getKeyUsePolicy(String keyUsePolicyID)
+   {
+      if(policyStore == null)
+         throw new RuntimeException("Policy Store not set");
+      return policyStore.getKeyUsePolicy(keyUsePolicyID);
+   }
+
+   public KeyUsePolicyType getDefaultKeyUsePolicy(String domainID)
+   {
+      if(policyStore == null)
+         throw new RuntimeException("Policy Store not set");
+      return policyStore.getDefaultKeyUsePolicy(domainID);
+   }
+
+   public KeyUsePolicyType getKeyUsePolicyForKeyClassType(String keyClassType)
+   {
+      if(policyStore == null)
+         throw new RuntimeException("Policy Store not set");
+      return policyStore.getKeyUsePolicyForKeyClassType(keyClassType);
+   }
+
+   public KeyPair getKeyPair(String domainID) throws PKIRepositoryException
+   {
+      ensureKeyStore();
+      return KeymgConfigurationManager.pkiManager.getKeyPair(domainID);
+   }
+
+   public PublicKey getPublicKey(String domainID) throws PKIRepositoryException
+   {
+      ensureKeyStore();
+      return KeymgConfigurationManager.pkiManager.getPublicKey(domainID);
+   }
+
+   public void register(String domainID, Certificate cert) throws PKIRepositoryException
+   {  
+      ensureKeyStore();
+      KeymgConfigurationManager.pkiManager.register(domainID, cert);
+   } 
+   
+   private void ensureKeyStore() throws PKIRepositoryException
+   {
       if( KeymgConfigurationManager.pkiManager == null)
       {
          ClassLoader tccl = AccessController.doPrivileged( new PrivilegedAction<ClassLoader>()
@@ -121,9 +176,11 @@ public class KeymgConfigurationManager
             }
          });
          URL keyStoreURL = tccl.getResource( "keystore/keymg.keystore" );
+         if(keyStoreURL == null)
+            throw new PKIRepositoryException("keyStoreURL is null");
+         
          //Let us build the default KeyStorePKIManager
          pkiManager = new KeyStorePKIManager( new File( keyStoreURL.getPath() ), "keymg$".toCharArray() );
       }
-      return pkiManager.getPublicKey( domainID );
-   } 
+   }
 }

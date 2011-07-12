@@ -71,6 +71,11 @@ public class SymKeyGenUtil
       return Base64.encodeBytesToBytes( encodedBytes );
    }
    
+   /**
+    * Get the default RSA Key Pair
+    * @return
+    * @throws NoSuchAlgorithmException
+    */
    public static KeyPair getRSAKeyPair() throws NoSuchAlgorithmException
    {
       KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance( SymKeyConstants.EncryptionAlgorithms.RSA.get() );  

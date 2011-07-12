@@ -16,21 +16,10 @@
  */
 package org.keymg.api.sym;
  
-import java.security.GeneralSecurityException;
-import java.security.PublicKey;
-import java.util.StringTokenizer;
-
 import org.keymg.api.sym.exceptions.SymKeyGenerationException;
-import org.keymg.core.sym.SymKeyConstants;
+import org.keymg.core.sym.SymKeyProcessor;
 import org.keymg.core.sym.config.KeymgConfigurationManager;
-import org.keymg.core.sym.generators.SymKeyGenerator;
-import org.keymg.core.sym.util.DocumentUtil;
-import org.keymg.core.sym.util.SymKeyGenUtil;
-import org.keymg.sym.model.ekmi.CipherDataType;
-import org.keymg.sym.model.ekmi.EncryptionMethodType;
-import org.keymg.sym.model.ekmi.GlobalKeyIDType;
-import org.keymg.sym.model.ekmi.SymkeyResponse;
-import org.keymg.sym.model.ekmi.SymkeyType;
+import org.keymg.core.sym.policy.SymKeyPolicyStore;
 import org.w3c.dom.Document;
 
 /**
@@ -44,17 +33,31 @@ public class KeyGenerator
 {
    private KeymgConfigurationManager configurationManager = KeymgConfigurationManager.getInstance();
    
-   private static int last = 0;
+   protected String serverID = null;
    
-   /**
-    * This is the last known id generated for the server
-    * @param id
-    */
-   public static void setLastKeyID( int id )
+   protected SymKeyPolicyStore policyStore = null;
+   
+   public String getServerID()
    {
-      last = id;
+      return serverID;
    }
-   
+
+   public void setServerID(String serverID)
+   {
+      this.serverID = serverID;
+   } 
+
+   public SymKeyPolicyStore getPolicyStore()
+   {
+      return policyStore;
+   }
+
+   public void setPolicyStore(SymKeyPolicyStore policyStore)
+   {
+      this.policyStore = policyStore;
+      KeymgConfigurationManager.setPolicyStore(policyStore);
+   }
+
    /**
     * <p>
     * Generate a symmetric key
@@ -63,87 +66,18 @@ public class KeyGenerator
     * @return
     */
    public Document generate( String keyID ) throws SymKeyGenerationException
-   {
+   { 
       if( keyID == null )
          throw new IllegalArgumentException( "keyID is null" );
       
-      //Parse the keyid
-      StringTokenizer stringTokenizer = new StringTokenizer( keyID, "-" );
-      int tokens = stringTokenizer != null ? stringTokenizer.countTokens() : 0;
-
-      if( tokens == 0 )
-         throw new RuntimeException( "Invalid key id" + keyID );
-
-      if( tokens != 3 )
-         throw new RuntimeException( keyID + " needs 3 parts" );
-
-
-      SymkeyResponse response = new SymkeyResponse();
+      if( serverID == null )
+         throw new IllegalArgumentException( "serverID is null" );
       
-      String tokenPart1 = stringTokenizer.nextToken();
-      String domainID = tokenPart1;
-      if( tokenPart1.equals( domainID ) == false )
-         throw new IllegalArgumentException( "Domain ID of " + tokenPart1 + " does not match with expected " + domainID );
-      String tokenPart2 = stringTokenizer.nextToken();
-      String tokenPart3 = stringTokenizer.nextToken();
-
-      if( tokenPart2.equals( "0") && tokenPart3.equals( "0") )
-      {
-         //new key request
-         SymKeyGenerator symKeyGenerator = new SymKeyGenerator();
-         try
-         {
-            String keyAlgorithm = SymKeyConstants.AES_ALGORITHM_URI;
-            byte[] symmetricKey = symKeyGenerator.generate( keyAlgorithm );
-            
-            PublicKey publicKey = configurationManager.getPublicKeyForDomain( domainID );
-            
-            if( publicKey == null )
-               throw new IllegalStateException( "no public key found for domain id:" + domainID );
-            
-            byte[] encryptedKey = symKeyGenerator.encrypt( symmetricKey, publicKey, keyAlgorithm );  
-            
-            String base64EncodedKey = SymKeyGenUtil.base64EncodeSymmetricKeyAsString( encryptedKey ); 
-            
-            CipherDataType cipherDataType = new CipherDataType();
-            cipherDataType.setCipherValue(base64EncodedKey);
-            
-            SymkeyType symKey = new SymkeyType();
-            symKey.setEncryptionMethod( EncryptionMethodType.RSA );
-            symKey.setCipherData( cipherDataType );
-            
-            symKey.setGlobalKeyID( getGlobalKey( domainID ) ); 
-            
-            symKey.setKeyUsePolicy( configurationManager.getKeyUsePolicyType() ); 
-            response.add( symKey );
-         }
-         catch (GeneralSecurityException e)
-         {
-            throw new SymKeyGenerationException( e );
-         }
-      } 
+      if( policyStore == null )
+         throw new IllegalArgumentException( "policyStore is null" );
       
-      String responseAsString = response.toString();
-      try
-      {
-         return DocumentUtil.create(responseAsString);
-      }
-      catch ( Exception e )
-      {
-         throw new SymKeyGenerationException( e );
-      }  
-   }
-
-   public Document generate( String keyID, String keyClass )
-   {
-      throw new RuntimeException( "NYI" );
-   }
-   
-   private GlobalKeyIDType getGlobalKey( String domainID )
-   {
-      StringBuilder builder = new StringBuilder();
-      builder.append( domainID ).append( "-" ).append( configurationManager.getServerID() );
-      builder.append("-").append( ++last );
-      return new GlobalKeyIDType( builder.toString() );
-   }
+      SymKeyProcessor processor = new SymKeyProcessor(configurationManager); 
+      processor.setServerID(serverID); 
+      return processor.generate(keyID); 
+   } 
 }
