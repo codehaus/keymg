@@ -17,6 +17,85 @@
 package org.keymg.sym.model.ekmi;
 
 /**
+ * =========
+ * 
+ <xsd:complexType name="KeyUsePolicyType" mixed="true">
+        <xsd:annotation>
+            <xsd:documentation>
+                The KeyUsePolicyType document is returned as part of the 
+                response to a request for a symmetric key from a Symmetric 
+                Key Services (SKS) server.  The KUP tells the client how 
+                it must use the associated symmetric key.  At least one
+                permission-type will provide the policy definition.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="KeyUsePolicyID" type="tns:TwoPartIDType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The unique Policy ID of the KeyUsePolicy is a 
+                        concatenation of the DomainID and the unique 
+                        key-use policy ID within that domain.  It is 
+                        a 41-byte ASCII decimal value.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="PolicyName">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The name of the KeyUsePolicy, as defined by the
+                        enterprise running this Symmetric Key Management
+                        System (SKMS).
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="255"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="KeyClass" type="tns:KeyClassType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A user-defined class for keys generated with this 
+                        KeyUsePolicy.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="KeyAlgorithm" type="tns:EncryptionAlgorithmType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The type of algorithm used by this symmetric key policy.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="KeySize" type="tns:KeySizeType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The size of the symmetric encryption  key.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Status" type="tns:StatusType">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        An indicator if the KeyUsePolicy is currently "Active",
+                        "Default", "Inactive" or "Other".
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Permissions" type="tns:PermissionsType" minOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The permissions that define the policy for how this
+                        symmetric key may be used.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    ==================================
+    
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
