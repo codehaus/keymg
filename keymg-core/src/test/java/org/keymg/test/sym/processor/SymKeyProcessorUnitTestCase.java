@@ -29,6 +29,7 @@ import org.keymg.core.sym.policy.InmemorySymKeyPolicyStore;
 import org.keymg.sym.model.ekmi.SymkeyRequest;
 
 /**
+ * Unit test the {@link SymKeyProcessor}
  * @author anil@apache.org
  * @since Jul 11, 2011
  */
