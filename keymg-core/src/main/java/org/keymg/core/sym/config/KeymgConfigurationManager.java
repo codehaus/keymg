@@ -18,9 +18,7 @@ package org.keymg.core.sym.config;
 
 import java.io.File;
 import java.net.URL;
-import java.security.AccessController;
 import java.security.KeyPair;
-import java.security.PrivilegedAction;
 import java.security.PublicKey;
 import java.security.cert.Certificate;
 
@@ -167,15 +165,8 @@ public class KeymgConfigurationManager implements SymKeyPolicyStore,PKIManager
    private void ensureKeyStore() throws PKIRepositoryException
    {
       if( KeymgConfigurationManager.pkiManager == null)
-      {
-         ClassLoader tccl = AccessController.doPrivileged( new PrivilegedAction<ClassLoader>()
-         {
-            public ClassLoader run()
-            {
-               return Thread.currentThread().getContextClassLoader();
-            }
-         });
-         URL keyStoreURL = tccl.getResource( "keystore/keymg.keystore" );
+      { 
+         URL keyStoreURL = SecurityActions.loadResource(getClass(),  "keystore/keymg.keystore" );
          if(keyStoreURL == null)
             throw new PKIRepositoryException("keyStoreURL is null");
          
