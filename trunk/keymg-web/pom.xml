@@ -43,6 +43,17 @@
        <artifactId>junit</artifactId>
        <scope>test</scope>
      </dependency>
+     <dependency>
+       <groupId>httpunit</groupId>
+       <artifactId>httpunit</artifactId>
+       <version>1.7</version>
+       <scope>test</scope>
+     </dependency>
+     <dependency>
+        <groupId>rhino</groupId>
+        <artifactId>js</artifactId>
+        <version>1.7R2</version>
+        <scope>test</scope>
+      </dependency>
    </dependencies>
-
 </project>
