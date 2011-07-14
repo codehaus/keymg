@@ -27,7 +27,9 @@ public interface SymKeyConstants
 	String EKMI_NAMESPACE_URI = "http://docs.oasis-open.org/ekmi/2008/01";  
 	String AES_ALGORITHM_URI = "http://www.w3.org/2001/04/xmlenc#aes256-cbc";
 	String TRIPLE_DES_ALGORITHM_URI = "http://www.w3.org/2001/04/xmlenc#tripledes-cbc";
-	
+    String XENC_NAMESPACE_URI = "http://www.w3.org/2001/04/xmlenc#"; 
+    String XSI_NAMESPACE_URI = "http://www.w3.org/2001/XMLSchema-instance";
+    
 	String ALGORITHM = "Algorithm";
 	String ANY = "any";
 	String APPLICATION_ID = "ApplicationID";
@@ -57,7 +59,9 @@ public interface SymKeyConstants
     String KEY_CACHE_POLICY_RESPONSE = "KeyCachePolicyResponse";
 	String KEY_CACHE_POLICY_ID = "KeyCachePolicyID";
 	
-	String MAXIMUM_KEYS = "MaximumKeys";
+    String LOCATION_NAME = "LocationName";
+	
+    String MAXIMUM_KEYS = "MaximumKeys";
 	String MAXIMUM_DURATION = "MaximumDuration";
 	
 	String NEW_KEYS_CACHE_DETAIL = "NewKeysCacheDetail";
@@ -69,14 +73,19 @@ public interface SymKeyConstants
 	String PERMITTED_DATES = "PermittedDates";
 	String PERMITTED_DAYS = "PermittedDays";
 	String PERMITTED_DURATION = "PermittedDuration";
+    String PERMITTED_LEVEL = "PermittedLevel";
 	String PERMITTED_LEVELS = "PermittedLevels";
+    String PERMITTED_LOCATION = "PermittedLocation";
 	String PERMITTED_LOCATIONS = "PermittedLocations";
 	String PERMITTED_NUMBER_OF_TRANSACTIONS = "PermittedNumberOfTransactions";
 	String PERMITTED_TIMES = "PermittedTimes";
 	String PERMITTED_TIME = "PermittedTime";
+    String PERMITTED_USE = "PermittedUse";
 	String PERMITTED_USES = "PermittedUses";
 	String POLICY_NAME = "PolicyName";
 	String POLICY_CHECK_INTERVAL = "PolicyCheckInterval";
+	
+	String PREFIX = "ekmi";
 	
 	String START_DATE = "StartDate";
 	String START_TIME = "StartTime";
@@ -97,6 +106,15 @@ public interface SymKeyConstants
 	String USED_KEYS_CACHE_DETAIL = "UsedKeysCacheDetail";
 	
 	String X509_ENCRYPTION_CERT = "X509EncryptionCertificate";
+	
+	String XENC_PREFIX = "xenc";
+    String XSI_PREFIX = "xsi";
+    
+    public interface XENCConstants
+    {
+       String CIPHER_DATA = "CipherData";
+       String CIPHER_VALUE = "CipherValue";
+    }
 	
 	public enum QNameConstants
 	{

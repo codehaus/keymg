@@ -18,15 +18,8 @@ package org.keymg.sym.model.ekmi;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementRefs;
-import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -82,23 +75,11 @@ import javax.xml.bind.annotation.XmlType;
  */
 public class PermittedLocationsType {
 
-    protected List<PermittedLocationsType.PermittedLocation> permittedLocation;
+    protected List<PermittedLocationsType.PermittedLocation> permittedLocation = new ArrayList<PermittedLocationsType.PermittedLocation>();
     protected String any;
 
     /**
-     * Gets the value of the permittedLocation property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the permittedLocation property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getPermittedLocation().add(newItem);
-     * </pre>
+     * Gets the value of the permittedLocation property. 
      * 
      * 
      * <p>
@@ -107,11 +88,18 @@ public class PermittedLocationsType {
      * 
      * 
      */
-    public List<PermittedLocationsType.PermittedLocation> getPermittedLocation() {
-        if (permittedLocation == null) {
-            permittedLocation = new ArrayList<PermittedLocationsType.PermittedLocation>();
-        }
-        return this.permittedLocation;
+    public List<PermittedLocationsType.PermittedLocation> getPermittedLocation() {  
+        return Collections.unmodifiableList(this.permittedLocation);
+    }
+    
+    public void addPermittedLocation(PermittedLocation pl)
+    {
+       permittedLocation.add(pl);
+    }
+    
+    public boolean removePermittedLocation(PermittedLocation pl)
+    {
+       return permittedLocation.remove(pl);
     }
 
     /**
@@ -166,25 +154,18 @@ public class PermittedLocationsType {
      * </pre>
      * 
      * 
-     */
-    @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "", propOrder = {
-        "locationName",
-        "locationCoordinateGroup",
-        "other"
-    })
+     */ 
     public static class PermittedLocation {
-
-        @XmlElement(name = "LocationName", required = true)
+ 
         protected String locationName;
-        @XmlElementRefs({
-            @XmlElementRef(name = "Latitude", namespace = "http://docs.oasis-open.org/ekmi/2008/01", type = JAXBElement.class),
-            @XmlElementRef(name = "Longitude", namespace = "http://docs.oasis-open.org/ekmi/2008/01", type = JAXBElement.class)
-        })
-        protected List<JAXBElement<BigDecimal>> locationCoordinateGroup;
-        @XmlElement(name = "Other")
+         
+        protected List<BigDecimal> locationCoordinateGroup = new ArrayList<BigDecimal>(); 
         protected Object other;
 
+        public void addLocationCoordinationGroup(BigDecimal lcg)
+        {
+           locationCoordinateGroup.add(lcg);
+        }
         /**
          * Gets the value of the locationName property.
          * 
@@ -211,32 +192,10 @@ public class PermittedLocationsType {
 
         /**
          * Gets the value of the locationCoordinateGroup property.
-         * 
-         * <p>
-         * This accessor method returns a reference to the live list,
-         * not a snapshot. Therefore any modification you make to the
-         * returned list will be present inside the JAXB object.
-         * This is why there is not a <CODE>set</CODE> method for the locationCoordinateGroup property.
-         * 
-         * <p>
-         * For example, to add a new item, do as follows:
-         * <pre>
-         *    getLocationCoordinateGroup().add(newItem);
-         * </pre>
-         * 
-         * 
-         * <p>
-         * Objects of the following type(s) are allowed in the list
-         * {@link JAXBElement }{@code <}{@link BigDecimal }{@code >}
-         * {@link JAXBElement }{@code <}{@link BigDecimal }{@code >}
-         * 
-         * 
+         *    
          */
-        public List<JAXBElement<BigDecimal>> getLocationCoordinateGroup() {
-            if (locationCoordinateGroup == null) {
-                locationCoordinateGroup = new ArrayList<JAXBElement<BigDecimal>>();
-            }
-            return this.locationCoordinateGroup;
+        public List<BigDecimal> getLocationCoordinateGroup() { 
+            return Collections.unmodifiableList(this.locationCoordinateGroup);
         }
 
         /**
@@ -262,7 +221,5 @@ public class PermittedLocationsType {
         public void setOther(Object value) {
             this.other = value;
         }
-
-    }
-
+    } 
 }

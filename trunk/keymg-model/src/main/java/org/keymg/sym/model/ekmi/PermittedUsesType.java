@@ -18,9 +18,8 @@ package org.keymg.sym.model.ekmi;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import javax.xml.bind.JAXBElement;
 
 
 /**
@@ -55,38 +54,20 @@ import javax.xml.bind.JAXBElement;
  */ 
 public class PermittedUsesType {
 
-    protected List<Serializable> content;
+    protected List<Serializable> content = new ArrayList<Serializable>();
     protected String any;
 
     /**
      * Gets the value of the content property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the content property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getContent().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * {@link JAXBElement }{@code <}{@link Object }{@code >}
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link String } 
      * 
      * 
      */
-    public List<Serializable> getContent() {
-        if (content == null) {
-            content = new ArrayList<Serializable>();
-        }
-        return this.content;
+    public List<Serializable> getContent() {  
+        return Collections.unmodifiableList(this.content);
     }
 
     /**
@@ -112,5 +93,4 @@ public class PermittedUsesType {
     public void setAny(String value) {
         this.any = value;
     }
-
 }
