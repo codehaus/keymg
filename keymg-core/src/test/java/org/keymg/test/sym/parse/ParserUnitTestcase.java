@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.keymg.core.sym.parse.Parser;
+import org.keymg.core.sym.writers.SymkeyWriter;
 import org.keymg.sym.model.ekmi.ApplicationsType;
 import org.keymg.sym.model.ekmi.EncryptionMethodType;
 import org.keymg.sym.model.ekmi.KeyCacheDetailType;
@@ -77,6 +78,9 @@ public class ParserUnitTestcase
 		assertTrue(parsed instanceof SymkeyRequest);
 		SymkeyRequest symKeyRequest = (SymkeyRequest) parsed;
 		assertEquals("10514-0-0", symKeyRequest.getGlobalKeyID().get(0));
+		
+		SymkeyWriter writer = new SymkeyWriter(System.out);
+		writer.write(symKeyRequest);
 	}
 	
 	@Test
@@ -99,6 +103,9 @@ public class ParserUnitTestcase
 		assertEquals( 1, keyClassTypeArr.length );
 		KeyClassType keyClassType = keyClassTypeArr[0];
 		assertEquals( "HR-Class", keyClassType.getValue());
+		
+        SymkeyWriter writer = new SymkeyWriter(System.out);
+        writer.write(symKeyRequest);
 	}
 
 	@Test
@@ -193,6 +200,9 @@ public class ParserUnitTestcase
 		//PermittedUses
 		PermittedUsesType permittedUses = permissionsType.getPermittedUses();
 		assertNotNull( permittedUses );
+
+        SymkeyWriter writer = new SymkeyWriter(System.out);
+        writer.write(resp);
 	}
 
 	@Test
@@ -237,6 +247,10 @@ public class ParserUnitTestcase
        assertTrue(list.contains(new KeyClassType("EHR-NUR")));
        assertTrue(list.contains(new KeyClassType("EHR-PAT")));
        assertTrue(list.contains(new KeyClassType("EHR-PHY")));
+       
+
+       SymkeyWriter writer = new SymkeyWriter(System.out);
+       writer.write(symKeyReq);
 	}
 	
 	@Test

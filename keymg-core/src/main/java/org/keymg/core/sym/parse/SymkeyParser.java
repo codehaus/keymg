@@ -30,6 +30,7 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
 import org.keymg.core.sym.SymKeyConstants;
+import org.keymg.sym.model.ekmi.CipherDataType;
 import org.keymg.sym.model.ekmi.EncryptionMethodType;
 import org.keymg.sym.model.ekmi.GlobalKeyIDType;
 import org.keymg.sym.model.ekmi.SymkeyErrorType;
@@ -129,6 +130,18 @@ public class SymkeyParser implements XMLParser
                   {
                      KeyUsePolicyParser keyUsePolicyParser = new KeyUsePolicyParser();
                      keyUsePolicyParser.handle(xmlEventReader, xmlEvent, symKey); 
+                  }
+                  else if( SymKeyConstants.XENCConstants.CIPHER_DATA.equals( localPart ))
+                  {
+                     CipherDataType cipherData = new CipherDataType();
+                     do
+                     {
+                        xmlEvent = xmlEventReader.nextEvent();
+                     }
+                     while(xmlEvent instanceof StartElement == false);
+                     
+                     cipherData.setCipherValue(xmlEventReader.getElementText());
+                     symKey.setCipherData(cipherData);
                   }
                   break;
 
