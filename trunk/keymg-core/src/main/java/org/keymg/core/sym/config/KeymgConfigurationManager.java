@@ -21,12 +21,16 @@ import java.net.URL;
 import java.security.KeyPair;
 import java.security.PublicKey;
 import java.security.cert.Certificate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.keymg.core.sym.SymKeyConstants;
 import org.keymg.core.sym.pki.KeyStorePKIManager;
 import org.keymg.core.sym.pki.PKIManager;
 import org.keymg.core.sym.pki.PKIRepositoryException;
 import org.keymg.core.sym.policy.SymKeyPolicyStore;
+import org.keymg.core.sym.store.KeyStorage;
+import org.keymg.core.sym.store.KeyStorageException;
 import org.keymg.sym.model.ekmi.KeyAlgorithmType;
 import org.keymg.sym.model.ekmi.KeySizeType;
 import org.keymg.sym.model.ekmi.KeyUsePolicyType;
@@ -45,8 +49,10 @@ import org.keymg.sym.model.ekmi.StatusType;
  * @author anil@apache.org
  * @since Jun 7, 2010
  */
-public class KeymgConfigurationManager implements SymKeyPolicyStore,PKIManager
+public class KeymgConfigurationManager implements SymKeyPolicyStore,PKIManager,KeyStorage
 {   
+   private static Logger log = Logger.getLogger(KeymgConfigurationManager.class.getName());
+   
    private String serverID = "1111";
    
    private String keyAlgorithm = SymKeyConstants.AES_ALGORITHM_URI;
@@ -56,6 +62,8 @@ public class KeymgConfigurationManager implements SymKeyPolicyStore,PKIManager
    private static PKIManager pkiManager = null;
    
    private static SymKeyPolicyStore policyStore = null;
+   
+   private static KeyStorage keyStorage = null;
    
    private static KeymgConfigurationManager instance = new KeymgConfigurationManager();
    
@@ -73,9 +81,44 @@ public class KeymgConfigurationManager implements SymKeyPolicyStore,PKIManager
       pkiManager = pki; 
    }
    
+   public static void setUp()
+   {
+      if(KeymgConfigurationManager.keyStorage == null)
+      {
+         log.log(Level.WARNING, "setUp called without a key storage");
+         return; 
+      }
+      
+      try
+      {
+         KeymgConfigurationManager.keyStorage.initialize();
+      }
+      catch (KeyStorageException e)
+      {
+         log.log(Level.WARNING, "Cannot initialize key storage:", e); 
+      }
+   }
+   
+   public static void destroy()
+   {
+      try
+      {
+         KeymgConfigurationManager.keyStorage.shutdown();
+      }
+      catch (KeyStorageException e)
+      { 
+         log.log(Level.WARNING, "Cannot shutdown key storage:", e); 
+      }
+   }
+   
    public static void setPolicyStore(SymKeyPolicyStore policyStore)
    {
       KeymgConfigurationManager.policyStore = policyStore;
+   }
+   
+   public static void setKeyStorage(KeyStorage keyStorage)
+   {
+      KeymgConfigurationManager.keyStorage = keyStorage;
    }
 
    public String getServerID()
@@ -160,7 +203,35 @@ public class KeymgConfigurationManager implements SymKeyPolicyStore,PKIManager
    {  
       ensureKeyStore();
       KeymgConfigurationManager.pkiManager.register(domainID, cert);
-   } 
+   }
+
+   public void initialize() throws KeyStorageException
+   { 
+      if(KeymgConfigurationManager.keyStorage == null)
+         throw new KeyStorageException("Key Storage has not been set");
+      KeymgConfigurationManager.keyStorage.initialize();
+   }
+
+   public boolean store(byte[] symmetricKey, String globalKeyID) throws KeyStorageException
+   { 
+      if(KeymgConfigurationManager.keyStorage == null)
+         throw new KeyStorageException("Key Storage has not been set");
+      return KeymgConfigurationManager.keyStorage.store(symmetricKey, globalKeyID);
+   }
+
+   public byte[] retrieve(String globalKeyID) throws KeyStorageException
+   { 
+      if(KeymgConfigurationManager.keyStorage == null)
+         throw new KeyStorageException("Key Storage has not been set");
+      return KeymgConfigurationManager.keyStorage.retrieve(globalKeyID);
+   }
+
+   public void shutdown() throws KeyStorageException
+   { 
+      if(KeymgConfigurationManager.keyStorage == null)
+         throw new KeyStorageException("Key Storage has not been set");
+      KeymgConfigurationManager.keyStorage.shutdown();
+   }
    
    private void ensureKeyStore() throws PKIRepositoryException
    {

@@ -32,6 +32,8 @@ import org.keymg.core.sym.config.KeymgConfigurationManager;
 import org.keymg.core.sym.parse.Parser;
 import org.keymg.core.sym.policy.InmemorySymKeyPolicyStore;
 import org.keymg.core.sym.policy.SymKeyPolicyStore;
+import org.keymg.core.sym.store.KeyStorage;
+import org.keymg.core.sym.store.SimpleFileBasedKeyStorage;
 import org.keymg.core.sym.util.DocumentUtil;
 import org.keymg.sym.model.ekmi.SymkeyRequest;
 import org.w3c.dom.Document;
@@ -88,6 +90,23 @@ public class KeymgServlet extends HttpServlet
          serverID = serverIDStr;
       }
       
+      ///Set the Key Storage
+      KeyStorage keyStorage = new SimpleFileBasedKeyStorage();
+      String keyStorageStr = config.getInitParameter("keyStorage");
+      if(keyStorageStr != null && !keyStorageStr.isEmpty())
+      {
+         try
+         {
+            keyStorage = (KeyStorage) SecurityActions.load(getClass(), keyStorageStr).newInstance();
+            KeymgConfigurationManager.setKeyStorage(keyStorage);
+            keyStorage.initialize();
+         }
+         catch (Exception e)
+         {
+            throw new ServletException(e);
+         } 
+      }
+      
       processor = new SymKeyProcessor(configManager);
       processor.setServerID(serverID);
    }
@@ -129,8 +148,16 @@ public class KeymgServlet extends HttpServlet
       {
          os.write(ch);
       }
-   } 
+   }  
    
+   @Override
+   public void destroy()
+   { 
+      //Shut down the key storage
+      KeymgConfigurationManager.destroy();
+      super.destroy();
+   }
+
    protected Document decrypt(Document doc)
    {
       return doc;

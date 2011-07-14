@@ -53,14 +53,14 @@ public class SymmetricKeyUnitTestCase
       KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance( SymKeyConstants.EncryptionAlgorithms.RSA.get() );  
       KeyPair keyPair = keyPairGenerator.generateKeyPair();
       
-      byte[] encryptedKey = generator.encrypt( key, keyPair.getPublic(), keyAlgorithm );  
+      byte[] encryptedKey = generator.encrypt( key, keyPair.getPublic() );  
     
       byte[] base64EncodedEncryptedKey = Base64.encodeBytesToBytes( encryptedKey );
       byte[] base64DecodedEncryptedKey = Base64.decode( base64EncodedEncryptedKey );
       
       assertArrayEquals( encryptedKey , base64DecodedEncryptedKey );
       
-      byte[] unencryptedKey = generator.decrypt( encryptedKey, keyPair.getPrivate(), keyAlgorithm );  
+      byte[] unencryptedKey = generator.decrypt( encryptedKey, keyPair.getPrivate() );  
       
       assertArrayEquals( key, unencryptedKey ); 
    }

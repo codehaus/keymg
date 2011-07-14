@@ -246,8 +246,7 @@ public class ParserUnitTestcase
        assertTrue(list.contains(new KeyClassType("EHR-INS")));
        assertTrue(list.contains(new KeyClassType("EHR-NUR")));
        assertTrue(list.contains(new KeyClassType("EHR-PAT")));
-       assertTrue(list.contains(new KeyClassType("EHR-PHY")));
-       
+       assertTrue(list.contains(new KeyClassType("EHR-PHY"))); 
 
        SymkeyWriter writer = new SymkeyWriter(System.out);
        writer.write(symKeyReq);

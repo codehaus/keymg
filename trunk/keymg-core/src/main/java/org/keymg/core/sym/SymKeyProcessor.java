@@ -168,7 +168,7 @@ public class SymKeyProcessor
             if( publicKey == null )
                throw new IllegalStateException( "no public key found for domain id:" + domainID );
             
-            byte[] encryptedKey = symKeyGenerator.encrypt( symmetricKey, publicKey, keyAlgorithm );  
+            byte[] encryptedKey = symKeyGenerator.encrypt( symmetricKey, publicKey );  
             
             String base64EncodedKey = SymKeyGenUtil.base64EncodeSymmetricKeyAsString( encryptedKey ); 
             
