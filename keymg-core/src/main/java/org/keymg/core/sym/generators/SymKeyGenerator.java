@@ -47,7 +47,7 @@ public class SymKeyGenerator
       return secretKey.getEncoded(); 
    }
    
-   public byte[] encrypt( byte[] secretKey, Key publicKey, String keyAlgorithm ) throws GeneralSecurityException
+   public byte[] encrypt( byte[] secretKey, Key publicKey) throws GeneralSecurityException
    {
       Cipher cipher = null;
       byte[] encryptedKey = null;
@@ -61,7 +61,7 @@ public class SymKeyGenerator
       return encryptedKey; 
    }
    
-   public byte[] decrypt( byte[] encryptedKey, Key privateKey, String keyAlgorithm ) throws GeneralSecurityException 
+   public byte[] decrypt( byte[] encryptedKey, Key privateKey ) throws GeneralSecurityException 
    {
       Cipher cipher = null;
       byte[] key = null;
