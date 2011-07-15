@@ -30,6 +30,7 @@ import javax.xml.stream.XMLStreamException;
 import org.keymg.core.sym.SymKeyProcessor;
 import org.keymg.core.sym.config.KeymgConfigurationManager;
 import org.keymg.core.sym.parse.Parser;
+import org.keymg.core.sym.pki.PKIManager;
 import org.keymg.core.sym.policy.InmemorySymKeyPolicyStore;
 import org.keymg.core.sym.policy.SymKeyPolicyStore;
 import org.keymg.core.sym.store.KeyStorage;
@@ -90,7 +91,7 @@ public class KeymgServlet extends HttpServlet
          serverID = serverIDStr;
       }
       
-      ///Set the Key Storage
+      //Set the Key Storage
       KeyStorage keyStorage = new SimpleFileBasedKeyStorage();
       String keyStorageStr = config.getInitParameter("keyStorage");
       if(keyStorageStr != null && !keyStorageStr.isEmpty())
@@ -108,6 +109,32 @@ public class KeymgServlet extends HttpServlet
       {
          KeymgConfigurationManager.setKeyStorage(keyStorage);
          keyStorage.initialize();
+      }
+      catch(Exception e )
+      {
+         throw new ServletException(e);
+      }
+      
+      //Set the pkiManager
+      PKIManager pkiManager = null;
+      String pkiManagerStr = config.getInitParameter("pkiManager");
+      if(pkiManagerStr != null && !pkiManagerStr.isEmpty())
+      {
+         try
+         {
+            pkiManager = (PKIManager) SecurityActions.load(getClass(), pkiManagerStr).newInstance(); 
+         }
+         catch (Exception e)
+         {
+            throw new ServletException(e);
+         } 
+      }
+      try
+      {
+         if(pkiManager != null)
+         {
+            KeymgConfigurationManager.setPKIManager(pkiManager);
+         } 
       }
       catch(Exception e )
       {
