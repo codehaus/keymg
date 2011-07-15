@@ -40,6 +40,9 @@ class SecurityActions
                clazz = cl.loadClass(fqn);
             }
             catch(Exception e)
+            { 
+            }
+            if(cl == null)
             {
                cl = Thread.currentThread().getContextClassLoader();
                try
@@ -68,6 +71,9 @@ class SecurityActions
                url = cl.getResource(fqn);
             }
             catch(Exception e)
+            { 
+            }
+            if(url == null)
             {
                cl = Thread.currentThread().getContextClassLoader();
                try

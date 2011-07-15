@@ -16,6 +16,7 @@
  */
 package org.keymg.core.sym.store;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,9 +40,9 @@ public class SimpleFileBasedKeyStorage implements KeyStorage
    
    private KeyEntry keys = null;
 
-   private String fileName = "store/keystore.dat";
+   private String fileName = "keystore.dat";
 
-   public boolean store(byte[] symmetricKey, String globalKeyID) throws KeyStorageException
+   public synchronized boolean store(byte[] symmetricKey, String globalKeyID) throws KeyStorageException
    {
       keys.store(symmetricKey, globalKeyID);
       return true;
@@ -54,17 +55,24 @@ public class SimpleFileBasedKeyStorage implements KeyStorage
 
    public void initialize() throws KeyStorageException
    {  
-      URL storedFile = SecurityActions.loadResource(getClass(), "store/keystore.dat");
-      if(storedFile == null)
+      File theFile = new File(fileName);
+      if(theFile.exists() == false)
       {
-         keys = new KeyEntry();
-         return;
+         URL storedFile = SecurityActions.loadResource(getClass(), fileName);
+         if(storedFile == null)
+         {
+            keys = new KeyEntry();
+            return;
+         } 
       } 
       FileInputStream fis = null;
       ObjectInputStream in = null;
       try
       {
-         fis = new FileInputStream(fileName);
+         
+         if( theFile != null)
+            fis = new FileInputStream(theFile); 
+         
          in = new ObjectInputStream(fis);
          keys = (KeyEntry)in.readObject();
          in.close();
@@ -82,12 +90,25 @@ public class SimpleFileBasedKeyStorage implements KeyStorage
    }
 
    public void shutdown() throws KeyStorageException
-   {    
+   {  
+      File file = new File(fileName);
+      if(file.exists() == false)
+      {
+         try
+         {
+            file.createNewFile(); 
+         }
+         catch (IOException e)
+         { 
+            throw new KeyStorageException(e);
+         }
+      }
+      
       FileOutputStream fos = null;
       ObjectOutputStream out = null;
       try
-      {
-         fos = new FileOutputStream(fileName);
+      { 
+         fos = new FileOutputStream(file);
          out = new ObjectOutputStream(fos);
          out.writeObject(keys);
          out.close();

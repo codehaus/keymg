@@ -23,6 +23,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.InputStream;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.keymg.core.sym.parse.Parser;
@@ -56,14 +57,21 @@ public class KeymgServletUnitTestCase
    public void setup() throws Exception
    {
       servletRunner = new ServletRunner();
-      servletRunner.registerServlet("/keymg", KeymgServlet.class.getName());
+      servletRunner.registerServlet("/keymg", KeymgServlet.class.getName()); 
       HttpUnitOptions.setScriptingEnabled(false); //Disable JS 
+   }
+   
+   @After
+   public void destroy() throws Exception
+   {
+      servletRunner.shutDown();
    }
    
    @Test
    public void testSymReq() throws Exception
    {
       ServletUnitClient sc = servletRunner.newClient();
+      
  
       InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(request);
       assertNotNull(is);

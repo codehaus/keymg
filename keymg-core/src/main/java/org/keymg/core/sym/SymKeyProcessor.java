@@ -21,6 +21,7 @@ import java.security.PublicKey;
 import java.util.List;
 import java.util.StringTokenizer;
  
+import org.keymg.core.sym.config.KeymgConfigurationManager;
 import org.keymg.core.sym.generators.SymKeyGenerator;
 import org.keymg.core.sym.pki.PKIManager;
 import org.keymg.core.sym.policy.SymKeyPolicyStore;
@@ -158,6 +159,11 @@ public class SymKeyProcessor
             String keyAlgorithm = SymKeyConstants.AES_ALGORITHM_URI;
             byte[] symmetricKey = symKeyGenerator.generate( keyAlgorithm );
             
+            GlobalKeyIDType finalGlobalID = getGlobalKey(domainID);
+            
+            //Store the Key
+            KeymgConfigurationManager.getInstance().store(symmetricKey, finalGlobalID.getValue());
+            
             PublicKey publicKey = null;
             
             if(policyStore instanceof PKIManager)
@@ -179,7 +185,7 @@ public class SymKeyProcessor
             symKey.setEncryptionMethod( EncryptionMethodType.RSA );
             symKey.setCipherData( cipherDataType );
             
-            symKey.setGlobalKeyID( getGlobalKey( domainID ) ); 
+            symKey.setGlobalKeyID( finalGlobalID ); 
             
             symKey.setKeyUsePolicy( policyStore.getDefaultKeyUsePolicy(domainID) ); 
             response.add( symKey );
