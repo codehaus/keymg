@@ -97,14 +97,21 @@ public class KeymgServlet extends HttpServlet
       {
          try
          {
-            keyStorage = (KeyStorage) SecurityActions.load(getClass(), keyStorageStr).newInstance();
-            KeymgConfigurationManager.setKeyStorage(keyStorage);
-            keyStorage.initialize();
+            keyStorage = (KeyStorage) SecurityActions.load(getClass(), keyStorageStr).newInstance(); 
          }
          catch (Exception e)
          {
             throw new ServletException(e);
          } 
+      }
+      try
+      {
+         KeymgConfigurationManager.setKeyStorage(keyStorage);
+         keyStorage.initialize();
+      }
+      catch(Exception e )
+      {
+         throw new ServletException(e);
       }
       
       processor = new SymKeyProcessor(configManager);

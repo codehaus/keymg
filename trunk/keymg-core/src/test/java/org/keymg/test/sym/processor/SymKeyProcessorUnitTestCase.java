@@ -26,6 +26,8 @@ import org.keymg.core.sym.SymKeyProcessor;
 import org.keymg.core.sym.config.KeymgConfigurationManager;
 import org.keymg.core.sym.parse.Parser;
 import org.keymg.core.sym.policy.InmemorySymKeyPolicyStore;
+import org.keymg.core.sym.store.KeyStorage;
+import org.keymg.core.sym.store.SimpleFileBasedKeyStorage;
 import org.keymg.sym.model.ekmi.SymkeyRequest;
 
 /**
@@ -49,10 +51,16 @@ public class SymKeyProcessorUnitTestCase
       SymkeyRequest symKeyRequest = (SymkeyRequest) parsed;
       
       KeymgConfigurationManager configManager = KeymgConfigurationManager.getInstance();
+      KeyStorage keyStorage = new SimpleFileBasedKeyStorage();
+      KeymgConfigurationManager.setKeyStorage(keyStorage);
+      configManager.initialize();
+      
       InmemorySymKeyPolicyStore store = new InmemorySymKeyPolicyStore();
       KeymgConfigurationManager.setPolicyStore(store);
       SymKeyProcessor processor = new SymKeyProcessor(configManager);
       processor.setServerID("1");
       processor.process(symKeyRequest);
+      
+      configManager.shutdown();
    }
 }

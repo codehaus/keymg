@@ -16,9 +16,14 @@
  */
 package org.keymg.test.api.sym;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.keymg.api.sym.KeyGenerator;
+import org.keymg.core.sym.config.KeymgConfigurationManager;
 import org.keymg.core.sym.policy.InmemorySymKeyPolicyStore;
+import org.keymg.core.sym.store.KeyStorage;
+import org.keymg.core.sym.store.SimpleFileBasedKeyStorage;
 import org.keymg.core.sym.util.DocumentUtil;
 import org.w3c.dom.Document;
 
@@ -31,6 +36,21 @@ import org.w3c.dom.Document;
  */
 public class KeyGeneratorUnitTestCase
 {
+   @Before
+   public void setup() throws Exception
+   {
+      KeyStorage keyStorage = new SimpleFileBasedKeyStorage();
+      KeymgConfigurationManager.setKeyStorage(keyStorage);
+      
+      KeymgConfigurationManager.getInstance().initialize();
+   }
+   
+   @After
+   public void destroy() throws Exception
+   {
+      KeymgConfigurationManager.getInstance().shutdown();
+   }
+   
    @Test
    public void testKeyGen() throws Exception
    {
