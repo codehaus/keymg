@@ -57,7 +57,7 @@ public class KeyGeneratorUnitTestCase
       KeyGenerator gen = new KeyGenerator();
       gen.setServerID("1");
       gen.setPolicyStore(new InmemorySymKeyPolicyStore());
-      Document doc = gen.generate( "11111-0-0" );
+      Document doc = gen.generate( "10514-0-0" );
       System.out.println( DocumentUtil.asString(doc));
    } 
 }

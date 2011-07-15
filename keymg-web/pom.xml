@@ -34,6 +34,11 @@
        <version>2.5</version>
      </dependency>
      <dependency>
+       <groupId>org.codehaus</groupId>
+       <artifactId>keymg-api</artifactId>
+       <version>${project.version}</version>
+     </dependency>
+     <dependency>
        <groupId>org.apache</groupId>
        <artifactId>xmlsec</artifactId>
        <version>1.4.3</version>
@@ -53,6 +58,18 @@
         <groupId>rhino</groupId>
         <artifactId>js</artifactId>
         <version>1.7R2</version>
+        <scope>test</scope>
+      </dependency>
+     <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-server</artifactId>
+        <version>8.0.0.M3</version>
+        <scope>test</scope>
+      </dependency>
+     <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-servlet</artifactId>
+        <version>8.0.0.M3</version>
         <scope>test</scope>
       </dependency>
    </dependencies>
