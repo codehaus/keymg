@@ -20,6 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.List;
 
@@ -27,6 +29,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.keymg.core.sym.parse.Parser;
+import org.keymg.core.sym.writers.SymkeyWriter;
+import org.keymg.sym.model.ekmi.SymkeyRequest;
 import org.keymg.sym.model.ekmi.SymkeyResponse;
 import org.keymg.sym.model.ekmi.SymkeyType;
 import org.keymg.sym.model.ekmi.ValidResponseType;
@@ -94,5 +98,24 @@ public class KeymgServletUnitTestCase
       SymkeyType key = (SymkeyType) validResponse; 
       assertEquals("10514-1-1", key.getGlobalKeyID().getValue());
       System.out.println(key);
+      
+      //Construct a new request
+      SymkeyRequest existRequest = new SymkeyRequest();
+      existRequest.addGlobalKeyID("10514-1-1");
+      
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      SymkeyWriter writer = new SymkeyWriter(baos);
+      writer.write(existRequest);
+      
+      ByteArrayInputStream bis = new ByteArrayInputStream(baos.toByteArray());
+      postRequest = new PostMethodWebRequest(url, bis, contentType);response = sc.getResponse( postRequest ); 
+      assertNotNull(response);   
+      parser.parse(response.getInputStream());
+      parsed = parser.getParsedObject();
+      assertTrue(parsed instanceof SymkeyResponse);
+      symkeyResponse = (SymkeyResponse) parsed;
+      key = (SymkeyType) symkeyResponse.getResponse().get(0);
+      assertEquals("10514-1-1", key.getGlobalKeyID().getValue());
+      assertNotNull(key.getKeyUsePolicy());
    }
 }
