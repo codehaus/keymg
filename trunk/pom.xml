@@ -18,6 +18,7 @@
     <module>keymg-core</module>
     <module>keymg-web</module>
     <module>keymg-api</module>
+    <module>keymg</module>
   </modules>
 
   <reporting>
