@@ -59,6 +59,8 @@ public interface SymKeyConstants
     String KEY_CACHE_POLICY_RESPONSE = "KeyCachePolicyResponse";
 	String KEY_CACHE_POLICY_ID = "KeyCachePolicyID";
 	
+	String KEYSTORE_FORMAT = "JCEKS";
+	
     String LOCATION_NAME = "LocationName";
 	
     String MAXIMUM_KEYS = "MaximumKeys";
