@@ -20,6 +20,9 @@ import org.keymg.api.sym.exceptions.SymKeyGenerationException;
 import org.keymg.core.sym.SymKeyProcessor;
 import org.keymg.core.sym.config.KeymgConfigurationManager;
 import org.keymg.core.sym.policy.SymKeyPolicyStore;
+import org.keymg.core.sym.util.DocumentUtil;
+import org.keymg.sym.model.ekmi.SymkeyResponse;
+import org.keymg.sym.model.ekmi.ValidResponseType;
 import org.w3c.dom.Document;
 
 /**
@@ -78,6 +81,17 @@ public class KeyGenerator
       
       SymKeyProcessor processor = new SymKeyProcessor(configurationManager); 
       processor.setServerID(serverID); 
-      return processor.generate(keyID); 
+      ValidResponseType validResponseType = processor.generate(keyID);
+      
+      SymkeyResponse response = new SymkeyResponse();
+      response.add(validResponseType);
+      try
+      {
+         return DocumentUtil.create(response.toString());
+      }
+      catch (Exception e)
+      {
+         throw new SymKeyGenerationException(e);
+      }
    } 
 }

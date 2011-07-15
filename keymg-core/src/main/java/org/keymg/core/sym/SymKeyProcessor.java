@@ -36,6 +36,7 @@ import org.keymg.sym.model.ekmi.KeyUsePolicyType;
 import org.keymg.sym.model.ekmi.SymkeyRequest;
 import org.keymg.sym.model.ekmi.SymkeyResponse;
 import org.keymg.sym.model.ekmi.SymkeyType;
+import org.keymg.sym.model.ekmi.ValidResponseType;
 import org.w3c.dom.Document;
 
 /**
@@ -82,45 +83,55 @@ public class SymKeyProcessor
       
       List<String> gids = symKeyRequest.getGlobalKeyID();
       
-      if(gids.size() > 1)
-         throw new RuntimeException("More than one gid unsupported");
+      SymkeyResponse response = new SymkeyResponse();
       
-      String gid = gids.get(0);
-      
-      int index = gid.indexOf('-');
-      String domainID = gid.substring(0, index);
-      
-      KeyClassesType keyClasses = symKeyRequest.getKeyClasses();
-      
-      if(keyClasses != null )
+      for(String gid: gids)
       {
-         KeyClassType[] keyClassTypeArr = keyClasses.getKeyClassType();
+         int index = gid.indexOf('-');
+         String domainID = gid.substring(0, index);
          
-         for(KeyClassType keyClassType: keyClassTypeArr)
+         KeyClassesType keyClasses = symKeyRequest.getKeyClasses();
+         
+         if(keyClasses != null )
          {
-            String keyClass = keyClassType.getValue();
-            KeyUsePolicyType keyUse = policyStore.getKeyUsePolicyForKeyClassType(keyClass);
-            if(keyUse == null)
-               keyUse = policyStore.getDefaultKeyUsePolicy(domainID);
-         } 
+            KeyClassType[] keyClassTypeArr = keyClasses.getKeyClassType();
+            
+            for(KeyClassType keyClassType: keyClassTypeArr)
+            {
+               String keyClass = keyClassType.getValue();
+               KeyUsePolicyType keyUse = policyStore.getKeyUsePolicyForKeyClassType(keyClass);
+               if(keyUse == null)
+                  keyUse = policyStore.getDefaultKeyUsePolicy(domainID);
+            } 
+         }
+         
+         ValidResponseType vrt = null;
+         if(gid.endsWith("0-0"))
+            vrt = requestNewKey(gid); 
+         else
+            vrt = requestExistingKey(gid);
+         
+         response.add( vrt ); 
       }
       
-      Document doc = null;
-      
-      if(gid.endsWith("0-0"))
-         doc = requestNewKey(gid); 
-      else
-         doc = requestExistingKey(gid);
-      
-      return doc;
+
+      String responseAsString = response.toString();
+      try
+      {
+         return DocumentUtil.create(responseAsString);
+      }
+      catch ( Exception e )
+      {
+         throw new RuntimeException( e );
+      } 
    }
    
-   private Document requestNewKey(String keyID )
+   private ValidResponseType requestNewKey(String keyID )
    { 
       return generate(keyID);
    }
    
-   private Document requestExistingKey(String keyID)
+   private ValidResponseType requestExistingKey(String keyID)
    {
       if( keyID == null )
          throw new IllegalArgumentException( "keyID is null" );
@@ -156,7 +167,7 @@ public class SymKeyProcessor
     * @param keyID The Key ID
     * @return
     */
-   public Document generate( String keyID )  
+   public ValidResponseType generate( String keyID )  
    {
       if( keyID == null )
          throw new IllegalArgumentException( "keyID is null" );
@@ -170,9 +181,6 @@ public class SymKeyProcessor
 
       if( tokens != 3 )
          throw new RuntimeException( keyID + " needs 3 parts" );
-
-
-      SymkeyResponse response = new SymkeyResponse();
       
       String tokenPart1 = stringTokenizer.nextToken();
       String domainID = tokenPart1;
@@ -200,25 +208,16 @@ public class SymKeyProcessor
          {
             throw new RuntimeException(e);
          }
-      } 
-      
-      String responseAsString = response.toString();
-      try
-      {
-         return DocumentUtil.create(responseAsString);
-      }
-      catch ( Exception e )
-      {
-         throw new RuntimeException( e );
       }  
+      return null;
    }
 
-   public Document generate( String keyID, String keyClass )
+   public ValidResponseType generate( String keyID, String keyClass )
    {
       throw new RuntimeException( "NYI" );
    }
    
-   private Document dealWithKey(byte[] symmetricKey, String domainID, GlobalKeyIDType finalGlobalID) throws GeneralSecurityException
+   private ValidResponseType dealWithKey(byte[] symmetricKey, String domainID, GlobalKeyIDType finalGlobalID) throws GeneralSecurityException
    {
       SymKeyGenerator symKeyGenerator = new SymKeyGenerator();
       PublicKey publicKey = null;
@@ -246,17 +245,7 @@ public class SymKeyProcessor
       
       symKey.setKeyUsePolicy( policyStore.getDefaultKeyUsePolicy(domainID) ); 
 
-      SymkeyResponse response = new SymkeyResponse();
-      response.add( symKey );
-      String responseAsString = response.toString();
-      try
-      {
-         return DocumentUtil.create(responseAsString);
-      }
-      catch ( Exception e )
-      {
-         throw new RuntimeException( e );
-      }
+      return symKey; 
    }
    
    private GlobalKeyIDType getGlobalKey( String domainID )
