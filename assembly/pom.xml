@@ -36,9 +36,9 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <Specification-Title>PicketLink</Specification-Title>
+              <Specification-Title>Oasis EKMI Specification</Specification-Title>
               <Specification-Version>${project.version}</Specification-Version>
-              <Specification-Vendor>Codehaus Software Foundation</Specification-Vendor>
+              <Specification-Vendor>Oasis Standards Consortium</Specification-Vendor>
               <Implementation-Title>KeyMG</Implementation-Title>
               <Implementation-Version>${project.version}</Implementation-Version>
               <Implementation-VendorId>org.keymg</Implementation-VendorId>
