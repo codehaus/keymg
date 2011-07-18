@@ -7,7 +7,7 @@
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>keymg</artifactId>
+  <artifactId>keymg-server</artifactId>
   <packaging>pom</packaging>
   <name>KeyMG - Assembly</name>
   <url>http://keymg.codehaus.org/</url>
