@@ -19,6 +19,8 @@
     <module>keymg-web</module>
     <module>keymg-api</module>
     <module>keymg</module>
+    <module>keymg-client</module>
+    <module>assembly</module>
   </modules>
 
   <reporting>
