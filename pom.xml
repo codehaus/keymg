@@ -12,6 +12,12 @@
   <url>http://codehaus.org/keymg</url>
   <description>Implementation of Key Management Standards</description>
 
+<scm>
+    <connection>scm:svn:https://svn.codehaus.org/keymg/trunk/</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/keymg/trunk/</developerConnection>
+    <url>http://svn.keymg.codehaus.org/browse/keymg/trunk</url>
+  </scm>
+
   <modules>
     <module>parent</module>
     <module>keymg-model</module>
