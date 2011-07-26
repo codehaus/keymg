@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : kcpResponse.xsd
+    Created on : June 17, 2008, 11:16 AM
+    Author     : Arshad Noor
+    Description: Document is the XML Schema Definition (XSD) for the
+                 SOAP-Body contents of a response for a KeyCachePolicy.
+                 The SOAP message itself is secured with a Web Services 
+                 Security (WSS) Header containing a digital signature
+                 which provides the service provider with all the 
+                 information it needs to know how to respond.
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://docs.oasis-open.org/ekmi/2008/01"
+            xmlns:ekmi="http://docs.oasis-open.org/ekmi/2008/01"
+            elementFormDefault="qualified"
+            xml:lang="en-US">
+    <xsd:include schemaLocation="EKMICoreLibrary.xsd"/>
+    
+    <!--
+        =============================================
+        KeyCachePolicyResponse
+        =============================================
+     -->
+    <xsd:element name="KeyCachePolicyResponse">
+        <xsd:annotation>
+            <xsd:documentation>
+                This element is a response from the SKS server for key-cache
+                policies describing how clients may cache symmetric keys on 
+                the client device.  The response may consist of multiple KCP
+                elements, each one applying to a class of symmetric keys.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="KeyCachePolicy" type="ekmi:KeyCachePolicyType" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            This element defines a single policy defining how EKMI
+                            clients may cache symmetric keys of a specific key-class 
+                            on the client device.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
