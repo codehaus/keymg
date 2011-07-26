@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : kcpRequest.xsd
+    Created on : December 24, 2007, 4:46 PM
+    Author     : anoor
+    Description: Document is the XML Schema Definition (XSD) for the
+                 SOAP-Body contents of a request for a KeyCachePolicy.
+                 The SOAP message itself is secured with a Web Services 
+                 Security (WSS) Header containing a digital signature
+                 which provides the service provider with all the 
+                 information it needs to know how to respond.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://docs.oasis-open.org/ekmi/2008/01"
+            xmlns:ekmi="http://docs.oasis-open.org/ekmi/2008/01"
+            elementFormDefault="qualified">
+    <xsd:include schemaLocation="EKMICoreLibrary.xsd"/>
+    
+    <!--
+        =============================================
+        KeyCachePolicyRequest
+        =============================================
+     -->
+     
+    <xsd:element name="KeyCachePolicyRequest">
+        <xsd:annotation>
+            <xsd:documentation>
+                A KeyCachePolicy request does not need to specify any
+                data within its root-element.  The service responding
+                to such a request has all that it needs from the SOAP
+                Header of the request: the XMLSignature element that
+                carries the identity (DN) of the requester, the 
+                digital signature to verify the authenticity of the
+                request and the timestamp of the request.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:annotation>
+                <xsd:documentation>
+                    No elements/attributes are defined for KeyCachePolicyRequest.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:complexType>
+    </xsd:element>
+    
+</xsd:schema>
