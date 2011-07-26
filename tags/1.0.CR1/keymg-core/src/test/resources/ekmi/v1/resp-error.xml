@@ -1,0 +1,10 @@
+<ekmi:SymkeyResponse xmlns:ekmi='http://docs.oasis-open.org/ekmi/2008/01'
+	xmlns:xenc='http://www.w3.org/2001/04/xmlenc#'>
+	<ekmi:SymkeyError>
+		<ekmi:SymkeyRequestID>10514-2-1044</ekmi:SymkeyRequestID>
+		<ekmi:RequestedGlobalKeyID>10514-2-22</ekmi:RequestedGlobalKeyID>
+		<ekmi:RequestedKeyClass>Payroll</ekmi:RequestedKeyClass>
+		<ekmi:ErrorCode>SKS-100004</ekmi:ErrorCode>
+		<ekmi:ErrorMessage>Unauthorized request for key</ekmi:ErrorMessage>
+	</ekmi:SymkeyError>
+</ekmi:SymkeyResponse>
