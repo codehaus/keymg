@@ -21,9 +21,11 @@ package org.keymg.test.sym.generators;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 
+import org.junit.After;
 import org.junit.Test;
 import org.keymg.core.sym.Base64;
 import org.keymg.core.sym.SymKeyConstants;
@@ -63,5 +65,16 @@ public class SymmetricKeyUnitTestCase
       byte[] unencryptedKey = generator.decrypt( encryptedKey, keyPair.getPrivate() );  
       
       assertArrayEquals( key, unencryptedKey ); 
+   }
+   
+
+   @After
+   public void end() throws Exception
+   {
+      File theFile = new File("keystore.dat");
+      if(theFile.exists())
+      {
+         theFile.delete();
+      }
    }
 }

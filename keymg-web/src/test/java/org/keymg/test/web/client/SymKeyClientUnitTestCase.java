@@ -19,6 +19,7 @@ package org.keymg.test.web.client;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
 import java.security.KeyPair;
 import java.security.KeyStore;
 
@@ -74,6 +75,12 @@ public class SymKeyClientUnitTestCase
    public static void destroy() throws Exception
    {
       server.stop();
+      
+      File theFile = new File("keystore.dat");
+      if(theFile.exists())
+      {
+         theFile.delete();
+      }
    }
    
    @Test
