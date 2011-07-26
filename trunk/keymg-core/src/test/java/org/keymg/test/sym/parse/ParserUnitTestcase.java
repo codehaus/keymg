@@ -20,12 +20,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Test;
 import org.keymg.core.sym.parse.Parser;
 import org.keymg.core.sym.writers.SymkeyWriter;
@@ -507,4 +509,15 @@ public class ParserUnitTestcase
         assertEquals(BigInteger.valueOf(3), usedKCD.getMaximumKeys());
         assertEquals(BigInteger.valueOf(7776000), usedKCD.getMaximumDuration());
     }
+
+
+	@After
+	public void end() throws Exception
+	{
+	   File theFile = new File("keystore.dat");
+	   if(theFile.exists())
+	   {
+	      theFile.delete();
+	   }
+	}
 }

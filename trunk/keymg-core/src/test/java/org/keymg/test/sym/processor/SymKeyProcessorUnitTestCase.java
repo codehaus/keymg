@@ -19,8 +19,10 @@ package org.keymg.test.sym.processor;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.InputStream;
 
+import org.junit.After;
 import org.junit.Test;
 import org.keymg.core.sym.SymKeyProcessor;
 import org.keymg.core.sym.config.KeymgConfigurationManager;
@@ -62,5 +64,15 @@ public class SymKeyProcessorUnitTestCase
       processor.process(symKeyRequest);
       
       configManager.shutdown();
+   }
+
+   @After
+   public void end() throws Exception
+   {
+      File theFile = new File("keystore.dat");
+      if(theFile.exists())
+      {
+         theFile.delete();
+      }
    }
 }

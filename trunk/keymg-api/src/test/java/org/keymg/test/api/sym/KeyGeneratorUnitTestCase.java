@@ -16,6 +16,8 @@
  */
 package org.keymg.test.api.sym;
 
+import java.io.File;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,6 +51,14 @@ public class KeyGeneratorUnitTestCase
    public void destroy() throws Exception
    {
       KeymgConfigurationManager.getInstance().shutdown();
+      
+      File theFile = new File("keystore.dat");
+      System.out.println("path="+ theFile.getAbsolutePath());
+      if(theFile.exists())
+      {
+         boolean del = theFile.delete();
+         System.out.println("keystore dat deleted="+del);
+      }
    }
    
    @Test

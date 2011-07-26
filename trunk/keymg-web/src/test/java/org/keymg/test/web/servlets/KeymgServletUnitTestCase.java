@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
@@ -69,6 +70,11 @@ public class KeymgServletUnitTestCase
    public void destroy() throws Exception
    {
       servletRunner.shutDown();
+      File theFile = new File("keystore.dat");
+      if(theFile.exists())
+      {
+         theFile.delete();
+      }
    }
    
    @Test

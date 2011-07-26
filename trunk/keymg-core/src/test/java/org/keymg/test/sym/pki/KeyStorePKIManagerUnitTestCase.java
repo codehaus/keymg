@@ -22,6 +22,7 @@ import java.io.File;
 import java.net.URL;
 import java.security.PublicKey;
 
+import org.junit.After;
 import org.junit.Test;
 import org.keymg.core.sym.pki.KeyStorePKIManager;
 
@@ -46,4 +47,14 @@ public class KeyStorePKIManagerUnitTestCase
       PublicKey publicKey = pki.getPublicKey( "99999" );
       assertNotNull( "public key is not null" , publicKey );
    } 
+   
+   @After
+   public void end() throws Exception
+   {
+      File theFile = new File("keystore.dat");
+      if(theFile.exists())
+      {
+         theFile.delete();
+      }
+   }
 }
