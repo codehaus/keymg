@@ -2,7 +2,7 @@
   <parent>
     <groupId>org.codehaus</groupId>
     <artifactId>keymg-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.CR1</version>
     <relativePath>parent</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -13,9 +13,9 @@
   <description>Implementation of Key Management Standards</description>
 
 <scm>
-    <connection>scm:svn:https://svn.codehaus.org/keymg/trunk/</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/keymg/trunk/</developerConnection>
-    <url>http://svn.keymg.codehaus.org/browse/keymg/trunk</url>
+    <connection>scm:svn:https://svn.codehaus.org/keymg/tags/1.0.CR1</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/keymg/tags/1.0.CR1</developerConnection>
+    <url>http://svn.keymg.codehaus.org/browse/keymg/tags/1.0.CR1</url>
   </scm>
 
   <modules>
