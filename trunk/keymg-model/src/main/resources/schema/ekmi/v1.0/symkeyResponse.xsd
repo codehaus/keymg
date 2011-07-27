@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document    : symkeyResponse.xsd
+    Version     : 7.0
+    Modified on : October 16, 2008, 4:46 PM
+    Author      : Arshad Noor
+    Description : Document is the XML Schema Definition (XSD) for the
+                  SOAP-Body contents of a response for a SymkeyRequest.
+                  The SOAP message itself is secured with a Web Services 
+                  Security (WSS) Header containing a digital signature.
+    
+    Modified on : October 16, 2008, 4:46 PM
+    Changes in version 7.0
+    
+    01) Added the SymkeyWorkInProgressType as an additional choice to the
+        SymkeyResponse element, to accommodate asynchronous request/responses
+        to/from SKS servers.
+    
+    Modified on : June 23, 2008, 4:46 PM
+    Changes in version 6.0
+    
+    01) Moved the SymkeyType and SymkeyErrorType to the EKMICoreLibrary.xsd.
+    
+    02) Modifed SymkeyResponseType so it now can contain either Symkey,
+        SymkeyError or Symkey-with-SymkeyError elements.
+    
+    Modified on : June 03, 2008, 8:46 PM
+    Changes in version 5.0
+    
+    01) Removed EncryptionProperties element from SymkeyType.  The primary
+        use of EncryptionProperties would have been to send along an IV
+        for software decrypting ciphertext.  However, since all symmetric
+        keys are less than 256 bits (32 bytes), which fit well within the 
+        size limit even for a 1024-bit RSA key (approximately 117 bytes 
+        when used with PKCS 1 padding), it doesn't really make sense to
+        carry this element in the schema when there is 3x times headroom
+        in the RSA algorithm for larger symmetric key sizes.
+        
+    
+    Created on : December 24, 2007, 4:46 PM
+    Author     : anoor
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://docs.oasis-open.org/ekmi/2008/01"
+            xmlns:ekmi="http://docs.oasis-open.org/ekmi/2008/01"
+            elementFormDefault="qualified">
+    
+    <xsd:include schemaLocation="EKMICoreLibrary.xsd"/>
+   
+    <!--
+    =============================================
+    SymkeyResponse
+    =============================================
+    -->
+     <xsd:element name="SymkeyResponse">
+         <xsd:annotation>
+            <xsd:documentation>
+                The element returned by the SKS server, in response to a 
+                request for a symmetric encryption key from a client.  The
+                response contains one or more embedded elements that may be
+                either of the SymkeyType, SymkeyErrorType (if there was a
+                problem with the request) or SymkeyWorkInProgessType (if the
+                request was sent asynchronously).  The response is embedded 
+                in a SOAP WSS header with a digital signature for verifying 
+                the authenticity and integrity of the response.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:sequence>
+                    <xsd:element ref="ekmi:Symkey" minOccurs="1" maxOccurs="unbounded"/>
+                    <xsd:element ref="ekmi:SymkeyWorkInProgress" minOccurs="0" maxOccurs="unbounded"/>
+                    <xsd:element ref="ekmi:SymkeyError" minOccurs="0" maxOccurs="unbounded"/>    
+                </xsd:sequence>
+                <xsd:sequence>
+                    <xsd:element ref="ekmi:SymkeyWorkInProgress" minOccurs="1" maxOccurs="unbounded"/>
+                    <xsd:element ref="ekmi:SymkeyError" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+                <xsd:sequence>
+                    <xsd:element ref="ekmi:SymkeyError" minOccurs="1" maxOccurs="unbounded"/>    
+                </xsd:sequence>
+                <xsd:sequence>
+                    <xsd:any minOccurs="0" />
+                </xsd:sequence>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <!--
+    =======================================================================
+    Symkey, SymkeyError and SymkeyWorkInProgress elements
+    =======================================================================
+    -->
+    <xsd:element name="Symkey" type="ekmi:SymkeyType"></xsd:element>
+    <xsd:element name="SymkeyError" type="ekmi:SymkeyErrorType"></xsd:element>
+    <xsd:element name="SymkeyWorkInProgress" type="ekmi:SymkeyWorkInProgressType"></xsd:element>
+    
+</xsd:schema>
