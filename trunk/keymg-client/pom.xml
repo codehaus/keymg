@@ -7,6 +7,7 @@
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
+  <groupId>org.keymg</groupId>
   <artifactId>keymg-client</artifactId>
   <packaging>pom</packaging>
   <name>KeyMG Client- Assembly</name>

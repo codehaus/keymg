@@ -6,13 +6,14 @@
     <relativePath>parent</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
+  <groupId>org.keymg</groupId>
   <artifactId>keymg-pom</artifactId>
   <packaging>pom</packaging>
   <name>KeyMG- Aggregator</name>
   <url>http://codehaus.org/keymg</url>
   <description>Implementation of Key Management Standards</description>
 
-<scm>
+  <scm>
     <connection>scm:svn:https://svn.codehaus.org/keymg/trunk/</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/keymg/trunk/</developerConnection>
     <url>https://svn.keymg.codehaus.org/browse/keymg/trunk</url>

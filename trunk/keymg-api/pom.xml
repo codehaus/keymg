@@ -6,6 +6,7 @@
       <relativePath>../parent</relativePath>
    </parent>
    <modelVersion>4.0.0</modelVersion>
+   <groupId>org.keymg</groupId>
    <artifactId>keymg-api</artifactId>
    <packaging>jar</packaging>
    <name>KeyMG API</name>
