@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>org.codehaus</groupId>
     <artifactId>codehaus-parent</artifactId>
@@ -9,7 +8,7 @@
   <groupId>org.codehaus</groupId>
   <artifactId>keymg-parent</artifactId>
   <packaging>pom</packaging>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.CR1</version>
   <name>KeyMG Parent</name>
   <url>http://codehaus.org/keymg</url>
   <issueManagement>
@@ -18,9 +17,9 @@
   </issueManagement>
   <inceptionYear>2009</inceptionYear>
   <scm>
-    <connection>scm:svn:https://svn.codehaus.org/keymg/trunk/</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/keymg/trunk/</developerConnection>
-    <url>https://svn.keymg.codehaus.org/browse/keymg/trunk</url>
+    <connection>scm:svn:https://svn.codehaus.org/keymg/tags/1.0.CR1/trunk</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/keymg/tags/1.0.CR1/trunk</developerConnection>
+    <url>https://svn.keymg.codehaus.org/browse/keymg/tags/1.0.CR1/trunk</url>
   </scm>
   <build>
     <defaultGoal>install</defaultGoal>
