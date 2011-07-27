@@ -1,0 +1,14 @@
+<ekmi:SymkeyResponse xmlns:ekmi='http://docs.oasis-open.org/ekmi/2008/01'
+	xmlns:xenc='http://www.w3.org/2001/04/xmlenc#' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<KeyContainer Version="1.0" xmlns="urn:ietf:params:xml:ns:keyprov:pskc:1.0">
+		<Device>
+			<DeviceInfo>
+				<Manufacturer>aManufacturer</Manufacturer>
+				<SerialNo>10514-1-235</SerialNo>
+			</DeviceInfo>
+			<Key KeyAlgorithm="http://www.w3.org/2001/04/xmlenc#tripledes-cbc" KeyId="10514-1-235">
+				<Issuer>anIssuer</Issuer>
+			</Key>
+		</Device>
+	</KeyContainer>
+</ekmi:SymkeyResponse>

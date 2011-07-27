@@ -1,0 +1,18 @@
+<ekmi:KeyCachePolicyRequest xmlns:ekmi="http://docs.oasis-open.org/ekmi/2008/01">
+	<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+		<ds:SignedInfo>
+			<ds:CanonicalizationMethod
+				Algorithm="http://www.w3.org/TR/2000/CR-xml-c14n-20001026">
+			</ds:CanonicalizationMethod>
+			<ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#dsa-sha1" />
+			<ds:Reference URI="#Body">
+				<ds:Transforms>
+					<ds:Transform Algorithm="http://www.w3.org/TR/2000/CR-xml-c14n-20001026" />
+				</ds:Transforms>
+				<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+				<ds:DigestValue>j6lwx3rvEPO0vKtMup4NbeVu8nk=</ds:DigestValue>
+			</ds:Reference>
+		</ds:SignedInfo>
+		<ds:SignatureValue>MC0CFFrVLtRlk=</ds:SignatureValue>
+	</ds:Signature>
+</ekmi:KeyCachePolicyRequest>
