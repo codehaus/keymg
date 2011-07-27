@@ -83,20 +83,4 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-  <distributionManagement>
-    <repository>
-      <id>codehaus.org</id>
-      <name>keymg Central Repository</name>
-      <url>dav:https://dav.codehaus.org/repository/keymg/</url>
-    </repository>
-    <snapshotRepository>
-      <id>codehaus.org</id>
-      <name>KeyMG Central Development Repository</name>
-      <url>dav:https://dav.codehaus.org/snapshots.repository/keymg/</url>
-    </snapshotRepository>
-    <site>
-      <id>codehaus.org</id>
-      <url>dav:https://dav.codehaus.org/keymg/</url>
-    </site>
-  </distributionManagement>
 </project>
