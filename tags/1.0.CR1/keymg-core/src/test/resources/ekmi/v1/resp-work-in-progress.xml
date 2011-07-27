@@ -1,0 +1,7 @@
+<ekmi:SymkeyResponse xmlns:ekmi="http://docs.oasis-open.org/ekmi/2008/01"
+	xmlns:xenc="http://www.w3.org/2001/04/xmlenc#">
+	<ekmi:SymkeyWorkInProgress>
+		<ekmi:RequestedGlobalKeyID>10514-0-0</ekmi:RequestedGlobalKeyID>
+		<ekmi:SymkeyRequestID>10514-4-7235</ekmi:SymkeyRequestID>
+	</ekmi:SymkeyWorkInProgress>
+</ekmi:SymkeyResponse>

@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <groupId>org.codehaus</groupId>
+    <artifactId>keymg-parent</artifactId>
+    <version>1.0.CR1</version>
+    <relativePath>../parent</relativePath>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.keymg</groupId>
+  <artifactId>keymg-server</artifactId>
+  <packaging>pom</packaging>
+  <name>KeyMG - Assembly</name>
+  <url>http://keymg.codehaus.org/</url>
+  <description>KeyMG</description>
+  <licenses>
+    <license>
+      <name>lgpl</name>
+      <url>http://www.gnu.org/licenses/lgpl.html</url>
+    </license>
+  </licenses>
+    
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>attached</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Specification-Title>Oasis EKMI Specification</Specification-Title>
+              <Specification-Version>${project.version}</Specification-Version>
+              <Specification-Vendor>Oasis Standards Consortium</Specification-Vendor>
+              <Implementation-Title>KeyMG</Implementation-Title>
+              <Implementation-Version>${project.version}</Implementation-Version>
+              <Implementation-VendorId>org.keymg</Implementation-VendorId>
+              <Implementation-Vendor>Codehaus</Implementation-Vendor>
+              <Implementation-URL>http://keymg.codehaus.org/</Implementation-URL>
+            </manifestEntries>
+          </archive>
+          <descriptors>
+            <descriptor>bin.xml</descriptor>
+            <descriptor>sources.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <inherited>false</inherited>
+      </plugin>
+    </plugins>
+  </build>
+  
+
+  <scm>
+    <connection>scm:svn:https://svn.codehaus.org/keymg/tags/1.0.CR1/keymg-server</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/keymg/tags/1.0.CR1/keymg-server</developerConnection>
+    <url>http://svn.keymg.codehaus.org/browse/keymg/tags/1.0.CR1/keymg-server</url>
+  </scm>
+</project>
