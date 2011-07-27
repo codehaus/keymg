@@ -18,10 +18,10 @@
       </license>
    </licenses>
 
-<scm>
+  <scm>
     <connection>scm:svn:https://svn.codehaus.org/keymg/trunk/</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/keymg/trunk/</developerConnection>
-    <url>http://svn.keymg.codehaus.org/browse/keymg/trunk</url>
+    <url>https://svn.keymg.codehaus.org/browse/keymg/trunk</url>
   </scm>
 
    <dependencies>
