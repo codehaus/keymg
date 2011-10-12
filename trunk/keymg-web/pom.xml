@@ -26,12 +26,12 @@
 
    <dependencies>
      <dependency>
-       <groupId>org.codehaus</groupId>
+       <groupId>org.keymg</groupId>
        <artifactId>keymg-model</artifactId>
        <version>1.0.CR1-SNAPSHOT</version>
      </dependency>
      <dependency>
-       <groupId>org.codehaus</groupId>
+       <groupId>org.keymg</groupId>
        <artifactId>keymg-core</artifactId>
        <version>1.0.CR1-SNAPSHOT</version>
      </dependency>
@@ -41,7 +41,7 @@
        <version>2.5</version>
      </dependency>
      <dependency>
-       <groupId>org.codehaus</groupId>
+       <groupId>org.keymg</groupId>
        <artifactId>keymg-api</artifactId>
        <version>1.0.CR1-SNAPSHOT</version>
      </dependency>
