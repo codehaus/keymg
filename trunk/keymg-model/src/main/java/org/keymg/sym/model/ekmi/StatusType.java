@@ -100,7 +100,9 @@ public enum StatusType
     
     public String toString()
     {
-       return this.value;
+    	StringBuilder builder = new StringBuilder();
+    	builder.append("<ekmi:Status>").append(this.value).append("</ekmi:Status>");
+    	return builder.toString();
     }
 
 }
