@@ -185,7 +185,7 @@ public class KeyUsePolicyType
       StringBuilder builder = new StringBuilder();
       builder.append("<ekmi:KeyUsePolicy>");
       if( this.keyUsePolicyID != null )
-         builder.append( keyUsePolicyID.toString() );
+         builder.append( "<ekmi:KeyUsePolicyID>" ).append(keyUsePolicyID.getValue()).append( "</ekmi:KeyUsePolicyID>" );
       if( this.policyName != null )
          builder.append( "<ekmi:PolicyName>" ).append( policyName ).append( "</ekmi:PolicyName>" );
       
