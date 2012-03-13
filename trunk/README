@@ -1,0 +1,11 @@
+=================
+Use of GPG
+=================
+
+Codehaus requires the builds to incorporate gpg and the jars to be signed.
+
+You will see that you are forced to enter your gpg passphrase frequently.
+
+You can avoid this with the option:
+mvn verify -Dgpg.passphrase=thephrase
+or provide -Dgpg.passphrase=thephrase
