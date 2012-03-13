@@ -18,7 +18,6 @@ package org.keymg.sym.model.ekmi;
 
 import java.util.Date;
 
-
 /**
  * 
  *                 The KeyCachePolicyType document is returned as part of
@@ -73,130 +72,109 @@ import java.util.Date;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- */ 
+ */
 /**
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class KeyCachePolicyType 
-{ 
-	private TwoPartIDType keyCachePolicyID;
-	
-	private String policyName;
-	
-	private String description;
-	
-	private KeyClassType keyClassType;
-	
-	private Date startDate;
-	
-	private Date endDate;
-	
-	private NonNegativeInteger policyCheckInterval;
-    
-	private StatusType status;
-	
-	private KeyCacheDetailType newKeysCacheDetail;
-	
-	private KeyCacheDetailType usedKeysCacheDetail;
+public class KeyCachePolicyType {
+    private TwoPartIDType keyCachePolicyID;
 
-	public TwoPartIDType getKeyCachePolicyID() 
-	{
-		return keyCachePolicyID;
-	}
+    private String policyName;
 
-	public void setKeyCachePolicyID(TwoPartIDType keyCachePolicyID) 
-	{
-		this.keyCachePolicyID = keyCachePolicyID;
-	}
+    private String description;
 
-	public String getPolicyName() 
-	{
-		return policyName;
-	}
+    private KeyClassType keyClassType;
 
-	public void setPolicyName(String policyName) 
-	{
-		this.policyName = policyName;
-	}
+    private Date startDate;
 
-	public String getDescription() 
-	{
-		return description;
-	}
+    private Date endDate;
 
-	public void setDescription(String description) 
-	{
-		this.description = description;
-	}
+    private NonNegativeInteger policyCheckInterval;
 
-	public KeyClassType getKeyClassType() 
-	{
-		return keyClassType;
-	}
+    private StatusType status;
 
-	public void setKeyClassType(KeyClassType keyClassType) 
-	{
-		this.keyClassType = keyClassType;
-	}
+    private KeyCacheDetailType newKeysCacheDetail;
 
-	public Date getStartDate() 
-	{
-		return startDate;
-	}
+    private KeyCacheDetailType usedKeysCacheDetail;
 
-	public void setStartDate(Date startDate) 
-	{
-		this.startDate = startDate;
-	}
+    public TwoPartIDType getKeyCachePolicyID() {
+        return keyCachePolicyID;
+    }
 
-	public Date getEndDate() 
-	{
-		return endDate;
-	}
+    public void setKeyCachePolicyID(TwoPartIDType keyCachePolicyID) {
+        this.keyCachePolicyID = keyCachePolicyID;
+    }
 
-	public void setEndDate(Date endDate) 
-	{
-		this.endDate = endDate;
-	}
+    public String getPolicyName() {
+        return policyName;
+    }
 
-	public NonNegativeInteger getPolicyCheckInterval() 
-	{
-		return policyCheckInterval;
-	}
+    public void setPolicyName(String policyName) {
+        this.policyName = policyName;
+    }
 
-	public void setPolicyCheckInterval(NonNegativeInteger policyCheckInterval) 
-	{
-		this.policyCheckInterval = policyCheckInterval;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public StatusType getStatus() 
-	{
-		return status;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setStatus(StatusType status) 
-	{
-		this.status = status;
-	}
+    public KeyClassType getKeyClassType() {
+        return keyClassType;
+    }
 
-	public KeyCacheDetailType getNewKeysCacheDetail() 
-	{
-		return newKeysCacheDetail;
-	}
+    public void setKeyClassType(KeyClassType keyClassType) {
+        this.keyClassType = keyClassType;
+    }
 
-	public void setNewKeysCacheDetail(KeyCacheDetailType newKeysCacheDetail) 
-	{
-		this.newKeysCacheDetail = newKeysCacheDetail;
-	}
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	public KeyCacheDetailType getUsedKeysCacheDetail() 
-	{
-		return usedKeysCacheDetail;
-	}
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-	public void setUsedKeysCacheDetail(KeyCacheDetailType usedKeysCacheDetail) 
-	{
-		this.usedKeysCacheDetail = usedKeysCacheDetail;
-	}
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public NonNegativeInteger getPolicyCheckInterval() {
+        return policyCheckInterval;
+    }
+
+    public void setPolicyCheckInterval(NonNegativeInteger policyCheckInterval) {
+        this.policyCheckInterval = policyCheckInterval;
+    }
+
+    public StatusType getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusType status) {
+        this.status = status;
+    }
+
+    public KeyCacheDetailType getNewKeysCacheDetail() {
+        return newKeysCacheDetail;
+    }
+
+    public void setNewKeysCacheDetail(KeyCacheDetailType newKeysCacheDetail) {
+        this.newKeysCacheDetail = newKeysCacheDetail;
+    }
+
+    public KeyCacheDetailType getUsedKeysCacheDetail() {
+        return usedKeysCacheDetail;
+    }
+
+    public void setUsedKeysCacheDetail(KeyCacheDetailType usedKeysCacheDetail) {
+        this.usedKeysCacheDetail = usedKeysCacheDetail;
+    }
 }

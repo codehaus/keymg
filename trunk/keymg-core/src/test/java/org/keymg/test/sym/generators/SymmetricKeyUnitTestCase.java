@@ -17,7 +17,6 @@
 
 package org.keymg.test.sym.generators;
 
-
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -33,48 +32,42 @@ import org.keymg.core.sym.generators.SymKeyGenerator;
 
 /**
  * Unit test the symmetric key generation and encoding etc
- *
+ * 
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class SymmetricKeyUnitTestCase
-{
-   @Test
-   public void testKeyWithAES() throws Exception
-   {
-      validate( SymKeyConstants.AES_ALGORITHM_URI ); 
-      validate( SymKeyConstants.TRIPLE_DES_ALGORITHM_URI );
-   }
-   
-   private void validate( String keyAlgorithm ) throws Exception
-   {
-      SymKeyGenerator generator = new SymKeyGenerator();
-      byte[] key = generator.generate( keyAlgorithm );
-      assertNotNull( key ); 
-      
-      KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance( SymKeyConstants.EncryptionAlgorithms.RSA.get() );  
-      KeyPair keyPair = keyPairGenerator.generateKeyPair();
-      
-      byte[] encryptedKey = generator.encrypt( key, keyPair.getPublic() );  
-    
-      byte[] base64EncodedEncryptedKey = Base64.encodeBytesToBytes( encryptedKey );
-      byte[] base64DecodedEncryptedKey = Base64.decode( base64EncodedEncryptedKey );
-      
-      assertArrayEquals( encryptedKey , base64DecodedEncryptedKey );
-      
-      byte[] unencryptedKey = generator.decrypt( encryptedKey, keyPair.getPrivate() );  
-      
-      assertArrayEquals( key, unencryptedKey ); 
-   }
-   
+public class SymmetricKeyUnitTestCase {
+    @Test
+    public void testKeyWithAES() throws Exception {
+        validate(SymKeyConstants.AES_ALGORITHM_URI);
+        validate(SymKeyConstants.TRIPLE_DES_ALGORITHM_URI);
+    }
 
-   @After
-   public void end() throws Exception
-   {
-      File theFile = new File("keystore.dat");
-      if(theFile.exists())
-      {
-         theFile.delete();
-      }
-   }
+    private void validate(String keyAlgorithm) throws Exception {
+        SymKeyGenerator generator = new SymKeyGenerator();
+        byte[] key = generator.generate(keyAlgorithm);
+        assertNotNull(key);
+
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(SymKeyConstants.EncryptionAlgorithms.RSA.get());
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+        byte[] encryptedKey = generator.encrypt(key, keyPair.getPublic());
+
+        byte[] base64EncodedEncryptedKey = Base64.encodeBytesToBytes(encryptedKey);
+        byte[] base64DecodedEncryptedKey = Base64.decode(base64EncodedEncryptedKey);
+
+        assertArrayEquals(encryptedKey, base64DecodedEncryptedKey);
+
+        byte[] unencryptedKey = generator.decrypt(encryptedKey, keyPair.getPrivate());
+
+        assertArrayEquals(key, unencryptedKey);
+    }
+
+    @After
+    public void end() throws Exception {
+        File theFile = new File("keystore.dat");
+        if (theFile.exists()) {
+            theFile.delete();
+        }
+    }
 }

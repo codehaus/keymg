@@ -24,44 +24,40 @@ import org.keymg.sym.model.ekmi.TwoPartIDType;
 
 /**
  * An implementation of {@link SymKeyPolicyStore} that resides in memory
+ * 
  * @author anil@apache.org
  * @since Jul 11, 2011
  */
-public class InmemorySymKeyPolicyStore implements SymKeyPolicyStore
-{
-   protected static KeyUsePolicyType keyUsePolicy;
-   
-   static
-   {
-      keyUsePolicy = new KeyUsePolicyType();
-      keyUsePolicy.setKeyUsePolicyID(new TwoPartIDType("10514-4"));
-      keyUsePolicy.setPolicyName("Default Key Use Policy Type");
-      keyUsePolicy.setKeyAlgorithm(KeyAlgorithmType.AES_192_CBS);
-      keyUsePolicy.setKeySize(new KeySizeType(192));
-      keyUsePolicy.setStatus(StatusType.ACTIVE); 
-   }; 
-   
-   /*
-    * @see org.keymg.core.sym.policy.SymKeyPolicyStore#getKeyUsePolicy(java.lang.String)
-    */
-   public KeyUsePolicyType getKeyUsePolicy(String keyUsePolicyID)
-   {
-      return keyUsePolicy;
-   }
+public class InmemorySymKeyPolicyStore implements SymKeyPolicyStore {
+    protected static KeyUsePolicyType keyUsePolicy;
 
-   /* 
-    * @see org.keymg.core.sym.policy.SymKeyPolicyStore#getDefaultKeyUsePolicy(java.lang.String)
-    */
-   public KeyUsePolicyType getDefaultKeyUsePolicy(String domainID)
-   {
-      return keyUsePolicy;
-   }
+    static {
+        keyUsePolicy = new KeyUsePolicyType();
+        keyUsePolicy.setKeyUsePolicyID(new TwoPartIDType("10514-4"));
+        keyUsePolicy.setPolicyName("Default Key Use Policy Type");
+        keyUsePolicy.setKeyAlgorithm(KeyAlgorithmType.AES_192_CBS);
+        keyUsePolicy.setKeySize(new KeySizeType(192));
+        keyUsePolicy.setStatus(StatusType.ACTIVE);
+    };
 
-   /*
-    * @see org.keymg.core.sym.policy.SymKeyPolicyStore#getKeyUsePolicyForKeyClassType(java.lang.String)
-    */
-   public KeyUsePolicyType getKeyUsePolicyForKeyClassType(String keyClassType)
-   { 
-      return keyUsePolicy;
-   }
+    /*
+     * @see org.keymg.core.sym.policy.SymKeyPolicyStore#getKeyUsePolicy(java.lang.String)
+     */
+    public KeyUsePolicyType getKeyUsePolicy(String keyUsePolicyID) {
+        return keyUsePolicy;
+    }
+
+    /*
+     * @see org.keymg.core.sym.policy.SymKeyPolicyStore#getDefaultKeyUsePolicy(java.lang.String)
+     */
+    public KeyUsePolicyType getDefaultKeyUsePolicy(String domainID) {
+        return keyUsePolicy;
+    }
+
+    /*
+     * @see org.keymg.core.sym.policy.SymKeyPolicyStore#getKeyUsePolicyForKeyClassType(java.lang.String)
+     */
+    public KeyUsePolicyType getKeyUsePolicyForKeyClassType(String keyClassType) {
+        return keyUsePolicy;
+    }
 }

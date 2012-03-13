@@ -18,16 +18,16 @@ package org.keymg.sym.model.ekmi;
 
 import java.math.BigInteger;
 
-
 /**
  * 
- *                 A complex-type to wrap the NumberOfTransactionsType with 
- *                 the "any" attribute.
- *             
+ * A complex-type to wrap the NumberOfTransactionsType with the "any" attribute.
  * 
- * <p>Java class for PermittedNumberOfTransactionsType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * Java class for PermittedNumberOfTransactionsType complex type.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="PermittedNumberOfTransactionsType">
@@ -41,7 +41,7 @@ import java.math.BigInteger;
  * 
  * @author anil@apache.org
  * @since Aug 24, 2009
- *
+ * 
  */
 public class PermittedNumberOfTransactionsType {
 
@@ -50,14 +50,11 @@ public class PermittedNumberOfTransactionsType {
 
     /**
      * 
-     *                 The number of encryption transactions permitted with this 
-     *                 symmetric key.  It does not limit decryption transactions.
-     *             
+     * The number of encryption transactions permitted with this symmetric key. It does not limit decryption transactions.
      * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
+     * 
+     * @return possible object is {@link BigInteger }
+     * 
      */
     public BigInteger getValue() {
         return value;
@@ -66,10 +63,8 @@ public class PermittedNumberOfTransactionsType {
     /**
      * Sets the value of the value property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
+     * @param value allowed object is {@link BigInteger }
+     * 
      */
     public void setValue(BigInteger value) {
         this.value = value;
@@ -78,10 +73,8 @@ public class PermittedNumberOfTransactionsType {
     /**
      * Gets the value of the any property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getAny() {
         return any;
@@ -90,10 +83,8 @@ public class PermittedNumberOfTransactionsType {
     /**
      * Sets the value of the any property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setAny(String value) {
         this.any = value;

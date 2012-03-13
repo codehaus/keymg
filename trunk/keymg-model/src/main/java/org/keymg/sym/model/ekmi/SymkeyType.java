@@ -16,16 +16,15 @@
  */
 package org.keymg.sym.model.ekmi;
 
-
-
 /**
  * 
- * A symmetric key object, which is the successful response
- * of a request for a key from an SKMS client to an SKS server.
+ * A symmetric key object, which is the successful response of a request for a key from an SKMS client to an SKS server.
  * 
- * <p>Java class for SymkeyType complex type.
+ * <p>
+ * Java class for SymkeyType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="SymkeyType">
@@ -41,13 +40,12 @@ package org.keymg.sym.model.ekmi;
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
- * </pre> 
+ * </pre>
  * 
  * @author anil@apache.org
  * @since Aug 24, 2009
- */ 
-public class SymkeyType implements ValidResponseType
-{
+ */
+public class SymkeyType implements ValidResponseType {
 
     protected SymkeyRequestIDType symkeyRequestID;
     protected GlobalKeyIDType globalKeyID;
@@ -58,10 +56,8 @@ public class SymkeyType implements ValidResponseType
     /**
      * Gets the value of the symkeyRequestID property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public SymkeyRequestIDType getSymkeyRequestID() {
         return symkeyRequestID;
@@ -70,10 +66,8 @@ public class SymkeyType implements ValidResponseType
     /**
      * Sets the value of the symkeyRequestID property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setSymkeyRequestID(SymkeyRequestIDType value) {
         this.symkeyRequestID = value;
@@ -82,10 +76,8 @@ public class SymkeyType implements ValidResponseType
     /**
      * Gets the value of the globalKeyID property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public GlobalKeyIDType getGlobalKeyID() {
         return globalKeyID;
@@ -94,22 +86,18 @@ public class SymkeyType implements ValidResponseType
     /**
      * Sets the value of the globalKeyID property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
-    public void setGlobalKeyID( GlobalKeyIDType value) {
+    public void setGlobalKeyID(GlobalKeyIDType value) {
         this.globalKeyID = value;
     }
 
     /**
      * Gets the value of the keyUsePolicy property.
      * 
-     * @return
-     *     possible object is
-     *     {@link KeyUsePolicyType }
-     *     
+     * @return possible object is {@link KeyUsePolicyType }
+     * 
      */
     public KeyUsePolicyType getKeyUsePolicy() {
         return keyUsePolicy;
@@ -118,10 +106,8 @@ public class SymkeyType implements ValidResponseType
     /**
      * Sets the value of the keyUsePolicy property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link KeyUsePolicyType }
-     *     
+     * @param value allowed object is {@link KeyUsePolicyType }
+     * 
      */
     public void setKeyUsePolicy(KeyUsePolicyType value) {
         this.keyUsePolicy = value;
@@ -130,10 +116,8 @@ public class SymkeyType implements ValidResponseType
     /**
      * Gets the value of the encryptionMethod property.
      * 
-     * @return
-     *     possible object is
-     *     {@link EncryptionMethodType }
-     *     
+     * @return possible object is {@link EncryptionMethodType }
+     * 
      */
     public EncryptionMethodType getEncryptionMethod() {
         return encryptionMethod;
@@ -142,10 +126,8 @@ public class SymkeyType implements ValidResponseType
     /**
      * Sets the value of the encryptionMethod property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link EncryptionMethodType }
-     *     
+     * @param value allowed object is {@link EncryptionMethodType }
+     * 
      */
     public void setEncryptionMethod(EncryptionMethodType value) {
         this.encryptionMethod = value;
@@ -153,11 +135,9 @@ public class SymkeyType implements ValidResponseType
 
     /**
      * 
-     * The encrypted symmetric key.                    
+     * The encrypted symmetric key.
      * 
-     * @return
-     *     possible object is
-     *     {@link CipherDataType } 
+     * @return possible object is {@link CipherDataType }
      */
     public CipherDataType getCipherData() {
         return cipherData;
@@ -166,38 +146,32 @@ public class SymkeyType implements ValidResponseType
     /**
      * Sets the value of the cipherData property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link CipherDataType }
-     *     
+     * @param value allowed object is {@link CipherDataType }
+     * 
      */
     public void setCipherData(CipherDataType value) {
         this.cipherData = value;
     }
-    
-    public String toString()
-    {
-    	StringBuilder builder = new StringBuilder( );
-    	builder.append("<ekmi:Symkey>" );
-    	if( this.symkeyRequestID != null )
-    	   builder.append( "<ekmi:SymkeyRequestID>" ).append( this.symkeyRequestID ).append( "</ekmi:SymkeyRequestID>" );
-    	builder.append( "<ekmi:GlobalKeyID>" ).append( this.globalKeyID ).append( "</ekmi:GlobalKeyID>");
-    	if(this.keyUsePolicy == null)
-    	   throw new RuntimeException("Key Use Policy is null");
-    	if(keyUsePolicy != null)
-    	{
-           builder.append( this.keyUsePolicy.toString() ); 
-    	}
-    	if(encryptionMethod != null)
-    	{
-           builder.append( this.encryptionMethod.toString() ); 
-    	}
-    	if(cipherData != null)
-    	{
-           builder.append( this.cipherData.toString() ); 
-    	}
 
-        builder.append("</ekmi:Symkey>" );
-    	return builder.toString();
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("<ekmi:Symkey>");
+        if (this.symkeyRequestID != null)
+            builder.append("<ekmi:SymkeyRequestID>").append(this.symkeyRequestID).append("</ekmi:SymkeyRequestID>");
+        builder.append("<ekmi:GlobalKeyID>").append(this.globalKeyID).append("</ekmi:GlobalKeyID>");
+        if (this.keyUsePolicy == null)
+            throw new RuntimeException("Key Use Policy is null");
+        if (keyUsePolicy != null) {
+            builder.append(this.keyUsePolicy.toString());
+        }
+        if (encryptionMethod != null) {
+            builder.append(this.encryptionMethod.toString());
+        }
+        if (cipherData != null) {
+            builder.append(this.cipherData.toString());
+        }
+
+        builder.append("</ekmi:Symkey>");
+        return builder.toString();
     }
 }

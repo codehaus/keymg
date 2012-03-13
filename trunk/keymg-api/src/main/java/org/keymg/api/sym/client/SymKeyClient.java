@@ -40,89 +40,95 @@ import org.keymg.sym.model.ekmi.SymkeyRequest;
 import org.keymg.sym.model.ekmi.SymkeyResponse;
 import org.keymg.sym.model.ekmi.SymkeyType;
 
-
 /**
  * Client class for accessing the SKSML Servers
+ * 
  * @author anil@apache.org
  * @since Jul 15, 2011
  */
-public class SymKeyClient
-{
-   protected String serverURL;
-   
-   protected String domainID;
+public class SymKeyClient {
+    protected String serverURL;
 
-   private PrivateKey privateKey;
+    protected String domainID;
 
-   /**
-    * Create the client
-    * @param domainID The Domain ID of the Client
-    * @param serverURL The SKSML Server
-    */
-   public SymKeyClient(String domainID, String serverURL, PrivateKey privateKey)
-   {
-      super();
-      this.domainID = domainID;
-      this.serverURL = serverURL;
-      this.privateKey = privateKey;
-   }
-   
-   public SymkeyResponse createNew() throws SymKeyGenerationException
-   {
-      try
-      {
-         SymkeyRequest request = new SymkeyRequest();
-         request.addGlobalKeyID(newGID());
-         
-         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-         SymkeyWriter writer = new SymkeyWriter(bos);
-         writer.write(request);
-         
-         byte[] bytes = bos.toByteArray();
-         InputStream is = new ByteArrayInputStream(bytes);
-         
-         HttpClient client = new DefaultHttpClient();
-         HttpContext localContext = new BasicHttpContext();
-         
-         InputStreamEntity isEntity = new InputStreamEntity(is, bytes.length);
-         HttpPost post = new HttpPost(serverURL);
-         post.setEntity(isEntity);
-         
-         HttpResponse httpResponse = client.execute(post, localContext);
-         InputStream responseStream = httpResponse.getEntity().getContent();
-         
-         Parser parser = new Parser();
-         parser.parse(responseStream);
-         return (SymkeyResponse) parser.getParsedObject();
-      }
-      catch (Exception e)
-      {
-         throw new SymKeyGenerationException(e);
-      } 
-   }
-   
-   public byte[] getKey(SymkeyResponse response) throws IOException, GeneralSecurityException, UnsupportedEncodingException
-   {
-      if(response == null)
-         throw new IllegalArgumentException("response is null");
-      
-      if(privateKey == null)
-         throw new IllegalStateException("Private Key has not been set");
-      
-      SymkeyType key = (SymkeyType) response.getResponse().get(0);
-      String encryptedValue = key.getCipherData().getCipherValue();
-      
-      //base64 decode
-      byte[] encryptedBytes = Base64.decode(encryptedValue.getBytes("UTF-8"));
-      
-      SymKeyGenerator gen = new SymKeyGenerator();
-      return gen.decrypt(encryptedBytes, privateKey);
-   }
-   
-   protected String newGID()
-   {
-      StringBuilder builder = new StringBuilder(domainID);
-      builder.append("-0-0");
-      return builder.toString();
-   }
+    private PrivateKey privateKey;
+
+    /**
+     * Create the client
+     * 
+     * @param domainID The Domain ID of the Client
+     * @param serverURL The SKSML Server
+     */
+    public SymKeyClient(String domainID, String serverURL, PrivateKey privateKey) {
+        super();
+        this.domainID = domainID;
+        this.serverURL = serverURL;
+        this.privateKey = privateKey;
+    }
+
+    /**
+     * Create a new {@link SymkeyResponse}
+     * @return
+     * @throws SymKeyGenerationException
+     */
+    public SymkeyResponse createNew() throws SymKeyGenerationException {
+        try {
+            SymkeyRequest request = new SymkeyRequest();
+            request.addGlobalKeyID(newGID());
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            SymkeyWriter writer = new SymkeyWriter(bos);
+            writer.write(request);
+
+            byte[] bytes = bos.toByteArray();
+            InputStream is = new ByteArrayInputStream(bytes);
+
+            HttpClient client = new DefaultHttpClient();
+            HttpContext localContext = new BasicHttpContext();
+
+            InputStreamEntity isEntity = new InputStreamEntity(is, bytes.length);
+            HttpPost post = new HttpPost(serverURL);
+            post.setEntity(isEntity);
+
+            HttpResponse httpResponse = client.execute(post, localContext);
+            InputStream responseStream = httpResponse.getEntity().getContent();
+
+            Parser parser = new Parser();
+            parser.parse(responseStream);
+            return (SymkeyResponse) parser.getParsedObject();
+        } catch (Exception e) {
+            throw new SymKeyGenerationException(e);
+        }
+    }
+
+    /**
+     * Get the Symmetric key out of a response
+     * @param response
+     * @return
+     * @throws IOException
+     * @throws GeneralSecurityException
+     * @throws UnsupportedEncodingException
+     */
+    public byte[] getKey(SymkeyResponse response) throws IOException, GeneralSecurityException, UnsupportedEncodingException {
+        if (response == null)
+            throw new IllegalArgumentException("response is null");
+
+        if (privateKey == null)
+            throw new IllegalStateException("Private Key has not been set");
+
+        SymkeyType key = (SymkeyType) response.getResponse().get(0);
+        String encryptedValue = key.getCipherData().getCipherValue();
+
+        // base64 decode
+        byte[] encryptedBytes = Base64.decode(encryptedValue.getBytes("UTF-8"));
+
+        SymKeyGenerator gen = new SymKeyGenerator();
+        return gen.decrypt(encryptedBytes, privateKey);
+    }
+
+    protected String newGID() {
+        StringBuilder builder = new StringBuilder(domainID);
+        builder.append("-0-0");
+        return builder.toString();
+    }
 }

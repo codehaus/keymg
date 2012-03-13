@@ -30,31 +30,28 @@ import org.keymg.core.sym.pki.KeyStorePKIManager;
  * <p>
  * Unit test the {@code PKIManager}
  * </p>
+ * 
  * @author anil@apache.org
  * @since Jun 14, 2010
  */
-public class KeyStorePKIManagerUnitTestCase
-{
-   @Test
-   public void testPKIManager() throws Exception
-   {
-      String ksPath = "keystore/keymg_test.keystore";
-      char[] keyPass = "testkeymg".toCharArray();
-      URL ksURL = Thread.currentThread().getContextClassLoader().getResource( ksPath );
-      File keyStoreFile = new File( ksURL.getPath() );
-      KeyStorePKIManager pki = new KeyStorePKIManager(keyStoreFile, keyPass);
-      
-      PublicKey publicKey = pki.getPublicKey( "99999" );
-      assertNotNull( "public key is not null" , publicKey );
-   } 
-   
-   @After
-   public void end() throws Exception
-   {
-      File theFile = new File("keystore.dat");
-      if(theFile.exists())
-      {
-         theFile.delete();
-      }
-   }
+public class KeyStorePKIManagerUnitTestCase {
+    @Test
+    public void testPKIManager() throws Exception {
+        String ksPath = "keystore/keymg_test.keystore";
+        char[] keyPass = "testkeymg".toCharArray();
+        URL ksURL = Thread.currentThread().getContextClassLoader().getResource(ksPath);
+        File keyStoreFile = new File(ksURL.getPath());
+        KeyStorePKIManager pki = new KeyStorePKIManager(keyStoreFile, keyPass);
+
+        PublicKey publicKey = pki.getPublicKey("99999");
+        assertNotNull("public key is not null", publicKey);
+    }
+
+    @After
+    public void end() throws Exception {
+        File theFile = new File("keystore.dat");
+        if (theFile.exists()) {
+            theFile.delete();
+        }
+    }
 }

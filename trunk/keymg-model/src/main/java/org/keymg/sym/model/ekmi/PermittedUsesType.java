@@ -21,11 +21,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 /**
- * <p>Java class for PermittedUsesType complex type.
+ * <p>
+ * Java class for PermittedUsesType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="PermittedUsesType">
@@ -48,10 +49,10 @@ import java.util.List;
  * &lt;/complexType>
  * </pre>
  * 
- *
+ * 
  * @author anil@apache.org
  * @since Aug 24, 2009
- */ 
+ */
 public class PermittedUsesType {
 
     protected List<Serializable> content = new ArrayList<Serializable>();
@@ -61,22 +62,19 @@ public class PermittedUsesType {
      * Gets the value of the content property.
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String } 
+     * Objects of the following type(s) are allowed in the list {@link String }
      * 
      * 
      */
-    public List<Serializable> getContent() {  
+    public List<Serializable> getContent() {
         return Collections.unmodifiableList(this.content);
     }
 
     /**
      * Gets the value of the any property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getAny() {
         return any;
@@ -85,10 +83,8 @@ public class PermittedUsesType {
     /**
      * Sets the value of the any property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setAny(String value) {
         this.any = value;

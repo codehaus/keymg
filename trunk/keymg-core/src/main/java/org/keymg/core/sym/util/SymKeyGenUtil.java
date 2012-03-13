@@ -27,58 +27,55 @@ import org.keymg.core.sym.SymKeyConstants;
  * <p>
  * Utility used in symmetric key generation.
  * </p>
+ * 
  * @author anil@apache.org
  * @since Jun 7, 2010
  */
-public class SymKeyGenUtil
-{
-   /**
-    * <p>
-    * Given a symmetric key, base64 encode it,
-    * to satisfy the xml dsig/enc requirements
-    * </p>
-    * @param bytesToBeEncoded
-    * @return
-    */
-   public static String base64EncodeSymmetricKeyAsString( byte[] bytesToBeEncoded )
-   {
-      return Base64.encodeBytes( bytesToBeEncoded );
-   }
-   
-   /**
-    * <p>
-    * Given a symmetric key, base64 encode it,
-    * to satisfy the xml dsig/enc requirements
-    * </p>
-    * @param bytesToBeEncoded
-    * @return
-    */
-   public static byte[] base64EncodeSymmetricKeyAsBytes( byte[] bytesToBeEncoded )
-   {
-      return Base64.encodeBytesToBytes( bytesToBeEncoded );
-   }
-   
-   /**
-    * <p>
-    * Given a symmetric key, base64 decode it,
-    * to satisfy the xml dsig requirements
-    * </p>
-    * @param bytesToBeEncoded
-    * @return
-    */
-   public static byte[] base64DecodeSymmetricKey( byte[] encodedBytes )
-   {
-      return Base64.encodeBytesToBytes( encodedBytes );
-   }
-   
-   /**
-    * Get the default RSA Key Pair
-    * @return
-    * @throws NoSuchAlgorithmException
-    */
-   public static KeyPair getRSAKeyPair() throws NoSuchAlgorithmException
-   {
-      KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance( SymKeyConstants.EncryptionAlgorithms.RSA.get() );  
-      return keyPairGenerator.generateKeyPair(); 
-   } 
+public class SymKeyGenUtil {
+    /**
+     * <p>
+     * Given a symmetric key, base64 encode it, to satisfy the xml dsig/enc requirements
+     * </p>
+     * 
+     * @param bytesToBeEncoded
+     * @return
+     */
+    public static String base64EncodeSymmetricKeyAsString(byte[] bytesToBeEncoded) {
+        return Base64.encodeBytes(bytesToBeEncoded);
+    }
+
+    /**
+     * <p>
+     * Given a symmetric key, base64 encode it, to satisfy the xml dsig/enc requirements
+     * </p>
+     * 
+     * @param bytesToBeEncoded
+     * @return
+     */
+    public static byte[] base64EncodeSymmetricKeyAsBytes(byte[] bytesToBeEncoded) {
+        return Base64.encodeBytesToBytes(bytesToBeEncoded);
+    }
+
+    /**
+     * <p>
+     * Given a symmetric key, base64 decode it, to satisfy the xml dsig requirements
+     * </p>
+     * 
+     * @param bytesToBeEncoded
+     * @return
+     */
+    public static byte[] base64DecodeSymmetricKey(byte[] encodedBytes) {
+        return Base64.encodeBytesToBytes(encodedBytes);
+    }
+
+    /**
+     * Get the default RSA Key Pair
+     * 
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    public static KeyPair getRSAKeyPair() throws NoSuchAlgorithmException {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(SymKeyConstants.EncryptionAlgorithms.RSA.get());
+        return keyPairGenerator.generateKeyPair();
+    }
 }

@@ -20,30 +20,26 @@ import java.security.GeneralSecurityException;
 
 /**
  * An exception to indicate issue in storing the generated key
+ * 
  * @author anil@apache.org
  * @since Jul 14, 2011
  */
-public class KeyStorageException extends GeneralSecurityException
-{
-   private static final long serialVersionUID = 1L;
+public class KeyStorageException extends GeneralSecurityException {
+    private static final long serialVersionUID = 1L;
 
-   public KeyStorageException()
-   {
-      super(); 
-   }
+    public KeyStorageException() {
+        super();
+    }
 
-   public KeyStorageException(String message, Throwable cause)
-   {
-      super(message, cause); 
-   }
+    public KeyStorageException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-   public KeyStorageException(String msg)
-   {
-      super(msg); 
-   }
+    public KeyStorageException(String msg) {
+        super(msg);
+    }
 
-   public KeyStorageException(Throwable cause)
-   {
-      super(cause); 
-   }
+    public KeyStorageException(Throwable cause) {
+        super(cause);
+    }
 }

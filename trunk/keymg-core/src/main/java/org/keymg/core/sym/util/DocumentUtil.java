@@ -45,123 +45,105 @@ import org.xml.sax.SAXException;
 
 /**
  * Utility for dealing with DOM
+ * 
  * @author anil@apache.org
  * @since Jun 7, 2010
  */
-public class DocumentUtil
-{
-   public static Document create( String xmlDocument ) throws ParserConfigurationException, SAXException, IOException
-   {
-      if( xmlDocument == null )
-         throw new IllegalArgumentException( "xmlDocument is null" ); 
-      
-      DocumentBuilderFactory factory = getFactory();
-      DocumentBuilder builder = factory.newDocumentBuilder();
-      return builder.parse( new InputSource( new StringReader( xmlDocument ) ) ); 
-   }
-   
-   public static String asString( Document doc ) throws DocumentProcessingException
-   {
-      Source source = new DOMSource( doc );
-      StringWriter sw = new StringWriter();
+public class DocumentUtil {
+    public static Document create(String xmlDocument) throws ParserConfigurationException, SAXException, IOException {
+        if (xmlDocument == null)
+            throw new IllegalArgumentException("xmlDocument is null");
 
-      Result streamResult = new StreamResult(sw);
-      // Write the DOM document to the stream
-      try
-      {
-         Transformer xformer = getTransformer();
-         xformer.transform(source, streamResult);
-      }
-      catch ( Exception e)
-      {
-         throw new DocumentProcessingException( e );
-      } 
+        DocumentBuilderFactory factory = getFactory();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        return builder.parse(new InputSource(new StringReader(xmlDocument)));
+    }
 
-      return sw.toString();
-   }
-   
-   /**
-    * Get Document from an inputstream
-    * @param is
-    * @return
-    * @throws ParserConfigurationException  
-    * @throws IOException 
-    * @throws SAXException 
-    */
-   public static Document getDocument(InputStream is) throws IOException 
-   {
-      DocumentBuilderFactory factory = getFactory();
-      DocumentBuilder builder;
-      try
-      {
-         builder = factory.newDocumentBuilder();
-         return builder.parse(is);
-      }
-      catch (ParserConfigurationException e)
-      { 
-         throw new IOException(e);
-      }
-      catch (SAXException e)
-      {
-         throw new IOException(e);
-      }
-   }
-   
-   /**
-    * Stream a DOM Node as an input stream
-    * @param node
-    * @return
-    * @throws TransformerFactoryConfigurationError 
-    * @throws TransformerException  
-    */
-   public static InputStream getNodeAsStream(Node node) throws IOException
-   {
-      return getSourceAsStream(new DOMSource(node));
-   }
+    public static String asString(Document doc) throws DocumentProcessingException {
+        Source source = new DOMSource(doc);
+        StringWriter sw = new StringWriter();
 
-   /**
-    * Get the {@link Source} as an {@link InputStream}
-    * @param source
-    * @return
-    * @throws IOException 
-    * @throws ConfigurationException
-    * @throws ProcessingException
-    */
-   public static InputStream getSourceAsStream(Source source) throws IOException
-   {
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      Result streamResult = new StreamResult(baos);
-      // Write the DOM document to the stream
-      try
-      {
-         Transformer transformer = TransformerFactory.newInstance().newTransformer();
-         transformer.transform(source, streamResult); 
+        Result streamResult = new StreamResult(sw);
+        // Write the DOM document to the stream
+        try {
+            Transformer xformer = getTransformer();
+            xformer.transform(source, streamResult);
+        } catch (Exception e) {
+            throw new DocumentProcessingException(e);
+        }
 
-         return new ByteArrayInputStream(baos.toByteArray());
-      }
-      catch (Exception e)
-      { 
-         throw new IOException(e);
-      } 
-   }
+        return sw.toString();
+    }
 
+    /**
+     * Get Document from an inputstream
+     * 
+     * @param is
+     * @return
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
+    public static Document getDocument(InputStream is) throws IOException {
+        DocumentBuilderFactory factory = getFactory();
+        DocumentBuilder builder;
+        try {
+            builder = factory.newDocumentBuilder();
+            return builder.parse(is);
+        } catch (ParserConfigurationException e) {
+            throw new IOException(e);
+        } catch (SAXException e) {
+            throw new IOException(e);
+        }
+    }
 
-   
-   private static DocumentBuilderFactory getFactory()
-   {
-      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-      factory.setNamespaceAware( true );
-      factory.setXIncludeAware(true);
-      return factory;
-   } 
-   
+    /**
+     * Stream a DOM Node as an input stream
+     * 
+     * @param node
+     * @return
+     * @throws TransformerFactoryConfigurationError
+     * @throws TransformerException
+     */
+    public static InputStream getNodeAsStream(Node node) throws IOException {
+        return getSourceAsStream(new DOMSource(node));
+    }
 
-   private static Transformer getTransformer() throws TransformerConfigurationException, TransformerFactoryConfigurationError 
-   {
-      Transformer transformer = TransformerFactory.newInstance().newTransformer();
-      
-      transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-      transformer.setOutputProperty(OutputKeys.INDENT, "no");
-      return transformer;
-   }
+    /**
+     * Get the {@link Source} as an {@link InputStream}
+     * 
+     * @param source
+     * @return
+     * @throws IOException
+     * @throws ConfigurationException
+     * @throws ProcessingException
+     */
+    public static InputStream getSourceAsStream(Source source) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Result streamResult = new StreamResult(baos);
+        // Write the DOM document to the stream
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform(source, streamResult);
+
+            return new ByteArrayInputStream(baos.toByteArray());
+        } catch (Exception e) {
+            throw new IOException(e);
+        }
+    }
+
+    private static DocumentBuilderFactory getFactory() {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        factory.setXIncludeAware(true);
+        return factory;
+    }
+
+    private static Transformer getTransformer() throws TransformerConfigurationException, TransformerFactoryConfigurationError {
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        transformer.setOutputProperty(OutputKeys.INDENT, "no");
+        return transformer;
+    }
 }

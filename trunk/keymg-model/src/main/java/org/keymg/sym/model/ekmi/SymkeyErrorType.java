@@ -17,17 +17,16 @@
 
 package org.keymg.sym.model.ekmi;
 
-
-
 /**
  * 
- *                 A response with an error message in the event that a request
- *                 was not successful.
- *             
+ * A response with an error message in the event that a request was not successful.
  * 
- * <p>Java class for SymkeyErrorType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * Java class for SymkeyErrorType complex type.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="SymkeyErrorType">
@@ -60,8 +59,7 @@ package org.keymg.sym.model.ekmi;
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class SymkeyErrorType implements ValidResponseType
-{
+public class SymkeyErrorType implements ValidResponseType {
 
     protected String symkeyRequestID;
     protected String requestedGlobalKeyID;
@@ -72,10 +70,8 @@ public class SymkeyErrorType implements ValidResponseType
     /**
      * Gets the value of the symkeyRequestID property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getSymkeyRequestID() {
         return symkeyRequestID;
@@ -84,10 +80,8 @@ public class SymkeyErrorType implements ValidResponseType
     /**
      * Sets the value of the symkeyRequestID property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setSymkeyRequestID(String value) {
         this.symkeyRequestID = value;
@@ -96,10 +90,8 @@ public class SymkeyErrorType implements ValidResponseType
     /**
      * Gets the value of the requestedGlobalKeyID property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getRequestedGlobalKeyID() {
         return requestedGlobalKeyID;
@@ -108,10 +100,8 @@ public class SymkeyErrorType implements ValidResponseType
     /**
      * Sets the value of the requestedGlobalKeyID property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setRequestedGlobalKeyID(String value) {
         this.requestedGlobalKeyID = value;
@@ -120,10 +110,8 @@ public class SymkeyErrorType implements ValidResponseType
     /**
      * Gets the value of the requestedKeyClass property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getRequestedKeyClass() {
         return requestedKeyClass;
@@ -132,10 +120,8 @@ public class SymkeyErrorType implements ValidResponseType
     /**
      * Sets the value of the requestedKeyClass property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setRequestedKeyClass(String value) {
         this.requestedKeyClass = value;
@@ -144,10 +130,8 @@ public class SymkeyErrorType implements ValidResponseType
     /**
      * Gets the value of the errorCode property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getErrorCode() {
         return errorCode;
@@ -156,10 +140,8 @@ public class SymkeyErrorType implements ValidResponseType
     /**
      * Sets the value of the errorCode property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setErrorCode(String value) {
         this.errorCode = value;
@@ -168,10 +150,8 @@ public class SymkeyErrorType implements ValidResponseType
     /**
      * Gets the value of the errorMessage property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getErrorMessage() {
         return errorMessage;
@@ -180,10 +160,8 @@ public class SymkeyErrorType implements ValidResponseType
     /**
      * Sets the value of the errorMessage property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setErrorMessage(String value) {
         this.errorMessage = value;

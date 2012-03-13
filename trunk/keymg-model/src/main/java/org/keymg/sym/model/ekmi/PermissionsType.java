@@ -17,29 +17,23 @@
 
 package org.keymg.sym.model.ekmi;
 
-
-
 /**
  * 
- *                 This is a required element that allows companies to define 
- *                 how the symmetric key may be used.  It will be included in 
- *                 the KUP object returned with the symmetric key.  Applications 
- *                 must parse through the permissions before using the key and 
- *                 only allow what is permitted for that permission type.  
- *                 
- *                 All "Permitted..." sub-elements - except for the Other element - 
- *                 are required.  However, if the attribute "any" for each of the 
- *                 "Permitted..." sub-elements is set to "true", then the xsi:nil 
- *                 attribute must also be set to "true" and the sub-element must 
- *                 be empty.  If the value of the "any" attribute for a specific
- *                 "Permitted..." sub-element is "false", then at least one child 
- *                 element must exist for the "Permitted..." sub-element and the
- *                 xsi:nil attribute must not exist.
- *             
+ * This is a required element that allows companies to define how the symmetric key may be used. It will be included in the KUP
+ * object returned with the symmetric key. Applications must parse through the permissions before using the key and only allow
+ * what is permitted for that permission type.
  * 
- * <p>Java class for PermissionsType complex type.
+ * All "Permitted..." sub-elements - except for the Other element - are required. However, if the attribute "any" for each of
+ * the "Permitted..." sub-elements is set to "true", then the xsi:nil attribute must also be set to "true" and the sub-element
+ * must be empty. If the value of the "any" attribute for a specific "Permitted..." sub-element is "false", then at least one
+ * child element must exist for the "Permitted..." sub-element and the xsi:nil attribute must not exist.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
+ * <p>
+ * Java class for PermissionsType complex type.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="PermissionsType">
@@ -65,8 +59,7 @@ package org.keymg.sym.model.ekmi;
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class PermissionsType 
-{
+public class PermissionsType {
 
     protected PermittedApplicationsType permittedApplications;
     protected PermittedDatesType permittedDates;
@@ -82,10 +75,8 @@ public class PermissionsType
     /**
      * Gets the value of the permittedApplications property.
      * 
-     * @return
-     *     possible object is
-     *     {@link PermittedApplicationsType }
-     *     
+     * @return possible object is {@link PermittedApplicationsType }
+     * 
      */
     public PermittedApplicationsType getPermittedApplications() {
         return permittedApplications;
@@ -94,10 +85,8 @@ public class PermissionsType
     /**
      * Sets the value of the permittedApplications property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link PermittedApplicationsType }
-     *     
+     * @param value allowed object is {@link PermittedApplicationsType }
+     * 
      */
     public void setPermittedApplications(PermittedApplicationsType value) {
         this.permittedApplications = value;
@@ -106,10 +95,8 @@ public class PermissionsType
     /**
      * Gets the value of the permittedDates property.
      * 
-     * @return
-     *     possible object is
-     *     {@link PermittedDatesType }
-     *     
+     * @return possible object is {@link PermittedDatesType }
+     * 
      */
     public PermittedDatesType getPermittedDates() {
         return permittedDates;
@@ -118,10 +105,8 @@ public class PermissionsType
     /**
      * Sets the value of the permittedDates property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link PermittedDatesType }
-     *     
+     * @param value allowed object is {@link PermittedDatesType }
+     * 
      */
     public void setPermittedDates(PermittedDatesType value) {
         this.permittedDates = value;
@@ -130,10 +115,8 @@ public class PermissionsType
     /**
      * Gets the value of the permittedDays property.
      * 
-     * @return
-     *     possible object is
-     *     {@link PermittedDaysType }
-     *     
+     * @return possible object is {@link PermittedDaysType }
+     * 
      */
     public PermittedDaysType getPermittedDays() {
         return permittedDays;
@@ -142,10 +125,8 @@ public class PermissionsType
     /**
      * Sets the value of the permittedDays property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link PermittedDaysType }
-     *     
+     * @param value allowed object is {@link PermittedDaysType }
+     * 
      */
     public void setPermittedDays(PermittedDaysType value) {
         this.permittedDays = value;
@@ -154,10 +135,8 @@ public class PermissionsType
     /**
      * Gets the value of the permittedDuration property.
      * 
-     * @return
-     *     possible object is
-     *     {@link PermittedDurationType }
-     *     
+     * @return possible object is {@link PermittedDurationType }
+     * 
      */
     public PermittedDurationType getPermittedDuration() {
         return permittedDuration;
@@ -166,10 +145,8 @@ public class PermissionsType
     /**
      * Sets the value of the permittedDuration property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link PermittedDurationType }
-     *     
+     * @param value allowed object is {@link PermittedDurationType }
+     * 
      */
     public void setPermittedDuration(PermittedDurationType value) {
         this.permittedDuration = value;
@@ -178,10 +155,8 @@ public class PermissionsType
     /**
      * Gets the value of the permittedLevels property.
      * 
-     * @return
-     *     possible object is
-     *     {@link PermittedLevelsType }
-     *     
+     * @return possible object is {@link PermittedLevelsType }
+     * 
      */
     public PermittedLevelsType getPermittedLevels() {
         return permittedLevels;
@@ -190,10 +165,8 @@ public class PermissionsType
     /**
      * Sets the value of the permittedLevels property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link PermittedLevelsType }
-     *     
+     * @param value allowed object is {@link PermittedLevelsType }
+     * 
      */
     public void setPermittedLevels(PermittedLevelsType value) {
         this.permittedLevels = value;
@@ -202,10 +175,8 @@ public class PermissionsType
     /**
      * Gets the value of the permittedLocations property.
      * 
-     * @return
-     *     possible object is
-     *     {@link PermittedLocationsType }
-     *     
+     * @return possible object is {@link PermittedLocationsType }
+     * 
      */
     public PermittedLocationsType getPermittedLocations() {
         return permittedLocations;
@@ -214,10 +185,8 @@ public class PermissionsType
     /**
      * Sets the value of the permittedLocations property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link PermittedLocationsType }
-     *     
+     * @param value allowed object is {@link PermittedLocationsType }
+     * 
      */
     public void setPermittedLocations(PermittedLocationsType value) {
         this.permittedLocations = value;
@@ -226,10 +195,8 @@ public class PermissionsType
     /**
      * Gets the value of the permittedNumberOfTransactions property.
      * 
-     * @return
-     *     possible object is
-     *     {@link PermittedNumberOfTransactionsType }
-     *     
+     * @return possible object is {@link PermittedNumberOfTransactionsType }
+     * 
      */
     public PermittedNumberOfTransactionsType getPermittedNumberOfTransactions() {
         return permittedNumberOfTransactions;
@@ -238,10 +205,8 @@ public class PermissionsType
     /**
      * Sets the value of the permittedNumberOfTransactions property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link PermittedNumberOfTransactionsType }
-     *     
+     * @param value allowed object is {@link PermittedNumberOfTransactionsType }
+     * 
      */
     public void setPermittedNumberOfTransactions(PermittedNumberOfTransactionsType value) {
         this.permittedNumberOfTransactions = value;
@@ -250,10 +215,8 @@ public class PermissionsType
     /**
      * Gets the value of the permittedTimes property.
      * 
-     * @return
-     *     possible object is
-     *     {@link PermittedTimesType }
-     *     
+     * @return possible object is {@link PermittedTimesType }
+     * 
      */
     public PermittedTimesType getPermittedTimes() {
         return permittedTimes;
@@ -262,10 +225,8 @@ public class PermissionsType
     /**
      * Sets the value of the permittedTimes property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link PermittedTimesType }
-     *     
+     * @param value allowed object is {@link PermittedTimesType }
+     * 
      */
     public void setPermittedTimes(PermittedTimesType value) {
         this.permittedTimes = value;
@@ -274,10 +235,8 @@ public class PermissionsType
     /**
      * Gets the value of the permittedUses property.
      * 
-     * @return
-     *     possible object is
-     *     {@link PermittedUsesType }
-     *     
+     * @return possible object is {@link PermittedUsesType }
+     * 
      */
     public PermittedUsesType getPermittedUses() {
         return permittedUses;
@@ -286,10 +245,8 @@ public class PermissionsType
     /**
      * Sets the value of the permittedUses property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link PermittedUsesType }
-     *     
+     * @param value allowed object is {@link PermittedUsesType }
+     * 
      */
     public void setPermittedUses(PermittedUsesType value) {
         this.permittedUses = value;
@@ -298,10 +255,8 @@ public class PermissionsType
     /**
      * Gets the value of the other property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Object }
-     *     
+     * @return possible object is {@link Object }
+     * 
      */
     public Object getOther() {
         return other;
@@ -310,10 +265,8 @@ public class PermissionsType
     /**
      * Sets the value of the other property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link Object }
-     *     
+     * @param value allowed object is {@link Object }
+     * 
      */
     public void setOther(Object value) {
         this.other = value;

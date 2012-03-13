@@ -20,27 +20,22 @@ package org.keymg.sym.exceptions;
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class StringFormatException extends RuntimeException 
-{
-	private static final long serialVersionUID = 1L;
+public class StringFormatException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
 
-	public StringFormatException() 
-	{
-		super();
-	}
+    public StringFormatException() {
+        super();
+    }
 
-	public StringFormatException(String arg0, Throwable arg1) 
-	{
-		super(arg0, arg1);
-	}
+    public StringFormatException(String arg0, Throwable arg1) {
+        super(arg0, arg1);
+    }
 
-	public StringFormatException(String arg0) 
-	{
-		super(arg0);
-	}
+    public StringFormatException(String arg0) {
+        super(arg0);
+    }
 
-	public StringFormatException(Throwable arg0) 
-	{
-		super(arg0);
-	} 
+    public StringFormatException(Throwable arg0) {
+        super(arg0);
+    }
 }

@@ -20,30 +20,26 @@ import java.security.GeneralSecurityException;
 
 /**
  * Exception in the {@code PublicKeyManager} implementation
+ * 
  * @author anil@apache.org
  * @since Jun 14, 2010
  */
-public class PKIRepositoryException extends GeneralSecurityException
-{
-   private static final long serialVersionUID = 1L;
+public class PKIRepositoryException extends GeneralSecurityException {
+    private static final long serialVersionUID = 1L;
 
-   public PKIRepositoryException()
-   {
-      super(); 
-   }
+    public PKIRepositoryException() {
+        super();
+    }
 
-   public PKIRepositoryException(String arg0, Throwable arg1)
-   {
-      super(arg0, arg1); 
-   }
+    public PKIRepositoryException(String arg0, Throwable arg1) {
+        super(arg0, arg1);
+    }
 
-   public PKIRepositoryException(String arg0)
-   {
-      super(arg0); 
-   }
+    public PKIRepositoryException(String arg0) {
+        super(arg0);
+    }
 
-   public PKIRepositoryException(Throwable arg0)
-   {
-      super(arg0); 
-   } 
+    public PKIRepositoryException(Throwable arg0) {
+        super(arg0);
+    }
 }

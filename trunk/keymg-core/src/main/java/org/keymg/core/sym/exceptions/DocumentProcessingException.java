@@ -19,30 +19,26 @@ package org.keymg.core.sym.exceptions;
 import java.security.GeneralSecurityException;
 
 /**
+ * A {@link Exception} indicating problems with processing of a document
  * @author anil@apache.org
  * @since Jun 7, 2010
  */
-public class DocumentProcessingException extends GeneralSecurityException
-{
-   private static final long serialVersionUID = 1L;
+public class DocumentProcessingException extends GeneralSecurityException {
+    private static final long serialVersionUID = 1L;
 
-   public DocumentProcessingException()
-   {
-      super(); 
-   }
+    public DocumentProcessingException() {
+        super();
+    }
 
-   public DocumentProcessingException(String arg0, Throwable arg1)
-   {
-      super(arg0, arg1); 
-   }
+    public DocumentProcessingException(String arg0, Throwable arg1) {
+        super(arg0, arg1);
+    }
 
-   public DocumentProcessingException(String arg0)
-   {
-      super(arg0); 
-   }
+    public DocumentProcessingException(String arg0) {
+        super(arg0);
+    }
 
-   public DocumentProcessingException(Throwable arg0)
-   {
-      super(arg0); 
-   }
+    public DocumentProcessingException(Throwable arg0) {
+        super(arg0);
+    }
 }

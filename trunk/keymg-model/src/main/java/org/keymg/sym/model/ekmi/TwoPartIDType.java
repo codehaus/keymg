@@ -22,100 +22,80 @@ import org.keymg.sym.exceptions.StringFormatException;
 
 /**
  * 
- <xsd:simpleType name="TwoPartIDType">
-        <xsd:annotation>
-            <xsd:documentation>
-                An identifier type that consists of two 20-character
-                ASCII decimal numbers separated by a hyphen ("-").
-                Each 20-character decimal element ranges from the 
-                value 1 to 18446744073709551615.
-            </xsd:documentation>
-        </xsd:annotation>
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="3"/>
-            <xsd:maxLength value="41"/>
-            <xsd:pattern value="[1-9][0-9]{0,19}-[1-9][0-9]{0,19}"/>
-            <xsd:whiteSpace value="collapse"/>
-        </xsd:restriction>
-    </xsd:simpleType> 
- 
+ <xsd:simpleType name="TwoPartIDType"> <xsd:annotation> <xsd:documentation> An identifier type that consists of two
+ * 20-character ASCII decimal numbers separated by a hyphen ("-"). Each 20-character decimal element ranges from the value 1 to
+ * 18446744073709551615. </xsd:documentation> </xsd:annotation> <xsd:restriction base="xsd:string"> <xsd:minLength value="3"/>
+ * <xsd:maxLength value="41"/> <xsd:pattern value="[1-9][0-9]{0,19}-[1-9][0-9]{0,19}"/> <xsd:whiteSpace value="collapse"/>
+ * </xsd:restriction> </xsd:simpleType>
+ * 
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class TwoPartIDType 
-{
-	private String value;
+public class TwoPartIDType {
+    private String value;
 
-	public TwoPartIDType()
-	{ 	
-	}
-	
-	public TwoPartIDType(String value)
-	{
-		validate(value);
-		this.value = value;
-	}
-	
-	public String getValue()
-	{
-		return this.value;
-	}
-	
-	public void setValue( String value )
-	{
-		validate( value );
-		this.value = value;
-	}
-	
-	/**
-	 * Validate the input string to the constraints
-	 * @param val
-	 */
-	protected void validate(String val)
-	{
-		if(val == null)
-			throw new IllegalArgumentException( " val is null" );
-		
-		val = val.trim();
-		int length = val.length();
-		
-		if( length < 3 )
-			throw new StringFormatException( "Need at least 3 characters:" + length );
-		
-		if( length > 41 )
-		    throw new StringFormatException( "At most 41 character allowed:" + length );
-		
-		//Validate the String pattern 
-		if( Pattern.matches( "[1-9][0-9]{0,19}-[1-9][0-9]{0,19}",  val ) == false )
-			throw new StringFormatException( "pattern does not match [1-9][0-9]{0,19}-[1-9][0-9]{0,19}:" + val );
-	}
+    public TwoPartIDType() {
+    }
 
-   @Override
-   public int hashCode()
-   {
-      final int prime = 31;
-      int result = 1;
-      result = prime * result + ((value == null) ? 0 : value.hashCode());
-      return result;
-   }
+    public TwoPartIDType(String value) {
+        validate(value);
+        this.value = value;
+    }
 
-   @Override
-   public boolean equals(Object obj)
-   {
-      if (this == obj)
-         return true;
-      if (obj == null)
-         return false;
-      if (getClass() != obj.getClass())
-         return false;
-      TwoPartIDType other = (TwoPartIDType) obj;
-      if (value == null)
-      {
-         if (other.value != null)
+    public String getValue() {
+        return this.value;
+    }
+
+    public void setValue(String value) {
+        validate(value);
+        this.value = value;
+    }
+
+    /**
+     * Validate the input string to the constraints
+     * 
+     * @param val
+     */
+    protected void validate(String val) {
+        if (val == null)
+            throw new IllegalArgumentException(" val is null");
+
+        val = val.trim();
+        int length = val.length();
+
+        if (length < 3)
+            throw new StringFormatException("Need at least 3 characters:" + length);
+
+        if (length > 41)
+            throw new StringFormatException("At most 41 character allowed:" + length);
+
+        // Validate the String pattern
+        if (Pattern.matches("[1-9][0-9]{0,19}-[1-9][0-9]{0,19}", val) == false)
+            throw new StringFormatException("pattern does not match [1-9][0-9]{0,19}-[1-9][0-9]{0,19}:" + val);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((value == null) ? 0 : value.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
             return false;
-      }
-      else if (!value.equals(other.value))
-         return false;
-      return true;
-   }
+        if (getClass() != obj.getClass())
+            return false;
+        TwoPartIDType other = (TwoPartIDType) obj;
+        if (value == null) {
+            if (other.value != null)
+                return false;
+        } else if (!value.equals(other.value))
+            return false;
+        return true;
+    }
 }

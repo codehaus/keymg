@@ -15,7 +15,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 package org.keymg.api.sym;
- 
+
 import org.keymg.api.sym.exceptions.SymKeyGenerationException;
 import org.keymg.core.sym.SymKeyProcessor;
 import org.keymg.core.sym.config.KeymgConfigurationManager;
@@ -29,69 +29,78 @@ import org.w3c.dom.Document;
  * <p>
  * Key Generator.
  * </p>
+ * 
  * @author anil@apache.org
  * @since Aug 24, 2009
- */ 
-public class KeyGenerator 
-{
-   private KeymgConfigurationManager configurationManager = KeymgConfigurationManager.getInstance();
-   
-   protected String serverID = null;
-   
-   protected SymKeyPolicyStore policyStore = null;
-   
-   public String getServerID()
-   {
-      return serverID;
-   }
+ */
+public class KeyGenerator {
+    private KeymgConfigurationManager configurationManager = KeymgConfigurationManager.getInstance();
 
-   public void setServerID(String serverID)
-   {
-      this.serverID = serverID;
-   } 
+    protected String serverID = null;
 
-   public SymKeyPolicyStore getPolicyStore()
-   {
-      return policyStore;
-   }
+    protected SymKeyPolicyStore policyStore = null;
 
-   public void setPolicyStore(SymKeyPolicyStore policyStore)
-   {
-      this.policyStore = policyStore;
-      KeymgConfigurationManager.setPolicyStore(policyStore);
-   }
+    /**
+     * Get the Server ID
+     * @return
+     */
+    public String getServerID() {
+        return serverID;
+    }
 
-   /**
-    * <p>
-    * Generate a symmetric key
-    * </p>
-    * @param keyID The Key ID
-    * @return
-    */
-   public Document generate( String keyID ) throws SymKeyGenerationException
-   { 
-      if( keyID == null )
-         throw new IllegalArgumentException( "keyID is null" );
-      
-      if( serverID == null )
-         throw new IllegalArgumentException( "serverID is null" );
-      
-      if( policyStore == null )
-         throw new IllegalArgumentException( "policyStore is null" );
-      
-      SymKeyProcessor processor = new SymKeyProcessor(configurationManager); 
-      processor.setServerID(serverID); 
-      ValidResponseType validResponseType = processor.generate(keyID);
-      
-      SymkeyResponse response = new SymkeyResponse();
-      response.add(validResponseType);
-      try
-      {
-         return DocumentUtil.create(response.toString());
-      }
-      catch (Exception e)
-      {
-         throw new SymKeyGenerationException(e);
-      }
-   } 
+    /**
+     * Set the Server ID
+     * @param serverID
+     */
+    public void setServerID(String serverID) {
+        this.serverID = serverID;
+    }
+
+    /**
+     * Get the {@link SymKeyPolicyStore}
+     * @return
+     */
+    public SymKeyPolicyStore getPolicyStore() {
+        return policyStore;
+    }
+
+    /**
+     * Set the {@link SymKeyPolicyStore}
+     * @param policyStore
+     */
+    public void setPolicyStore(SymKeyPolicyStore policyStore) {
+        this.policyStore = policyStore;
+        KeymgConfigurationManager.setPolicyStore(policyStore);
+    }
+
+    /**
+     * <p>
+     * Generate a symmetric key
+     * </p>
+     * 
+     * @param keyID The Key ID
+     * @return
+     */
+    public Document generate(String keyID) throws SymKeyGenerationException {
+        if (keyID == null)
+            throw new IllegalArgumentException("keyID is null");
+
+        if (serverID == null)
+            throw new IllegalArgumentException("serverID is null");
+
+        if (policyStore == null)
+            throw new IllegalArgumentException("policyStore is null");
+
+        SymKeyProcessor processor = new SymKeyProcessor(configurationManager);
+        processor.setServerID(serverID);
+        ValidResponseType validResponseType = processor.generate(keyID);
+
+        SymkeyResponse response = new SymkeyResponse();
+        response.add(validResponseType);
+        try {
+            return DocumentUtil.create(response.toString());
+        } catch (Exception e) {
+            throw new SymKeyGenerationException(e);
+        }
+    }
 }

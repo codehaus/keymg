@@ -22,17 +22,14 @@ import java.math.BigInteger;
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class NumberOfTransactionsType 
-{
-	private BigInteger value;
+public class NumberOfTransactionsType {
+    private BigInteger value;
 
-	public BigInteger getValue() 
-	{
-		return value;
-	}
+    public BigInteger getValue() {
+        return value;
+    }
 
-	public void setValue(BigInteger value) 
-	{
-		this.value = value;
-	} 
+    public void setValue(BigInteger value) {
+        this.value = value;
+    }
 }

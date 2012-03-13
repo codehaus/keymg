@@ -32,86 +32,75 @@ import org.keymg.core.sym.SymKeyConstants;
 import org.keymg.sym.model.ekmi.ApplicationsType;
 
 /**
+ * An implementation of {@link XMLParser} to parse the {@link PermittedApplicationType}
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class PermittedApplicationParser implements XMLParser 
-{
-	private static Logger log = Logger.getLogger( PermittedApplicationParser.class.getCanonicalName() );
-	
-	public boolean acceptsQName(QName qname) 
-	{
-		return false;
-	}
+public class PermittedApplicationParser implements XMLParser {
+    private static Logger log = Logger.getLogger(PermittedApplicationParser.class.getCanonicalName());
 
-	public QName[] getQNames() 
-	{
-		return null;
-	}
+    /**
+     * @see XMLParser#acceptsQName(QName)
+     */
+    public boolean acceptsQName(QName qname) {
+        return false;
+    }
 
-	public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent,
-			Object populateObject) throws XMLStreamException 
-	{
-		ApplicationsType applicationType = (ApplicationsType) populateObject;
-		try 
-		{
-			while(xmlEventReader.hasNext())
-			{
-				XMLEvent ev = xmlEventReader.nextEvent();
-				
-				switch(ev.getEventType())
-				{
-				case XMLStreamConstants.START_ELEMENT:
-					StartElement nextStartElement = (StartElement) ev;
-					QName elementName = nextStartElement.getName();
-					String localPart = elementName.getLocalPart();
-					
-					if( SymKeyConstants.APPLICATION_ID.equals( localPart ))
-					{ 
-						String applicationID = xmlEventReader.getElementText().trim();
-						applicationType.setApplicationID(applicationID);
-					}  
-					else if( SymKeyConstants.APPLICATION_NAME.equals( localPart ))
-					{
-						String applicationName = xmlEventReader.getElementText().trim();
-						applicationType.setApplicationName( applicationName ); 
-					} 
-					else if( SymKeyConstants.APPLICATION_VERSION.equals( localPart ))
-					{
-						String applicationVersion = xmlEventReader.getElementText().trim();
-						applicationType.setVersion(applicationVersion); 
-					}
-					else if( SymKeyConstants.APPLICATION_DIGEST_ALGORITHM.equals( localPart ))
-					{
-						String appDigestAlgorithm = xmlEventReader.getElementText().trim();
-						applicationType.setDigestAlgorithm(appDigestAlgorithm);  
-					}
-					else if( SymKeyConstants.APPLICATION_DIGEST_VALUE.equals( localPart ))
-					{
-						String appDigestValue = xmlEventReader.getElementText().trim();
-						applicationType.setDigestValue(appDigestValue.getBytes( "UTF-8" ));  
-					} 
-					break;
+    /**
+     * @see XMLParser#getQNames()
+     */
+    public QName[] getQNames() {
+        return null;
+    }
 
-				case XMLStreamConstants.END_ELEMENT: 
-					EndElement endElement = (EndElement) ev;
-				    localPart = endElement.getName().getLocalPart();
-					
-				    if( localPart.equals( SymKeyConstants.PERMITTED_APPLICATION ) )
-				    	return;
-					break;
-				case XMLStreamConstants.END_DOCUMENT:
-					return ; 
-				} 
-			}
-		} 
-		catch (XMLStreamException e) 
-		{ 
-			log.log( Level.SEVERE, "Unable to parse:" , e );
-		} 
-		catch (UnsupportedEncodingException e) 
-		{
-			log.log( Level.SEVERE, "Unable to parse:" , e );
-		} 
-	}
+    /**
+     * @see XMLParser#handle(XMLEventReader, XMLEvent, Object)
+     */
+    public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException {
+        ApplicationsType applicationType = (ApplicationsType) populateObject;
+        try {
+            while (xmlEventReader.hasNext()) {
+                XMLEvent ev = xmlEventReader.nextEvent();
+
+                switch (ev.getEventType()) {
+                    case XMLStreamConstants.START_ELEMENT:
+                        StartElement nextStartElement = (StartElement) ev;
+                        QName elementName = nextStartElement.getName();
+                        String localPart = elementName.getLocalPart();
+
+                        if (SymKeyConstants.APPLICATION_ID.equals(localPart)) {
+                            String applicationID = xmlEventReader.getElementText().trim();
+                            applicationType.setApplicationID(applicationID);
+                        } else if (SymKeyConstants.APPLICATION_NAME.equals(localPart)) {
+                            String applicationName = xmlEventReader.getElementText().trim();
+                            applicationType.setApplicationName(applicationName);
+                        } else if (SymKeyConstants.APPLICATION_VERSION.equals(localPart)) {
+                            String applicationVersion = xmlEventReader.getElementText().trim();
+                            applicationType.setVersion(applicationVersion);
+                        } else if (SymKeyConstants.APPLICATION_DIGEST_ALGORITHM.equals(localPart)) {
+                            String appDigestAlgorithm = xmlEventReader.getElementText().trim();
+                            applicationType.setDigestAlgorithm(appDigestAlgorithm);
+                        } else if (SymKeyConstants.APPLICATION_DIGEST_VALUE.equals(localPart)) {
+                            String appDigestValue = xmlEventReader.getElementText().trim();
+                            applicationType.setDigestValue(appDigestValue.getBytes("UTF-8"));
+                        }
+                        break;
+
+                    case XMLStreamConstants.END_ELEMENT:
+                        EndElement endElement = (EndElement) ev;
+                        localPart = endElement.getName().getLocalPart();
+
+                        if (localPart.equals(SymKeyConstants.PERMITTED_APPLICATION))
+                            return;
+                        break;
+                    case XMLStreamConstants.END_DOCUMENT:
+                        return;
+                }
+            }
+        } catch (XMLStreamException e) {
+            log.log(Level.SEVERE, "Unable to parse:", e);
+        } catch (UnsupportedEncodingException e) {
+            log.log(Level.SEVERE, "Unable to parse:", e);
+        }
+    }
 }

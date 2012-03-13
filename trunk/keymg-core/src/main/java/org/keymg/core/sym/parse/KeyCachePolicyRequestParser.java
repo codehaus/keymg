@@ -39,127 +39,117 @@ import org.keymg.sym.model.ekmi.KeyCachePolicyRequestType;
 import org.w3c.dom.Element;
 
 /**
+ * An implementation of {@link XMLParser} to parse the {@link KeyCachePolicyRequestType}
  * @author anil@apache.org
  * @since May 23, 2011
  */
-public class KeyCachePolicyRequestParser implements XMLParser
-{
-   private static Logger log = Logger.getLogger( KeyCachePolicyRequestParser.class.getCanonicalName() );
-   
-   public boolean acceptsQName(QName qname)
-   { 
-      return false;
-   }
+public class KeyCachePolicyRequestParser implements XMLParser {
+    private static Logger log = Logger.getLogger(KeyCachePolicyRequestParser.class.getCanonicalName());
+    
+    /**
+     * @see XMLParser#acceptsQName(QName)
+     */
+    public boolean acceptsQName(QName qname) {
+        return false;
+    }
+    
+    /**
+     * @see XMLParser#getQNames()
+     */
+    public QName[] getQNames() {
+        return null;
+    }
+    
+    /**
+     * @see XMLParser#handle(XMLEventReader, XMLEvent, Object)
+     */
+    public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException {
+        KeyCachePolicyRequestType keyCachePolicyReq = (KeyCachePolicyRequestType) populateObject;
 
-   public QName[] getQNames()
-   { 
-      return null;
-   }
+        try {
+            while (xmlEventReader.hasNext()) {
+                XMLEvent ev = xmlEventReader.nextEvent();
 
-   public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException
-   {
-      KeyCachePolicyRequestType keyCachePolicyReq = (KeyCachePolicyRequestType) populateObject;
+                switch (ev.getEventType()) {
+                    case XMLStreamConstants.START_ELEMENT:
+                        StartElement nextStartElement = (StartElement) ev;
+                        QName elementName = nextStartElement.getName();
 
-      try 
-      {
-         while(xmlEventReader.hasNext())
-         {
-            XMLEvent ev = xmlEventReader.nextEvent();
+                        String localPart = elementName.getLocalPart();
 
-            switch(ev.getEventType())
-            {
-               case XMLStreamConstants.START_ELEMENT:
-                  StartElement nextStartElement = (StartElement) ev;
-                  QName elementName = nextStartElement.getName();
+                        if (localPart.equals("Signature")) {
+                            Element elem = getSignatureElement(xmlEventReader, ev.asStartElement());
+                            keyCachePolicyReq.setSignature(elem);
+                        } else
+                            throw new RuntimeException("Unknown element:" + localPart);
+                        break;
 
-                  String localPart = elementName.getLocalPart();
+                    case XMLStreamConstants.END_ELEMENT:
 
-                  if(localPart.equals( "Signature" ))
-                  {
-                     Element elem = getSignatureElement(xmlEventReader, ev.asStartElement());
-                     keyCachePolicyReq.setSignature(elem);
-                  } 
-                  else
-                     throw new RuntimeException("Unknown element:" + localPart);
-                  break;
+                        EndElement endElement = (EndElement) ev;
+                        localPart = endElement.getName().getLocalPart();
 
-               case XMLStreamConstants.END_ELEMENT: 
+                        if (localPart.equals(SymKeyConstants.KEY_CACHE_POLICY_REQUEST))
+                            return;
+                        break;
 
-                  EndElement endElement = (EndElement) ev;
-                  localPart = endElement.getName().getLocalPart();
-
-                  if( localPart.equals( SymKeyConstants.KEY_CACHE_POLICY_REQUEST ) )
-                     return;
-                  break;
-
-               case XMLStreamConstants.END_DOCUMENT:
-                  return; 
-            }  
-         }
-      } 
-      catch (XMLStreamException e) 
-      { 
-         log.log( Level.SEVERE, "Unable to parse:" , e );
-      }  
-
-   }
-   
-   @SuppressWarnings("unchecked")
-   protected Element getSignatureElement( XMLEventReader xmlEventReader, StartElement sigElement)
-   {
-      try
-      {
-         StringBuilder builder = new StringBuilder();
-         QName sigName = sigElement.getName();
-         String prefix = sigName.getPrefix();
-         
-         builder.append("<").append(prefix).append(":").append(sigName.getLocalPart());
-         builder.append( " xmlns:").append(prefix).append("=\"http://www.w3.org/2000/09/xmldsig#\"").append(">");
-         while(xmlEventReader.hasNext())
-         {
-            XMLEvent xmlEvent = xmlEventReader.nextEvent();
-            
-            if( xmlEvent instanceof EndElement)
-            {
-               EndElement end = (EndElement) xmlEvent;
-               QName name = end.getName();
-
-               builder.append("</").append(name.getPrefix()).append(":").append(name.getLocalPart()).append(">");
-               
-               String localPart = name.getLocalPart(); 
-               if( "Signature".equals(localPart))
-               {
-                  DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                  factory.setValidating(false);
-                  DocumentBuilder docBuilder = factory.newDocumentBuilder();
-                  String str = builder.toString().trim();
-                  InputSource source = new InputSource(new StringReader(str));
-                  return docBuilder.parse(source).getDocumentElement();  
-               }
+                    case XMLStreamConstants.END_DOCUMENT:
+                        return;
+                }
             }
-            
-            else if( xmlEvent instanceof StartElement)
-            {
-               StartElement start = (StartElement) xmlEvent;
-               QName name = start.getName();
-               builder.append("<").append(name.getPrefix()).append(":").append(name.getLocalPart());
-               
-               Iterator<Attribute> iter = start.getAttributes();
-               while(iter != null && iter.hasNext())
-               {
-                  Attribute attr = (Attribute) iter.next();
-                  builder.append(" ");
-                  builder.append(attr.toString());
-               }
-               builder.append(">");
+        } catch (XMLStreamException e) {
+            log.log(Level.SEVERE, "Unable to parse:", e);
+        }
+
+    }
+
+    @SuppressWarnings("unchecked")
+    protected Element getSignatureElement(XMLEventReader xmlEventReader, StartElement sigElement) {
+        try {
+            StringBuilder builder = new StringBuilder();
+            QName sigName = sigElement.getName();
+            String prefix = sigName.getPrefix();
+
+            builder.append("<").append(prefix).append(":").append(sigName.getLocalPart());
+            builder.append(" xmlns:").append(prefix).append("=\"http://www.w3.org/2000/09/xmldsig#\"").append(">");
+            while (xmlEventReader.hasNext()) {
+                XMLEvent xmlEvent = xmlEventReader.nextEvent();
+
+                if (xmlEvent instanceof EndElement) {
+                    EndElement end = (EndElement) xmlEvent;
+                    QName name = end.getName();
+
+                    builder.append("</").append(name.getPrefix()).append(":").append(name.getLocalPart()).append(">");
+
+                    String localPart = name.getLocalPart();
+                    if ("Signature".equals(localPart)) {
+                        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                        factory.setValidating(false);
+                        DocumentBuilder docBuilder = factory.newDocumentBuilder();
+                        String str = builder.toString().trim();
+                        InputSource source = new InputSource(new StringReader(str));
+                        return docBuilder.parse(source).getDocumentElement();
+                    }
+                }
+
+                else if (xmlEvent instanceof StartElement) {
+                    StartElement start = (StartElement) xmlEvent;
+                    QName name = start.getName();
+                    builder.append("<").append(name.getPrefix()).append(":").append(name.getLocalPart());
+
+                    Iterator<Attribute> iter = start.getAttributes();
+                    while (iter != null && iter.hasNext()) {
+                        Attribute attr = (Attribute) iter.next();
+                        builder.append(" ");
+                        builder.append(attr.toString());
+                    }
+                    builder.append(">");
+                } else
+                    builder.append(xmlEvent.toString().trim());
             }
-            else builder.append(xmlEvent.toString().trim());
-         }
-      }
-      catch (Exception e)
-      {
-         throw new RuntimeException(e);
-      } 
-      return null;
-   }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 }

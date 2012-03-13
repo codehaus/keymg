@@ -20,11 +20,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType>
@@ -45,7 +46,7 @@ import java.util.List;
  * &lt;/complexType>
  * </pre>
  * 
- *
+ * 
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
@@ -58,32 +59,29 @@ public class SymkeyRequest {
 
     /**
      * Add a Global Key Id
+     * 
      * @param gid
      */
-    public void addGlobalKeyID(String gid)
-    {
-       this.globalKeyID.add(gid);
+    public void addGlobalKeyID(String gid) {
+        this.globalKeyID.add(gid);
     }
-    
+
     /**
-     * Gets the value of the globalKeyID property. 
+     * Gets the value of the globalKeyID property.
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * Objects of the following type(s) are allowed in the list {@link String }
      * 
      * 
      */
-    public List<String> getGlobalKeyID() { 
+    public List<String> getGlobalKeyID() {
         return Collections.unmodifiableList(this.globalKeyID);
     }
 
     /**
      * Gets the value of the keyClasses property.
      * 
-     * @return
-     *     possible object is
-     *     {@link KeyClassesType }
-     *     
+     * @return possible object is {@link KeyClassesType }
+     * 
      */
     public KeyClassesType getKeyClasses() {
         return keyClasses;
@@ -92,10 +90,8 @@ public class SymkeyRequest {
     /**
      * Sets the value of the keyClasses property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link KeyClassesType }
-     *     
+     * @param value allowed object is {@link KeyClassesType }
+     * 
      */
     public void setKeyClasses(KeyClassesType value) {
         this.keyClasses = value;
@@ -104,9 +100,7 @@ public class SymkeyRequest {
     /**
      * Gets the value of the x509EncryptionCertificate property.
      * 
-     * @return
-     *     possible object is
-     *     byte[]
+     * @return possible object is byte[]
      */
     public byte[] getX509EncryptionCertificate() {
         return x509EncryptionCertificate;
@@ -115,9 +109,7 @@ public class SymkeyRequest {
     /**
      * Sets the value of the x509EncryptionCertificate property.
      * 
-     * @param value
-     *     allowed object is
-     *     byte[]
+     * @param value allowed object is byte[]
      */
     public void setX509EncryptionCertificate(byte[] value) {
         this.x509EncryptionCertificate = ((byte[]) value);
@@ -125,32 +117,31 @@ public class SymkeyRequest {
 
     /**
      * Add a sym key request id
+     * 
      * @param symKeyR
      */
-    public void addSymkeyRequestID(String symKeyR)
-    {
-       symkeyRequestID.add(symKeyR);
+    public void addSymkeyRequestID(String symKeyR) {
+        symkeyRequestID.add(symKeyR);
     }
-    
+
     /**
      * Remove a sym key request id
+     * 
      * @param symKeyR
      */
-    public void removeSymkeyRequestID(String symKeyR)
-    {
-       symkeyRequestID.remove(symKeyR);
+    public void removeSymkeyRequestID(String symKeyR) {
+        symkeyRequestID.remove(symKeyR);
     }
-    
+
     /**
-     * Gets the value of the symkeyRequestID property. 
+     * Gets the value of the symkeyRequestID property.
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * Objects of the following type(s) are allowed in the list {@link String }
      * 
      * 
      */
-    public List<String> getSymkeyRequestIDList() { 
+    public List<String> getSymkeyRequestIDList() {
         return Collections.unmodifiableList(this.symkeyRequestID);
     }
 }

@@ -32,69 +32,68 @@ import org.keymg.sym.model.ekmi.KeyCachePolicyResponseType;
 import org.keymg.sym.model.ekmi.KeyCachePolicyType;
 
 /**
+ * An implementation of {@link XMLParser} to parse the {@link KeyCachePolicyResponseType}
  * @author anil@apache.org
  * @since May 23, 2011
  */
-public class KeyCachePolicyResponseParser implements XMLParser
-{
-   private static Logger log = Logger.getLogger( KeyCachePolicyResponseParser.class.getCanonicalName() );
-   
-   public boolean acceptsQName(QName qname)
-   { 
-      return false;
-   }
+public class KeyCachePolicyResponseParser implements XMLParser {
+    private static Logger log = Logger.getLogger(KeyCachePolicyResponseParser.class.getCanonicalName());
 
-   public QName[] getQNames()
-   { 
-      return null;
-   }
+    /**
+     * @see XMLParser#acceptsQName(QName)
+     */
+    public boolean acceptsQName(QName qname) {
+        return false;
+    }
+    
+    /**
+     * @see XMLParser#getQNames()
+     */
+    public QName[] getQNames() {
+        return null;
+    }
+    
+    /**
+     * @see XMLParser#handle(XMLEventReader, XMLEvent, Object)
+     */
+    public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException {
+        KeyCachePolicyResponseType keyCachePolicyReq = (KeyCachePolicyResponseType) populateObject;
 
-   public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException
-   {
-      KeyCachePolicyResponseType keyCachePolicyReq = (KeyCachePolicyResponseType) populateObject;
+        try {
+            while (xmlEventReader.hasNext()) {
+                XMLEvent ev = xmlEventReader.nextEvent();
 
-      try 
-      {
-         while(xmlEventReader.hasNext())
-         {
-            XMLEvent ev = xmlEventReader.nextEvent();
+                switch (ev.getEventType()) {
+                    case XMLStreamConstants.START_ELEMENT:
+                        StartElement nextStartElement = (StartElement) ev;
+                        QName elementName = nextStartElement.getName();
 
-            switch(ev.getEventType())
-            {
-               case XMLStreamConstants.START_ELEMENT:
-                  StartElement nextStartElement = (StartElement) ev;
-                  QName elementName = nextStartElement.getName();
+                        String localPart = elementName.getLocalPart();
 
-                  String localPart = elementName.getLocalPart();
+                        if (localPart.equals(SymKeyConstants.KEY_CACHE_POLICY)) {
+                            KeyCachePolicyType kcp = new KeyCachePolicyType();
+                            KeyCachePolicyParser parser = new KeyCachePolicyParser();
+                            parser.handle(xmlEventReader, xmlEvent, kcp);
+                            keyCachePolicyReq.add(kcp);
+                        } else
+                            throw new RuntimeException("Unknown element:" + localPart);
+                        break;
 
-                  if(localPart.equals( SymKeyConstants.KEY_CACHE_POLICY ))
-                  {
-                     KeyCachePolicyType kcp = new KeyCachePolicyType();
-                     KeyCachePolicyParser parser = new KeyCachePolicyParser();
-                     parser.handle(xmlEventReader, xmlEvent, kcp);
-                     keyCachePolicyReq.add(kcp);
-                  } 
-                  else
-                     throw new RuntimeException("Unknown element:" + localPart);
-                  break;
+                    case XMLStreamConstants.END_ELEMENT:
 
-               case XMLStreamConstants.END_ELEMENT: 
+                        EndElement endElement = (EndElement) ev;
+                        localPart = endElement.getName().getLocalPart();
 
-                  EndElement endElement = (EndElement) ev;
-                  localPart = endElement.getName().getLocalPart();
+                        if (localPart.equals(SymKeyConstants.KEY_CACHE_POLICY_RESPONSE))
+                            return;
+                        break;
 
-                  if( localPart.equals( SymKeyConstants.KEY_CACHE_POLICY_RESPONSE ) )
-                     return;
-                  break;
-
-               case XMLStreamConstants.END_DOCUMENT:
-                  return; 
-            }  
-         }
-      } 
-      catch (XMLStreamException e) 
-      { 
-         log.log( Level.SEVERE, "Unable to parse:" , e );
-      } 
-   }
+                    case XMLStreamConstants.END_DOCUMENT:
+                        return;
+                }
+            }
+        } catch (XMLStreamException e) {
+            log.log(Level.SEVERE, "Unable to parse:", e);
+        }
+    }
 }

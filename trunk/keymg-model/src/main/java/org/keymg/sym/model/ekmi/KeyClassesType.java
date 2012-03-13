@@ -22,19 +22,16 @@ import java.util.ArrayList;
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class KeyClassesType 
-{
-	private ArrayList<KeyClassType> keyList = new ArrayList<KeyClassType>(); 
-	
-	public void add( KeyClassType keyClassType )
-	{
-		keyList.add( keyClassType );
-	}
+public class KeyClassesType {
+    private ArrayList<KeyClassType> keyList = new ArrayList<KeyClassType>();
 
-	public KeyClassType[] getKeyClassType() 
-	{
-		KeyClassType[] keyClassArr = new KeyClassType[ keyList.size() ];
-		keyList.toArray( keyClassArr );
-		return keyClassArr;
-	} 
+    public void add(KeyClassType keyClassType) {
+        keyList.add(keyClassType);
+    }
+
+    public KeyClassType[] getKeyClassType() {
+        KeyClassType[] keyClassArr = new KeyClassType[keyList.size()];
+        keyList.toArray(keyClassArr);
+        return keyClassArr;
+    }
 }

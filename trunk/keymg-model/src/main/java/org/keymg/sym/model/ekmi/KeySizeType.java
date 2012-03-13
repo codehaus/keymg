@@ -20,65 +20,57 @@ package org.keymg.sym.model.ekmi;
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class KeySizeType 
-{
-	private int value;
-	
-	public KeySizeType( int value )
-	{
-		setValue( value );
-	}
+public class KeySizeType {
+    private int value;
 
-	public int getValue() 
-	{
-		return value;
-	}
-
-	public void setValue(int value) 
-	{
-		validate( value );
-		this.value = value;
-	}
-	
-	private void validate( int val )
-	{
-		if( val == 128 || val == 256 || val == 192 )
-			return;
-		
-		throw new RuntimeException( "value should be between 128 and 256"); 
-	}
-	
-	public String toString()
-    {
-       StringBuilder builder = new StringBuilder(); 
-
-       builder.append( "<ekmi:KeySize>" );
-       builder.append( value );
-       builder.append( "</ekmi:KeySize>" );
-       return builder.toString();
+    public KeySizeType(int value) {
+        setValue(value);
     }
 
-   @Override
-   public int hashCode()
-   {
-      final int prime = 31;
-      int result = 1;
-      result = prime * result + value;
-      return result;
-   }
+    public int getValue() {
+        return value;
+    }
 
-   @Override
-   public boolean equals(Object obj)
-   {
-      if (this == obj)
-         return true;
-      if (obj == null)
-         return false;
-      if (getClass() != obj.getClass())
-         return false;
-      KeySizeType other = (KeySizeType) obj;
-      if (value != other.value)
-         return false;
-      return true;
-   }
+    public void setValue(int value) {
+        validate(value);
+        this.value = value;
+    }
+
+    private void validate(int val) {
+        if (val == 128 || val == 256 || val == 192)
+            return;
+
+        throw new RuntimeException("value should be between 128 and 256");
+    }
+
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("<ekmi:KeySize>");
+        builder.append(value);
+        builder.append("</ekmi:KeySize>");
+        return builder.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + value;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        KeySizeType other = (KeySizeType) obj;
+        if (value != other.value)
+            return false;
+        return true;
+    }
 }

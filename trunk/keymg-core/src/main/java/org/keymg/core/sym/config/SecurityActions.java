@@ -22,65 +22,47 @@ import java.security.PrivilegedAction;
 
 /**
  * Privileged Blocks
+ * 
  * @author anil@apache.org
  * @since Jul 11, 2011
  */
-class SecurityActions
-{
-   static Class<?> load(final Class<?> theAskingClass, final String fqn)
-   {
-      return AccessController.doPrivileged(new PrivilegedAction<Class<?>>()
-      { 
-         public Class<?> run()
-         { 
-            Class<?> clazz = null;
-            ClassLoader cl = theAskingClass.getClassLoader();
-            try
-            {
-               clazz = cl.loadClass(fqn);
+class SecurityActions {
+    static Class<?> load(final Class<?> theAskingClass, final String fqn) {
+        return AccessController.doPrivileged(new PrivilegedAction<Class<?>>() {
+            public Class<?> run() {
+                Class<?> clazz = null;
+                ClassLoader cl = theAskingClass.getClassLoader();
+                try {
+                    clazz = cl.loadClass(fqn);
+                } catch (Exception e) {
+                    cl = Thread.currentThread().getContextClassLoader();
+                    try {
+                        clazz = cl.loadClass(fqn);
+                    } catch (Exception e1) {
+                    }
+                }
+                return clazz;
             }
-            catch(Exception e)
-            {
-               cl = Thread.currentThread().getContextClassLoader();
-               try
-               {
-                  clazz = cl.loadClass(fqn);
-               }
-               catch (Exception e1)
-               { 
-               }
+        });
+    }
+
+    static URL loadResource(final Class<?> theAskingClass, final String fqn) {
+        return AccessController.doPrivileged(new PrivilegedAction<URL>() {
+            public URL run() {
+                URL url = null;
+                ClassLoader cl = theAskingClass.getClassLoader();
+                try {
+                    url = cl.getResource(fqn);
+                } catch (Exception e) {
+                    cl = Thread.currentThread().getContextClassLoader();
+                    try {
+                        url = cl.getResource(fqn);
+                    } catch (Exception e1) {
+                    }
+                }
+                return url;
             }
-            return clazz;
-         }
-      }); 
-   }
-   
-   static  URL loadResource(final Class<?> theAskingClass, final String fqn)
-   {
-      return AccessController.doPrivileged(new PrivilegedAction<URL>()
-      { 
-         public URL run()
-         { 
-            URL url = null;
-            ClassLoader cl = theAskingClass.getClassLoader();
-            try
-            {
-               url = cl.getResource(fqn);
-            }
-            catch(Exception e)
-            {
-               cl = Thread.currentThread().getContextClassLoader();
-               try
-               {
-                  url = cl.getResource(fqn);
-               }
-               catch (Exception e1)
-               { 
-               }
-            }
-            return url;
-         }
-      }); 
-   }
+        });
+    }
 
 }

@@ -14,8 +14,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.keymg.sym.model.ekmi; 
-
+package org.keymg.sym.model.ekmi;
 
 /**
  * <p>Java class for ApplicationsType complex type.
@@ -53,14 +52,13 @@ package org.keymg.sym.model.ekmi;
  * </pre>
  * 
  * 
- */ 
+ */
 
- /**
+/**
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class ApplicationsType 
-{
+public class ApplicationsType {
 
     protected String applicationID;
     protected String applicationName;
@@ -72,10 +70,8 @@ public class ApplicationsType
     /**
      * Gets the value of the applicationID property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getApplicationID() {
         return applicationID;
@@ -84,10 +80,8 @@ public class ApplicationsType
     /**
      * Sets the value of the applicationID property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setApplicationID(String value) {
         this.applicationID = value;
@@ -96,10 +90,8 @@ public class ApplicationsType
     /**
      * Gets the value of the applicationName property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getApplicationName() {
         return applicationName;
@@ -108,10 +100,8 @@ public class ApplicationsType
     /**
      * Sets the value of the applicationName property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setApplicationName(String value) {
         this.applicationName = value;
@@ -120,10 +110,8 @@ public class ApplicationsType
     /**
      * Gets the value of the version property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getVersion() {
         return version;
@@ -132,10 +120,8 @@ public class ApplicationsType
     /**
      * Sets the value of the version property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setVersion(String value) {
         this.version = value;
@@ -144,10 +130,8 @@ public class ApplicationsType
     /**
      * Gets the value of the digestAlgorithm property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getDigestAlgorithm() {
         return digestAlgorithm;
@@ -156,10 +140,8 @@ public class ApplicationsType
     /**
      * Sets the value of the digestAlgorithm property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setDigestAlgorithm(String value) {
         this.digestAlgorithm = value;
@@ -168,9 +150,7 @@ public class ApplicationsType
     /**
      * Gets the value of the digestValue property.
      * 
-     * @return
-     *     possible object is
-     *     byte[]
+     * @return possible object is byte[]
      */
     public byte[] getDigestValue() {
         return digestValue;
@@ -179,9 +159,7 @@ public class ApplicationsType
     /**
      * Sets the value of the digestValue property.
      * 
-     * @param value
-     *     allowed object is
-     *     byte[]
+     * @param value allowed object is byte[]
      */
     public void setDigestValue(byte[] value) {
         this.digestValue = ((byte[]) value);
@@ -190,10 +168,8 @@ public class ApplicationsType
     /**
      * Gets the value of the other property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Object }
-     *     
+     * @return possible object is {@link Object }
+     * 
      */
     public Object getOther() {
         return other;
@@ -202,10 +178,8 @@ public class ApplicationsType
     /**
      * Sets the value of the other property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link Object }
-     *     
+     * @param value allowed object is {@link Object }
+     * 
      */
     public void setOther(Object value) {
         this.other = value;

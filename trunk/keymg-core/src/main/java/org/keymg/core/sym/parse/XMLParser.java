@@ -25,27 +25,29 @@ import javax.xml.stream.events.XMLEvent;
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public interface XMLParser 
-{
-   /**
-    * Whether this parser supports the particular QName
-    * @param qname
-    * @return
-    */
-   boolean acceptsQName(QName qname);
+public interface XMLParser {
+    /**
+     * Whether this parser supports the particular QName
+     * 
+     * @param qname
+     * @return
+     */
+    boolean acceptsQName(QName qname);
 
-   /**
-    * Get the QNames this parser is able to handle
-    * @return
-    */
-   QName[] getQNames();
+    /**
+     * Get the QNames this parser is able to handle
+     * 
+     * @return
+     */
+    QName[] getQNames();
 
-   /**
-    * Handle the xml event
-    * @param reader
-    * @param xmlEvent
-    * @param populateObject Object that needs to be populated with the parser operation
-    * @throws XMLStreamException
-    */
-   void handle(XMLEventReader reader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException;
+    /**
+     * Handle the xml event
+     * 
+     * @param reader
+     * @param xmlEvent
+     * @param populateObject Object that needs to be populated with the parser operation
+     * @throws XMLStreamException
+     */
+    void handle(XMLEventReader reader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException;
 }

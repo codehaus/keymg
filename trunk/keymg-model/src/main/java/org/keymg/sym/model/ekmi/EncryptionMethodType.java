@@ -20,33 +20,29 @@ package org.keymg.sym.model.ekmi;
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public enum EncryptionMethodType 
-{
-   RSA( "http://www.w3.org/2001/04/xmlenc#rsa-1_5" ); 
+public enum EncryptionMethodType {
+    RSA("http://www.w3.org/2001/04/xmlenc#rsa-1_5");
 
-   private String uri;
+    private String uri;
 
-   EncryptionMethodType( String uri )
-   {
-      this.uri = uri; 
-   }
+    EncryptionMethodType(String uri) {
+        this.uri = uri;
+    }
 
-   public String get()
-   {
-      return this.uri;
-   }
+    public String get() {
+        return this.uri;
+    }
 
-   public static EncryptionMethodType reverse( String uri)
-   {
-      if(uri.equals(RSA.get() )) return RSA;
-      throw new RuntimeException( " Unknown uri:" + uri ); 
-   }
+    public static EncryptionMethodType reverse(String uri) {
+        if (uri.equals(RSA.get()))
+            return RSA;
+        throw new RuntimeException(" Unknown uri:" + uri);
+    }
 
-   public String toString()
-   {
-      StringBuilder builder = new StringBuilder();
-      builder.append( "<ekmi:EncryptionMethod Algorithm=\'");
-      builder.append( get() ).append( "\'  />");
-      return builder.toString();
-   }
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("<ekmi:EncryptionMethod Algorithm=\'");
+        builder.append(get()).append("\'  />");
+        return builder.toString();
+    }
 }

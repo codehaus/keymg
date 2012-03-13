@@ -24,32 +24,35 @@ import java.security.cert.Certificate;
  * <p>
  * Obtain the {@code PublicKey} for a domain id
  * </p>
+ * 
  * @author anil@apache.org
  * @since Jun 14, 2010
  */
-public interface PKIManager
-{
-   /**
-    * Given a domain id, get the key pair
-    * @param domainID
-    * @return
-    * @throws PKIRepositoryException
-    */
-   KeyPair getKeyPair( String domainID )  throws PKIRepositoryException;
-   
-   /**
-    * Given a domain id, return the public key
-    * @param domainID
-    * @return
-    * @throws PKIRepositoryException
-    */
-   PublicKey getPublicKey( String domainID ) throws PKIRepositoryException;
-   
-   /**
-    * Register a x509 certificate for a domain id
-    * @param domainID
-    * @param cert
-    * @throws PKIRepositoryException
-    */
-   void register( String domainID, Certificate cert ) throws PKIRepositoryException;
+public interface PKIManager {
+    /**
+     * Given a domain id, get the key pair
+     * 
+     * @param domainID
+     * @return
+     * @throws PKIRepositoryException
+     */
+    KeyPair getKeyPair(String domainID) throws PKIRepositoryException;
+
+    /**
+     * Given a domain id, return the public key
+     * 
+     * @param domainID
+     * @return
+     * @throws PKIRepositoryException
+     */
+    PublicKey getPublicKey(String domainID) throws PKIRepositoryException;
+
+    /**
+     * Register a x509 certificate for a domain id
+     * 
+     * @param domainID
+     * @param cert
+     * @throws PKIRepositoryException
+     */
+    void register(String domainID, Certificate cert) throws PKIRepositoryException;
 }

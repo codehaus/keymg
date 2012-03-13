@@ -18,36 +18,31 @@ package org.keymg.api.sym.exceptions;
 
 import java.security.GeneralSecurityException;
 
-
 /**
  * <p>
  * Exception in symmetric key generation
  * </p>
+ * 
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
 
-public class SymKeyGenerationException extends GeneralSecurityException
-{ 
-   private static final long serialVersionUID = 1L;
+public class SymKeyGenerationException extends GeneralSecurityException {
+    private static final long serialVersionUID = 1L;
 
-   public SymKeyGenerationException()
-   {
-      super(); 
-   }
+    public SymKeyGenerationException() {
+        super();
+    }
 
-   public SymKeyGenerationException(String arg0, Throwable arg1)
-   {
-      super(arg0, arg1); 
-   }
+    public SymKeyGenerationException(String arg0, Throwable arg1) {
+        super(arg0, arg1);
+    }
 
-   public SymKeyGenerationException(String arg0)
-   {
-      super(arg0); 
-   }
+    public SymKeyGenerationException(String arg0) {
+        super(arg0);
+    }
 
-   public SymKeyGenerationException(Throwable arg0)
-   {
-      super(arg0); 
-   } 
+    public SymKeyGenerationException(Throwable arg0) {
+        super(arg0);
+    }
 }

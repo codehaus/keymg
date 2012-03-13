@@ -18,7 +18,6 @@ package org.keymg.sym.model.ekmi;
 
 import java.math.BigInteger;
 
-
 /**
  * <p>Java class for KeyCacheDetailType complex type.
  * 
@@ -52,23 +51,20 @@ import java.math.BigInteger;
  * </pre>
  * 
  * 
- */ 
+ */
 /**
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class KeyCacheDetailType 
-{
+public class KeyCacheDetailType {
     protected BigInteger maximumKeys;
     protected BigInteger maximumDuration;
 
     /**
      * Gets the value of the maximumKeys property.
      * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
+     * @return possible object is {@link BigInteger }
+     * 
      */
     public BigInteger getMaximumKeys() {
         return maximumKeys;
@@ -77,10 +73,8 @@ public class KeyCacheDetailType
     /**
      * Sets the value of the maximumKeys property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
+     * @param value allowed object is {@link BigInteger }
+     * 
      */
     public void setMaximumKeys(BigInteger value) {
         this.maximumKeys = value;
@@ -89,10 +83,8 @@ public class KeyCacheDetailType
     /**
      * Gets the value of the maximumDuration property.
      * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
+     * @return possible object is {@link BigInteger }
+     * 
      */
     public BigInteger getMaximumDuration() {
         return maximumDuration;
@@ -101,49 +93,41 @@ public class KeyCacheDetailType
     /**
      * Sets the value of the maximumDuration property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
+     * @param value allowed object is {@link BigInteger }
+     * 
      */
     public void setMaximumDuration(BigInteger value) {
         this.maximumDuration = value;
     }
 
-   @Override
-   public int hashCode()
-   {
-      final int prime = 31;
-      int result = 1;
-      result = prime * result + ((maximumDuration == null) ? 0 : maximumDuration.hashCode());
-      result = prime * result + ((maximumKeys == null) ? 0 : maximumKeys.hashCode());
-      return result;
-   }
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((maximumDuration == null) ? 0 : maximumDuration.hashCode());
+        result = prime * result + ((maximumKeys == null) ? 0 : maximumKeys.hashCode());
+        return result;
+    }
 
-   @Override
-   public boolean equals(Object obj)
-   {
-      if (this == obj)
-         return true;
-      if (obj == null)
-         return false;
-      if (getClass() != obj.getClass())
-         return false;
-      KeyCacheDetailType other = (KeyCacheDetailType) obj;
-      if (maximumDuration == null)
-      {
-         if (other.maximumDuration != null)
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
             return false;
-      }
-      else if (!maximumDuration.equals(other.maximumDuration))
-         return false;
-      if (maximumKeys == null)
-      {
-         if (other.maximumKeys != null)
+        if (getClass() != obj.getClass())
             return false;
-      }
-      else if (!maximumKeys.equals(other.maximumKeys))
-         return false;
-      return true;
-   }
+        KeyCacheDetailType other = (KeyCacheDetailType) obj;
+        if (maximumDuration == null) {
+            if (other.maximumDuration != null)
+                return false;
+        } else if (!maximumDuration.equals(other.maximumDuration))
+            return false;
+        if (maximumKeys == null) {
+            if (other.maximumKeys != null)
+                return false;
+        } else if (!maximumKeys.equals(other.maximumKeys))
+            return false;
+        return true;
+    }
 }

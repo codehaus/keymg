@@ -18,35 +18,37 @@ package org.keymg.core.sym.store;
 
 /**
  * Store Symmetric Keys
+ * 
  * @author anil@apache.org
  * @since Jul 14, 2011
  */
-public interface KeyStorage
-{
-   /**
-    * Initialize
-    */
-   void initialize() throws KeyStorageException;
-   
-   /**
-    * Store a symmetric key
-    * @param symmetricKey bytes representing the key
-    * @param globalKeyID the global key id
-    * @return
-    * @throws KeyStorageException
-    */
-   boolean store(byte[] symmetricKey, String globalKeyID) throws KeyStorageException;
-   
-   /**
-    * Retrieve the symmetric key
-    * @param globalKeyID
-    * @return
-    * @throws KeyStorageException
-    */
-   byte[] retrieve(String globalKeyID) throws KeyStorageException;
-   
-   /**
-    * Shutdown
-    */
-   void shutdown() throws KeyStorageException;
+public interface KeyStorage {
+    /**
+     * Initialize
+     */
+    void initialize() throws KeyStorageException;
+
+    /**
+     * Store a symmetric key
+     * 
+     * @param symmetricKey bytes representing the key
+     * @param globalKeyID the global key id
+     * @return
+     * @throws KeyStorageException
+     */
+    boolean store(byte[] symmetricKey, String globalKeyID) throws KeyStorageException;
+
+    /**
+     * Retrieve the symmetric key
+     * 
+     * @param globalKeyID
+     * @return
+     * @throws KeyStorageException
+     */
+    byte[] retrieve(String globalKeyID) throws KeyStorageException;
+
+    /**
+     * Shutdown
+     */
+    void shutdown() throws KeyStorageException;
 }

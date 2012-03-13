@@ -16,28 +16,19 @@
  */
 package org.keymg.sym.model.ekmi;
 
-
 /**
- <xsd:simpleType name="TwoPartIDType">
-        <xsd:restriction base="xsd:string">
-            <xsd:minLength value="5"/>
-            <xsd:maxLength value="62"/>
-            <xsd:pattern value="[0-9]{1,20}-[0-9]{1,20}-[0-9]{1,20}"/>
-            <xsd:whiteSpace value="collapse"/>
-        </xsd:restriction>
-    </xsd:simpleType> 
- *
+ * <xsd:simpleType name="TwoPartIDType"> <xsd:restriction base="xsd:string"> <xsd:minLength value="5"/> <xsd:maxLength
+ * value="62"/> <xsd:pattern value="[0-9]{1,20}-[0-9]{1,20}-[0-9]{1,20}"/> <xsd:whiteSpace value="collapse"/> </xsd:restriction>
+ * </xsd:simpleType>
+ * 
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class SymkeyRequestIDType extends GlobalKeyIDType
-{  
-	public SymkeyRequestIDType()
-	{ 	
-	}
-	
-	public SymkeyRequestIDType(String value)
-	{
-		super( value );
-	} 
+public class SymkeyRequestIDType extends GlobalKeyIDType {
+    public SymkeyRequestIDType() {
+    }
+
+    public SymkeyRequestIDType(String value) {
+        super(value);
+    }
 }
