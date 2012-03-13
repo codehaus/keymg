@@ -21,11 +21,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType>
@@ -55,38 +56,33 @@ import java.util.List;
  * 
  * @author anil@apache.org
  * @since Aug 24, 2009
- */ 
-public class SymkeyResponse 
-{
-    protected List< ValidResponseType > responseList = new ArrayList< ValidResponseType >();
-    
-    public void addAll( Collection<ValidResponseType> responses)
-    {
-    	responseList.addAll( responses );
-    }
-    
-    public void add( ValidResponseType validResponse )
-    {
-    	responseList.add( validResponse );
+ */
+public class SymkeyResponse {
+    protected List<ValidResponseType> responseList = new ArrayList<ValidResponseType>();
+
+    public void addAll(Collection<ValidResponseType> responses) {
+        responseList.addAll(responses);
     }
 
-    public List< ValidResponseType > getResponse() 
-    {
-        return Collections.unmodifiableList( this.responseList );
+    public void add(ValidResponseType validResponse) {
+        responseList.add(validResponse);
     }
 
-	@Override
-	public String toString() 
-	{
-		StringBuilder builder = new StringBuilder();
-		builder.append("<ekmi:SymkeyResponse ").append( "xmlns:ekmi=\'http://docs.oasis-open.org/ekmi/2008/01\' ");
-		builder.append( "xmlns:xenc=\'http://www.w3.org/2001/04/xmlenc#\' ").append( " xmlns:xsi=\'http://www.w3.org/2001/XMLSchema-instance\'> ");
-		
-		for( ValidResponseType validResponseType : responseList )
-		{
-		   builder.append( validResponseType.toString() );
-		}
-		builder.append( "</ekmi:SymkeyResponse>" );
-		return builder.toString();
-	}   
+    public List<ValidResponseType> getResponse() {
+        return Collections.unmodifiableList(this.responseList);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("<ekmi:SymkeyResponse ").append("xmlns:ekmi=\'http://docs.oasis-open.org/ekmi/2008/01\' ");
+        builder.append("xmlns:xenc=\'http://www.w3.org/2001/04/xmlenc#\' ").append(
+                " xmlns:xsi=\'http://www.w3.org/2001/XMLSchema-instance\'> ");
+
+        for (ValidResponseType validResponseType : responseList) {
+            builder.append(validResponseType.toString());
+        }
+        builder.append("</ekmi:SymkeyResponse>");
+        return builder.toString();
+    }
 }

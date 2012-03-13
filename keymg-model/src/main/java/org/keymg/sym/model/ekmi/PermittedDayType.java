@@ -16,13 +16,14 @@
  */
 package org.keymg.sym.model.ekmi;
 
-
-
 /**
- * <p>Java class for PermittedDayType.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
+ * Java class for PermittedDayType.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * 
  * <pre>
  * &lt;simpleType name="PermittedDayType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -38,21 +39,14 @@ package org.keymg.sym.model.ekmi;
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
- *  
+ * 
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
 public enum PermittedDayType {
 
-    SUNDAY("Sunday"),
-    MONDAY("Monday"),
-    TUESDAY("Tuesday"),
-    WEDNESDAY("Wednesday"),
-    THURSDAY("Thursday"),
-    FRIDAY("Friday"),
-    SATURDAY("Saturday"),
-    WEEKDAY("Weekday"),
-    WEEKEND("Weekend");
+    SUNDAY("Sunday"), MONDAY("Monday"), TUESDAY("Tuesday"), WEDNESDAY("Wednesday"), THURSDAY("Thursday"), FRIDAY("Friday"), SATURDAY(
+            "Saturday"), WEEKDAY("Weekday"), WEEKEND("Weekend");
     private final String value;
 
     PermittedDayType(String v) {
@@ -64,7 +58,7 @@ public enum PermittedDayType {
     }
 
     public static PermittedDayType fromValue(String v) {
-        for (PermittedDayType c: PermittedDayType.values()) {
+        for (PermittedDayType c : PermittedDayType.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

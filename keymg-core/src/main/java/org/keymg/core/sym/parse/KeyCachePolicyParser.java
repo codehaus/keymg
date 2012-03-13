@@ -39,169 +39,139 @@ import org.keymg.sym.model.ekmi.StatusType;
 import org.keymg.sym.model.ekmi.TwoPartIDType;
 
 /**
+ * An implementation of the {@link XMLParser} to parse the {@link KeyCachePolicyType}
  * @author anil@apache.org
  * @since May 24, 2011
  */
-public class KeyCachePolicyParser implements XMLParser
-{ 
-   private static Logger log = Logger.getLogger( KeyCachePolicyParser.class.getCanonicalName() );
-   
-   public boolean acceptsQName(QName qname)
-   { 
-      return false;
-   }
+public class KeyCachePolicyParser implements XMLParser {
+    private static Logger log = Logger.getLogger(KeyCachePolicyParser.class.getCanonicalName());
 
-   public QName[] getQNames()
-   { 
-      return null;
-   }
+    /**
+     * @see XMLParser#acceptsQName(QName)
+     */
+    public boolean acceptsQName(QName qname) {
+        return false;
+    }
 
-   public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException
-   { 
-      KeyCachePolicyType keyCachePolicyType = (KeyCachePolicyType) populateObject;
+    /**
+     * @see XMLParser#getQNames()
+     */
+    public QName[] getQNames() {
+        return null;
+    }
 
-      try 
-      {
-         while(xmlEventReader.hasNext())
-         {
+    /**
+     * @see XMLParser#handle(XMLEventReader, XMLEvent, Object)
+     */
+    public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException {
+        KeyCachePolicyType keyCachePolicyType = (KeyCachePolicyType) populateObject;
+
+        try {
+            while (xmlEventReader.hasNext()) {
+                XMLEvent ev = xmlEventReader.nextEvent();
+
+                switch (ev.getEventType()) {
+                    case XMLStreamConstants.START_ELEMENT:
+                        StartElement nextStartElement = (StartElement) ev;
+                        QName elementName = nextStartElement.getName();
+                        String localPart = elementName.getLocalPart();
+
+                        if (SymKeyConstants.KEY_CACHE_POLICY_ID.equals(localPart)) {
+                            keyCachePolicyType.setKeyCachePolicyID(new TwoPartIDType(xmlEventReader.getElementText()));
+                        } else if (SymKeyConstants.POLICY_NAME.equals(localPart)) {
+                            keyCachePolicyType.setPolicyName(xmlEventReader.getElementText());
+                        } else if (SymKeyConstants.DESCRIPTION.equals(localPart)) {
+                            keyCachePolicyType.setDescription(xmlEventReader.getElementText());
+                        } else if (SymKeyConstants.KEY_CLASS.equals(localPart)) {
+                            String str = xmlEventReader.getElementText();
+                            keyCachePolicyType.setKeyClassType(new KeyClassType(str));
+                        } else if (SymKeyConstants.START_DATE.equals(localPart)) {
+                            String startDateStr = xmlEventReader.getElementText();
+
+                            Date startDate = null;
+                            try {
+                                startDate = ParserUtil.parseDate(startDateStr);
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                            keyCachePolicyType.setStartDate(startDate);
+                        } else if (SymKeyConstants.END_DATE.equals(localPart)) {
+                            String endDateStr = xmlEventReader.getElementText();
+
+                            Date endDate = null;
+                            try {
+                                endDate = ParserUtil.parseDate(endDateStr);
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                            keyCachePolicyType.setEndDate(endDate);
+                        } else if (SymKeyConstants.POLICY_CHECK_INTERVAL.equals(localPart)) {
+                            Integer val = Integer.valueOf(xmlEventReader.getElementText());
+                            keyCachePolicyType.setPolicyCheckInterval(new NonNegativeInteger(val));
+                        } else if (SymKeyConstants.STATUS.equals(localPart)) {
+                            String statusStr = xmlEventReader.getElementText();
+                            keyCachePolicyType.setStatus(StatusType.fromValue(statusStr));
+                        } else if (SymKeyConstants.NEW_KEYS_CACHE_DETAIL.equals(localPart)) {
+                            KeyCacheDetailType kcd = new KeyCacheDetailType();
+                            parseCacheDetail(xmlEventReader, kcd);
+
+                            keyCachePolicyType.setNewKeysCacheDetail(kcd);
+                        } else if (SymKeyConstants.USED_KEYS_CACHE_DETAIL.equals(localPart)) {
+                            KeyCacheDetailType kcd = new KeyCacheDetailType();
+                            parseCacheDetail(xmlEventReader, kcd);
+
+                            keyCachePolicyType.setUsedKeysCacheDetail(kcd);
+                        }
+                        break;
+
+                    case XMLStreamConstants.END_ELEMENT:
+
+                        EndElement endElement = (EndElement) ev;
+                        localPart = endElement.getName().getLocalPart();
+
+                        if (localPart.equals(SymKeyConstants.KEY_CACHE_POLICY))
+                            return;
+                        break;
+                    case XMLStreamConstants.END_DOCUMENT:
+                        return;
+                }
+            }
+        } catch (XMLStreamException e) {
+            log.log(Level.SEVERE, "Unable to parse:", e);
+        }
+    }
+
+    protected void parseCacheDetail(XMLEventReader xmlEventReader, KeyCacheDetailType kcd) throws XMLStreamException {
+        while (xmlEventReader.hasNext()) {
             XMLEvent ev = xmlEventReader.nextEvent();
 
-            switch(ev.getEventType())
-            {
-               case XMLStreamConstants.START_ELEMENT:
-                  StartElement nextStartElement = (StartElement) ev;
-                  QName elementName = nextStartElement.getName();
-                  String localPart = elementName.getLocalPart();
+            switch (ev.getEventType()) {
+                case XMLStreamConstants.START_ELEMENT:
+                    StartElement nextStartElement = (StartElement) ev;
+                    QName elementName = nextStartElement.getName();
+                    String localPart = elementName.getLocalPart();
 
-                  if( SymKeyConstants.KEY_CACHE_POLICY_ID.equals( localPart ))
-                  {  
-                     keyCachePolicyType.setKeyCachePolicyID(new TwoPartIDType(xmlEventReader.getElementText()));
-                  }  
-                  else if( SymKeyConstants.POLICY_NAME.equals( localPart ))
-                  {  
-                     keyCachePolicyType.setPolicyName(xmlEventReader.getElementText());
-                  } 
-                  else if( SymKeyConstants.DESCRIPTION.equals( localPart ))
-                  {  
-                     keyCachePolicyType.setDescription(xmlEventReader.getElementText());
-                  }
-                  else if( SymKeyConstants.KEY_CLASS.equals( localPart ))
-                  {  
-                     String str = xmlEventReader.getElementText();
-                     keyCachePolicyType.setKeyClassType(new KeyClassType(str));
-                  }
-                  else if( SymKeyConstants.START_DATE.equals( localPart ))
-                  { 
-                     String startDateStr = xmlEventReader.getElementText();
+                    if (SymKeyConstants.MAXIMUM_KEYS.equals(localPart)) {
+                        String str = xmlEventReader.getElementText();
+                        kcd.setMaximumKeys(BigInteger.valueOf(Long.valueOf(str)));
+                    } else if (SymKeyConstants.MAXIMUM_DURATION.equals(localPart)) {
+                        String str = xmlEventReader.getElementText();
+                        kcd.setMaximumDuration(BigInteger.valueOf(Long.valueOf(str)));
+                    }
+                    break;
 
-                     Date startDate = null;
-                     try
-                     {
-                        startDate = ParserUtil.parseDate( startDateStr );
-                     }
-                     catch (ParseException e)
-                     {
-                        throw new RuntimeException(e);
-                     } 
-                     keyCachePolicyType.setStartDate(startDate); 
-                  }
-                  else if( SymKeyConstants.END_DATE.equals( localPart ))
-                  { 
-                     String endDateStr = xmlEventReader.getElementText();
+                case XMLStreamConstants.END_ELEMENT:
 
-                     Date endDate = null;
-                     try
-                     {
-                        endDate = ParserUtil.parseDate( endDateStr );
-                     }
-                     catch (ParseException e)
-                     {
-                        throw new RuntimeException(e);
-                     } 
-                     keyCachePolicyType.setEndDate(endDate); 
-                  }
-                  else if( SymKeyConstants.POLICY_CHECK_INTERVAL.equals( localPart ))
-                  {  
-                     Integer val = Integer.valueOf(xmlEventReader.getElementText());
-                     keyCachePolicyType.setPolicyCheckInterval(new NonNegativeInteger(val));
-                  }
-                  else if( SymKeyConstants.STATUS.equals( localPart ))
-                  { 
-                     String statusStr = xmlEventReader.getElementText();
-                     keyCachePolicyType.setStatus(StatusType.fromValue(statusStr));
-                  }
-                  else if( SymKeyConstants.NEW_KEYS_CACHE_DETAIL.equals( localPart ))
-                  {  
-                     KeyCacheDetailType kcd = new KeyCacheDetailType();
-                     parseCacheDetail(xmlEventReader, kcd);
-                     
-                     keyCachePolicyType.setNewKeysCacheDetail(kcd);  
-                  } 
-                  else if( SymKeyConstants.USED_KEYS_CACHE_DETAIL.equals( localPart ))
-                  {  
-                     KeyCacheDetailType kcd = new KeyCacheDetailType();
-                     parseCacheDetail(xmlEventReader, kcd);
-                     
-                     keyCachePolicyType.setUsedKeysCacheDetail(kcd); 
-                  } 
-                  break;
+                    EndElement endElement = (EndElement) ev;
+                    localPart = endElement.getName().getLocalPart();
 
-               case XMLStreamConstants.END_ELEMENT: 
-
-                  EndElement endElement = (EndElement) ev;
-                  localPart = endElement.getName().getLocalPart();
-
-                  if( localPart.equals( SymKeyConstants.KEY_CACHE_POLICY ) )
-                     return;
-                  break;
-               case XMLStreamConstants.END_DOCUMENT:
-                  return ; 
-            } 
-         }
-      } 
-      catch (XMLStreamException e) 
-      {  
-         log.log( Level.SEVERE, "Unable to parse:" , e );
-      }
-   }
-   
-   protected void parseCacheDetail( XMLEventReader xmlEventReader, KeyCacheDetailType kcd) throws XMLStreamException
-   {
-      while(xmlEventReader.hasNext())
-      {
-         XMLEvent ev = xmlEventReader.nextEvent();
-
-         switch(ev.getEventType())
-         {
-            case XMLStreamConstants.START_ELEMENT:
-               StartElement nextStartElement = (StartElement) ev;
-               QName elementName = nextStartElement.getName();
-               String localPart = elementName.getLocalPart();
-
-               if( SymKeyConstants.MAXIMUM_KEYS.equals( localPart ))
-               {  
-                  String str = xmlEventReader.getElementText();
-                  kcd.setMaximumKeys(BigInteger.valueOf(Long.valueOf(str)));
-               }  
-               else if( SymKeyConstants.MAXIMUM_DURATION.equals( localPart ))
-               {  
-                  String str = xmlEventReader.getElementText();
-                  kcd.setMaximumDuration(BigInteger.valueOf(Long.valueOf(str)));
-               } 
-               break;
-
-            case XMLStreamConstants.END_ELEMENT: 
-
-               EndElement endElement = (EndElement) ev;
-               localPart = endElement.getName().getLocalPart();
-
-               if( localPart.equals( SymKeyConstants.NEW_KEYS_CACHE_DETAIL ) || 
-                     localPart.equals( SymKeyConstants.USED_KEYS_CACHE_DETAIL ))
-                  return;
-               break;
-            case XMLStreamConstants.END_DOCUMENT:
-               return ; 
-         } 
-      }
-   }
+                    if (localPart.equals(SymKeyConstants.NEW_KEYS_CACHE_DETAIL)
+                            || localPart.equals(SymKeyConstants.USED_KEYS_CACHE_DETAIL))
+                        return;
+                    break;
+                case XMLStreamConstants.END_DOCUMENT:
+                    return;
+            }
+        }
+    }
 }

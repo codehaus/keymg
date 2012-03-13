@@ -22,27 +22,22 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 /**
+ * A factory to obtain instances of {@link XMLParser} by {@link QName}
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class ParserFactory 
-{
-	private static Set<XMLParser> parsers = new HashSet<XMLParser>();
-	
-	public synchronized static void addXMLParser(XMLParser xmlParser)
-	{
-		parsers.add(xmlParser);
-	}
-	
-	
-	
-	public static XMLParser getParser(QName qname)
-	{
-		for(XMLParser parser: parsers)
-		{
-			if(parser.acceptsQName( qname ) )
-				return parser; 
-		}
-		return null; 
-	}
+public class ParserFactory {
+    private static Set<XMLParser> parsers = new HashSet<XMLParser>();
+
+    public synchronized static void addXMLParser(XMLParser xmlParser) {
+        parsers.add(xmlParser);
+    }
+
+    public static XMLParser getParser(QName qname) {
+        for (XMLParser parser : parsers) {
+            if (parser.acceptsQName(qname))
+                return parser;
+        }
+        return null;
+    }
 }

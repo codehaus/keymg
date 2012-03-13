@@ -21,21 +21,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 /**
  * 
- *                 A list of physical locations of the client, where the key 
- *                 may be used.  This is specific to the application and may 
- *                 consist of GPS coordinates, Building numbers, secure rooms, 
- *                 cities, etc.  Its meaning is application-defined.
- *                 
- *                 When the "any" attribute is set to "true", no PermittedLocation
- *                 elements must appear in this element.
- *             
+ * A list of physical locations of the client, where the key may be used. This is specific to the application and may consist of
+ * GPS coordinates, Building numbers, secure rooms, cities, etc. Its meaning is application-defined.
  * 
- * <p>Java class for PermittedLocationsType complex type.
+ * When the "any" attribute is set to "true", no PermittedLocation elements must appear in this element.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
+ * <p>
+ * Java class for PermittedLocationsType complex type.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="PermittedLocationsType">
@@ -69,7 +67,7 @@ import java.util.List;
  * &lt;/complexType>
  * </pre>
  * 
- *  
+ * 
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
@@ -79,36 +77,31 @@ public class PermittedLocationsType {
     protected String any;
 
     /**
-     * Gets the value of the permittedLocation property. 
+     * Gets the value of the permittedLocation property.
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link PermittedLocationsType.PermittedLocation }
+     * Objects of the following type(s) are allowed in the list {@link PermittedLocationsType.PermittedLocation }
      * 
      * 
      */
-    public List<PermittedLocationsType.PermittedLocation> getPermittedLocation() {  
+    public List<PermittedLocationsType.PermittedLocation> getPermittedLocation() {
         return Collections.unmodifiableList(this.permittedLocation);
     }
-    
-    public void addPermittedLocation(PermittedLocation pl)
-    {
-       permittedLocation.add(pl);
+
+    public void addPermittedLocation(PermittedLocation pl) {
+        permittedLocation.add(pl);
     }
-    
-    public boolean removePermittedLocation(PermittedLocation pl)
-    {
-       return permittedLocation.remove(pl);
+
+    public boolean removePermittedLocation(PermittedLocation pl) {
+        return permittedLocation.remove(pl);
     }
 
     /**
      * Gets the value of the any property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getAny() {
         return any;
@@ -117,20 +110,19 @@ public class PermittedLocationsType {
     /**
      * Sets the value of the any property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setAny(String value) {
         this.any = value;
     }
 
-
     /**
-     * <p>Java class for anonymous complex type.
+     * <p>
+     * Java class for anonymous complex type.
      * 
-     * <p>The following schema fragment specifies the expected content contained within this class.
+     * <p>
+     * The following schema fragment specifies the expected content contained within this class.
      * 
      * <pre>
      * &lt;complexType>
@@ -154,25 +146,23 @@ public class PermittedLocationsType {
      * </pre>
      * 
      * 
-     */ 
+     */
     public static class PermittedLocation {
- 
+
         protected String locationName;
-         
-        protected List<BigDecimal> locationCoordinateGroup = new ArrayList<BigDecimal>(); 
+
+        protected List<BigDecimal> locationCoordinateGroup = new ArrayList<BigDecimal>();
         protected Object other;
 
-        public void addLocationCoordinationGroup(BigDecimal lcg)
-        {
-           locationCoordinateGroup.add(lcg);
+        public void addLocationCoordinationGroup(BigDecimal lcg) {
+            locationCoordinateGroup.add(lcg);
         }
+
         /**
          * Gets the value of the locationName property.
          * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
+         * @return possible object is {@link String }
+         * 
          */
         public String getLocationName() {
             return locationName;
@@ -181,10 +171,8 @@ public class PermittedLocationsType {
         /**
          * Sets the value of the locationName property.
          * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
+         * @param value allowed object is {@link String }
+         * 
          */
         public void setLocationName(String value) {
             this.locationName = value;
@@ -192,19 +180,17 @@ public class PermittedLocationsType {
 
         /**
          * Gets the value of the locationCoordinateGroup property.
-         *    
+         * 
          */
-        public List<BigDecimal> getLocationCoordinateGroup() { 
+        public List<BigDecimal> getLocationCoordinateGroup() {
             return Collections.unmodifiableList(this.locationCoordinateGroup);
         }
 
         /**
          * Gets the value of the other property.
          * 
-         * @return
-         *     possible object is
-         *     {@link Object }
-         *     
+         * @return possible object is {@link Object }
+         * 
          */
         public Object getOther() {
             return other;
@@ -213,13 +199,11 @@ public class PermittedLocationsType {
         /**
          * Sets the value of the other property.
          * 
-         * @param value
-         *     allowed object is
-         *     {@link Object }
-         *     
+         * @param value allowed object is {@link Object }
+         * 
          */
         public void setOther(Object value) {
             this.other = value;
         }
-    } 
+    }
 }

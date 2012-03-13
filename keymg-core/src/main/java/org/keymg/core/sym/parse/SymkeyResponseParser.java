@@ -31,78 +31,73 @@ import org.keymg.core.sym.SymKeyConstants;
 import org.keymg.sym.model.ekmi.SymkeyResponse;
 
 /**
+ * An implementation of {@link XMLParser} to parse the {@link SymkeyResponse}
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class SymkeyResponseParser implements XMLParser
-{
-   private static Logger log = Logger.getLogger(SymkeyResponseParser.class.getCanonicalName());
+public class SymkeyResponseParser implements XMLParser {
+    private static Logger log = Logger.getLogger(SymkeyResponseParser.class.getCanonicalName());
 
-   public boolean acceptsQName(QName qname) 
-   {
-      return false;
-   }
+    /**
+     * @see XMLParser#acceptsQName(QName)
+     */
+    public boolean acceptsQName(QName qname) {
+        return false;
+    }
 
-   public QName[] getQNames() 
-   {
-      return null;
-   }
+    /**
+     * @see XMLParser#getQNames()
+     */
+    public QName[] getQNames() {
+        return null;
+    }
 
-   public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException 
-   {
-      SymkeyResponse symKeyResponse = (SymkeyResponse) populateObject;
+    /**
+     * @see XMLParser#handle(XMLEventReader, XMLEvent, Object)
+     */
+    public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException {
+        SymkeyResponse symKeyResponse = (SymkeyResponse) populateObject;
 
-      try 
-      {
-         while(xmlEventReader.hasNext())
-         {
-            XMLEvent ev = xmlEventReader.nextEvent();
+        try {
+            while (xmlEventReader.hasNext()) {
+                XMLEvent ev = xmlEventReader.nextEvent();
 
-            String localPart;
+                String localPart;
 
-            switch(ev.getEventType())
-            {
-               case XMLStreamConstants.START_ELEMENT:
-                  StartElement nextStartElement = (StartElement) ev;
-                  QName elementName = nextStartElement.getName();
-                  /*if("Symkey".equals(elementName.getLocalPart()))
-					{ 
+                switch (ev.getEventType()) {
+                    case XMLStreamConstants.START_ELEMENT:
+                        StartElement nextStartElement = (StartElement) ev;
+                        QName elementName = nextStartElement.getName();
+                        /*
+                         * if("Symkey".equals(elementName.getLocalPart())) {
+                         * 
+                         * String gid = xmlEventReader.getElementText(); sy.getResponse().add(null); } else {
+                         */
+                        // this is xsd:any
+                        String nsURI = elementName.getNamespaceURI();
+                        XMLParser xmlParser = ParserFactory.getParser(elementName);
+                        if (xmlParser == null) {
+                            log.log(Level.SEVERE, "Unable to locate any parser for the namespace:" + nsURI);
+                        } else {
+                            xmlParser.handle(xmlEventReader, nextStartElement, symKeyResponse);
+                        }
+                        // }
+                        break;
 
-						String gid = xmlEventReader.getElementText();
-						sy.getResponse().add(null);  
-					} 
-					else
-					{*/
-                  //this is xsd:any
-                  String nsURI = elementName.getNamespaceURI();
-                  XMLParser xmlParser = ParserFactory.getParser( elementName );
-                  if(xmlParser == null)
-                  {
-                     log.log( Level.SEVERE, "Unable to locate any parser for the namespace:" + nsURI );
-                  }
-                  else
-                  {
-                     xmlParser.handle(xmlEventReader, nextStartElement, symKeyResponse);
-                  }
-                  //}
-                  break;
+                    case XMLStreamConstants.END_ELEMENT:
 
-               case XMLStreamConstants.END_ELEMENT:  
+                        EndElement endElement = (EndElement) ev;
+                        localPart = endElement.getName().getLocalPart();
 
-                  EndElement endElement = (EndElement) ev;
-                  localPart = endElement.getName().getLocalPart();
-
-                  if( localPart.equals( SymKeyConstants.SYMKEY_RESPONSE ) )
-                     return;
-                  break;
-               case XMLStreamConstants.END_DOCUMENT:
-                  return; 
-            } 
-         }
-      } 
-      catch (XMLStreamException e) 
-      { 
-         log.log( Level.SEVERE, "Unable to parse:" , e );
-      } 
-   }
+                        if (localPart.equals(SymKeyConstants.SYMKEY_RESPONSE))
+                            return;
+                        break;
+                    case XMLStreamConstants.END_DOCUMENT:
+                        return;
+                }
+            }
+        } catch (XMLStreamException e) {
+            log.log(Level.SEVERE, "Unable to parse:", e);
+        }
+    }
 }

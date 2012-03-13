@@ -14,19 +14,18 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.keymg.sym.model.ekmi; 
-
+package org.keymg.sym.model.ekmi;
 
 /**
  * 
- *                 A response to an asynchronous request for a symmetric key,
- *                 indicating that the request is being worked on by the SKS
- *                 server.
- *             
+ * A response to an asynchronous request for a symmetric key, indicating that the request is being worked on by the SKS server.
  * 
- * <p>Java class for SymkeyWorkInProgressType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * Java class for SymkeyWorkInProgressType complex type.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="SymkeyWorkInProgressType">
@@ -43,12 +42,11 @@ package org.keymg.sym.model.ekmi;
  * &lt;/complexType>
  * </pre>
  * 
- *  
+ * 
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class SymkeyWorkInProgressType  implements ValidResponseType
-{
+public class SymkeyWorkInProgressType implements ValidResponseType {
     protected String requestedGlobalKeyID;
     protected String requestedKeyClass;
     protected String symkeyRequestID;
@@ -57,10 +55,8 @@ public class SymkeyWorkInProgressType  implements ValidResponseType
     /**
      * Gets the value of the requestedGlobalKeyID property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getRequestedGlobalKeyID() {
         return requestedGlobalKeyID;
@@ -69,10 +65,8 @@ public class SymkeyWorkInProgressType  implements ValidResponseType
     /**
      * Sets the value of the requestedGlobalKeyID property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setRequestedGlobalKeyID(String value) {
         this.requestedGlobalKeyID = value;
@@ -81,10 +75,8 @@ public class SymkeyWorkInProgressType  implements ValidResponseType
     /**
      * Gets the value of the requestedKeyClass property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getRequestedKeyClass() {
         return requestedKeyClass;
@@ -93,10 +85,8 @@ public class SymkeyWorkInProgressType  implements ValidResponseType
     /**
      * Sets the value of the requestedKeyClass property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setRequestedKeyClass(String value) {
         this.requestedKeyClass = value;
@@ -105,10 +95,8 @@ public class SymkeyWorkInProgressType  implements ValidResponseType
     /**
      * Gets the value of the symkeyRequestID property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getSymkeyRequestID() {
         return symkeyRequestID;
@@ -117,10 +105,8 @@ public class SymkeyWorkInProgressType  implements ValidResponseType
     /**
      * Sets the value of the symkeyRequestID property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setSymkeyRequestID(String value) {
         this.symkeyRequestID = value;

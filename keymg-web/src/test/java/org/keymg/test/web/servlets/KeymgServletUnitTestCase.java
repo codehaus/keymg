@@ -46,82 +46,77 @@ import com.meterware.servletunit.ServletUnitClient;
 
 /**
  * Unit test the {@link KeymgServlet}
+ * 
  * @author anil@apache.org
  * @since Jul 11, 2011
  */
-public class KeymgServletUnitTestCase
-{
-   String contentType = "text/xml;charset=utf-8";
-   String request = "requests/symkeyrequest-01.xml";
-   
-   String url = "http://test/keymg";
-   ServletRunner servletRunner = null;
-   
-   
-   @Before
-   public void setup() throws Exception
-   {
-      servletRunner = new ServletRunner();
-      servletRunner.registerServlet("/keymg", KeymgServlet.class.getName()); 
-      HttpUnitOptions.setScriptingEnabled(false); //Disable JS 
-   }
-   
-   @After
-   public void destroy() throws Exception
-   {
-      servletRunner.shutDown();
-      File theFile = new File("keystore.dat");
-      if(theFile.exists())
-      {
-         theFile.delete();
-      }
-   }
-   
-   @Test
-   public void testSymReq() throws Exception
-   {
-      ServletUnitClient sc = servletRunner.newClient();
-      
- 
-      InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(request);
-      assertNotNull(is);
-      WebRequest postRequest = new PostMethodWebRequest(url, is, contentType);
-      
-      WebResponse response = sc.getResponse( postRequest ); 
-      assertNotNull(response);
-      String contentType = response.getContentType();
-      assertEquals("text/xml", contentType);
-      Parser parser = new Parser();
-      parser.parse(response.getInputStream());
-      Object parsed = parser.getParsedObject();
-      assertTrue(parsed instanceof SymkeyResponse);
-      SymkeyResponse symkeyResponse = (SymkeyResponse) parsed;
-      List<ValidResponseType> responses = symkeyResponse.getResponse();
-      assertEquals(1, responses.size());
-      ValidResponseType validResponse = responses.get(0);
-      assertNotNull(validResponse);
-      assertTrue(validResponse instanceof SymkeyType);
-      SymkeyType key = (SymkeyType) validResponse; 
-      assertEquals("10514-1-1", key.getGlobalKeyID().getValue());
-      System.out.println(key);
-      
-      //Construct a new request
-      SymkeyRequest existRequest = new SymkeyRequest();
-      existRequest.addGlobalKeyID("10514-1-1");
-      
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      SymkeyWriter writer = new SymkeyWriter(baos);
-      writer.write(existRequest);
-      
-      ByteArrayInputStream bis = new ByteArrayInputStream(baos.toByteArray());
-      postRequest = new PostMethodWebRequest(url, bis, contentType);response = sc.getResponse( postRequest ); 
-      assertNotNull(response);   
-      parser.parse(response.getInputStream());
-      parsed = parser.getParsedObject();
-      assertTrue(parsed instanceof SymkeyResponse);
-      symkeyResponse = (SymkeyResponse) parsed;
-      key = (SymkeyType) symkeyResponse.getResponse().get(0);
-      assertEquals("10514-1-1", key.getGlobalKeyID().getValue());
-      assertNotNull(key.getKeyUsePolicy());
-   }
+public class KeymgServletUnitTestCase {
+    String contentType = "text/xml;charset=utf-8";
+    String request = "requests/symkeyrequest-01.xml";
+
+    String url = "http://test/keymg";
+    ServletRunner servletRunner = null;
+
+    @Before
+    public void setup() throws Exception {
+        servletRunner = new ServletRunner();
+        servletRunner.registerServlet("/keymg", KeymgServlet.class.getName());
+        HttpUnitOptions.setScriptingEnabled(false); // Disable JS
+    }
+
+    @After
+    public void destroy() throws Exception {
+        servletRunner.shutDown();
+        File theFile = new File("keystore.dat");
+        if (theFile.exists()) {
+            theFile.delete();
+        }
+    }
+
+    @Test
+    public void testSymReq() throws Exception {
+        ServletUnitClient sc = servletRunner.newClient();
+
+        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(request);
+        assertNotNull(is);
+        WebRequest postRequest = new PostMethodWebRequest(url, is, contentType);
+
+        WebResponse response = sc.getResponse(postRequest);
+        assertNotNull(response);
+        String contentType = response.getContentType();
+        assertEquals("text/xml", contentType);
+        Parser parser = new Parser();
+        parser.parse(response.getInputStream());
+        Object parsed = parser.getParsedObject();
+        assertTrue(parsed instanceof SymkeyResponse);
+        SymkeyResponse symkeyResponse = (SymkeyResponse) parsed;
+        List<ValidResponseType> responses = symkeyResponse.getResponse();
+        assertEquals(1, responses.size());
+        ValidResponseType validResponse = responses.get(0);
+        assertNotNull(validResponse);
+        assertTrue(validResponse instanceof SymkeyType);
+        SymkeyType key = (SymkeyType) validResponse;
+        assertEquals("10514-1-1", key.getGlobalKeyID().getValue());
+        System.out.println(key);
+
+        // Construct a new request
+        SymkeyRequest existRequest = new SymkeyRequest();
+        existRequest.addGlobalKeyID("10514-1-1");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        SymkeyWriter writer = new SymkeyWriter(baos);
+        writer.write(existRequest);
+
+        ByteArrayInputStream bis = new ByteArrayInputStream(baos.toByteArray());
+        postRequest = new PostMethodWebRequest(url, bis, contentType);
+        response = sc.getResponse(postRequest);
+        assertNotNull(response);
+        parser.parse(response.getInputStream());
+        parsed = parser.getParsedObject();
+        assertTrue(parsed instanceof SymkeyResponse);
+        symkeyResponse = (SymkeyResponse) parsed;
+        key = (SymkeyType) symkeyResponse.getResponse().get(0);
+        assertEquals("10514-1-1", key.getGlobalKeyID().getValue());
+        assertNotNull(key.getKeyUsePolicy());
+    }
 }

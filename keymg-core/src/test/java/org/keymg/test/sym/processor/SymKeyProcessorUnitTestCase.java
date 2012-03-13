@@ -34,45 +34,42 @@ import org.keymg.sym.model.ekmi.SymkeyRequest;
 
 /**
  * Unit test the {@link SymKeyProcessor}
+ * 
  * @author anil@apache.org
  * @since Jul 11, 2011
  */
-public class SymKeyProcessorUnitTestCase
-{
-   @Test
-   public void testSymKeyRequest() throws Exception
-   {
-      ClassLoader tcl = Thread.currentThread().getContextClassLoader();
-      InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/symkeyrequest-01.xml");
-      assertNotNull(inputStream);
-      Parser parser = new Parser();
-      parser.parse(inputStream);
-      
-      Object parsed = parser.getParsedObject();
-      assertTrue(parsed instanceof SymkeyRequest);
-      SymkeyRequest symKeyRequest = (SymkeyRequest) parsed;
-      
-      KeymgConfigurationManager configManager = KeymgConfigurationManager.getInstance();
-      KeyStorage keyStorage = new SimpleFileBasedKeyStorage();
-      KeymgConfigurationManager.setKeyStorage(keyStorage);
-      configManager.initialize();
-      
-      InmemorySymKeyPolicyStore store = new InmemorySymKeyPolicyStore();
-      KeymgConfigurationManager.setPolicyStore(store);
-      SymKeyProcessor processor = new SymKeyProcessor(configManager);
-      processor.setServerID("1");
-      processor.process(symKeyRequest);
-      
-      configManager.shutdown();
-   }
+public class SymKeyProcessorUnitTestCase {
+    @Test
+    public void testSymKeyRequest() throws Exception {
+        ClassLoader tcl = Thread.currentThread().getContextClassLoader();
+        InputStream inputStream = tcl.getResourceAsStream("ekmi/v1/symkeyrequest-01.xml");
+        assertNotNull(inputStream);
+        Parser parser = new Parser();
+        parser.parse(inputStream);
 
-   @After
-   public void end() throws Exception
-   {
-      File theFile = new File("keystore.dat");
-      if(theFile.exists())
-      {
-         theFile.delete();
-      }
-   }
+        Object parsed = parser.getParsedObject();
+        assertTrue(parsed instanceof SymkeyRequest);
+        SymkeyRequest symKeyRequest = (SymkeyRequest) parsed;
+
+        KeymgConfigurationManager configManager = KeymgConfigurationManager.getInstance();
+        KeyStorage keyStorage = new SimpleFileBasedKeyStorage();
+        KeymgConfigurationManager.setKeyStorage(keyStorage);
+        configManager.initialize();
+
+        InmemorySymKeyPolicyStore store = new InmemorySymKeyPolicyStore();
+        KeymgConfigurationManager.setPolicyStore(store);
+        SymKeyProcessor processor = new SymKeyProcessor(configManager);
+        processor.setServerID("1");
+        processor.process(symKeyRequest);
+
+        configManager.shutdown();
+    }
+
+    @After
+    public void end() throws Exception {
+        File theFile = new File("keystore.dat");
+        if (theFile.exists()) {
+            theFile.delete();
+        }
+    }
 }

@@ -19,9 +19,9 @@ package org.keymg.sym.model.ekmi;
 
 /**
  * Marker Interface
+ * 
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public interface ValidResponseType 
-{ 
+public interface ValidResponseType {
 }

@@ -20,22 +20,16 @@ package org.keymg.sym.model.ekmi;
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public enum LevelClassificationType 
-{
-	UNCLASSIFIED( "Unclassified" ),
-	CONFIDENTIAL( "Confidential" ),
-	SECRET( "Secret" ),
-	TOP_SECRET( "Top-Secret" );
-	
-	private String value;
-	
-	LevelClassificationType( String val )
-	{
-		this.value = val;
-	}
+public enum LevelClassificationType {
+    UNCLASSIFIED("Unclassified"), CONFIDENTIAL("Confidential"), SECRET("Secret"), TOP_SECRET("Top-Secret");
 
-	public String get() 
-	{
-		return value;
-	}
+    private String value;
+
+    LevelClassificationType(String val) {
+        this.value = val;
+    }
+
+    public String get() {
+        return value;
+    }
 }

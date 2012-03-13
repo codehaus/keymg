@@ -24,33 +24,30 @@ import java.util.List;
  * <pre>
  * 
  * <xsd:element name="KeyCachePolicyResponse">
-     <xsd:complexType>
-      <xsd:sequence>
-          <xsd:element name="KeyCachePolicy" type="ekmi:KeyCachePolicyType"
-                                         minOccurs="1" maxOccurs="unbounded"/>
-       </xsd:sequence>
-     </xsd:complexType>
-   </xsd:element>
+ *      <xsd:complexType>
+ *       <xsd:sequence>
+ *           <xsd:element name="KeyCachePolicy" type="ekmi:KeyCachePolicyType"
+ *                                          minOccurs="1" maxOccurs="unbounded"/>
+ *        </xsd:sequence>
+ *      </xsd:complexType>
+ *    </xsd:element>
  * </pre>
+ * 
  * @author anil@apache.org
  * @since May 23, 2011
  */
-public class KeyCachePolicyResponseType
-{
-   protected List<KeyCachePolicyType> keyCachePolicies = new ArrayList<KeyCachePolicyType>();
-   
-   public void add(KeyCachePolicyType kcp)
-   {
-      this.keyCachePolicies.add(kcp);
-   }
+public class KeyCachePolicyResponseType {
+    protected List<KeyCachePolicyType> keyCachePolicies = new ArrayList<KeyCachePolicyType>();
 
-   public boolean remove(KeyCachePolicyType kcp)
-   {
-      return this.keyCachePolicies.remove(kcp);
-   }
-   
-   public List<KeyCachePolicyType> policies()
-   {
-      return Collections.unmodifiableList(keyCachePolicies);
-   }
+    public void add(KeyCachePolicyType kcp) {
+        this.keyCachePolicies.add(kcp);
+    }
+
+    public boolean remove(KeyCachePolicyType kcp) {
+        return this.keyCachePolicies.remove(kcp);
+    }
+
+    public List<KeyCachePolicyType> policies() {
+        return Collections.unmodifiableList(keyCachePolicies);
+    }
 }

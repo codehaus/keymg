@@ -19,34 +19,33 @@ package org.keymg.core.sym.policy;
 import org.keymg.sym.model.ekmi.KeyUsePolicyType;
 
 /**
- * Interface for the various policies
- * defining sym key gen
+ * Interface for the various policies defining sym key gen
+ * 
  * @author anil@apache.org
  * @since Jul 11, 2011
  */
-public interface SymKeyPolicyStore
-{
-   /**
-    * Given the {@link String} keyusePolicyID, return the
-    * {@link KeyUsePolicyType}
-    * @param keyUsePolicyID
-    * @return
-    */
-   KeyUsePolicyType getKeyUsePolicy(String keyUsePolicyID);
-   
-   /**
-    * Given the {@link String} domainID, return the
-    * {@link KeyUsePolicyType}
-    * @param domainID
-    * @return
-    */
-   KeyUsePolicyType getDefaultKeyUsePolicy(String domainID);
-   
-   /**
-    * Return the {@link KeyUsePolicyType} applicable for a given keyClassType
-    * If there is not keyUsePolicyType, return null
-    * @param keyClassType
-    * @return
-    */
-   KeyUsePolicyType getKeyUsePolicyForKeyClassType(String keyClassType);
+public interface SymKeyPolicyStore {
+    /**
+     * Given the {@link String} keyusePolicyID, return the {@link KeyUsePolicyType}
+     * 
+     * @param keyUsePolicyID
+     * @return
+     */
+    KeyUsePolicyType getKeyUsePolicy(String keyUsePolicyID);
+
+    /**
+     * Given the {@link String} domainID, return the {@link KeyUsePolicyType}
+     * 
+     * @param domainID
+     * @return
+     */
+    KeyUsePolicyType getDefaultKeyUsePolicy(String domainID);
+
+    /**
+     * Return the {@link KeyUsePolicyType} applicable for a given keyClassType If there is not keyUsePolicyType, return null
+     * 
+     * @param keyClassType
+     * @return
+     */
+    KeyUsePolicyType getKeyUsePolicyForKeyClassType(String keyClassType);
 }

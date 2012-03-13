@@ -22,17 +22,14 @@ import org.w3c.dom.Element;
  * @author anil@apache.org
  * @since May 23, 2011
  */
-public class KeyCachePolicyRequestType
-{
-   protected Element signature;
+public class KeyCachePolicyRequestType {
+    protected Element signature;
 
-   public Element getSignature()
-   {
-      return signature;
-   }
+    public Element getSignature() {
+        return signature;
+    }
 
-   public void setSignature(Element signature)
-   {
-      this.signature = signature;
-   }
+    public void setSignature(Element signature) {
+        this.signature = signature;
+    }
 }

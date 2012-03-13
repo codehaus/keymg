@@ -20,23 +20,29 @@ import org.keymg.sym.model.ekmi.KeyUsePolicyType;
 
 /**
  * A simple file based {@link SymKeyPolicyStore}
+ * 
  * @author anil@apache.org
  * @since Jul 11, 2011
  */
-public class FileBasedSymKeyPolicyStore implements SymKeyPolicyStore
-{ 
-   public KeyUsePolicyType getKeyUsePolicy(String keyUsePolicyID)
-   { 
-      return null;
-   }
+public class FileBasedSymKeyPolicyStore implements SymKeyPolicyStore {
+    /**
+     * @see SymKeyPolicyStore#getKeyUsePolicy(String)
+     */
+    public KeyUsePolicyType getKeyUsePolicy(String keyUsePolicyID) {
+        return null;
+    }
 
-   public KeyUsePolicyType getDefaultKeyUsePolicy(String domainID)
-   { 
-      return null;
-   }
+    /**
+     * @see SymKeyPolicyStore#getDefaultKeyUsePolicy(String)
+     */
+    public KeyUsePolicyType getDefaultKeyUsePolicy(String domainID) {
+        return null;
+    }
 
-   public KeyUsePolicyType getKeyUsePolicyForKeyClassType(String keyClassType)
-   { 
-      return null;
-   }
+    /**
+     * @see SymKeyPolicyStore#getKeyUsePolicyForKeyClassType(String)
+     */
+    public KeyUsePolicyType getKeyUsePolicyForKeyClassType(String keyClassType) {
+        return null;
+    }
 }

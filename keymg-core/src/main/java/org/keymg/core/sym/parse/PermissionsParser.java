@@ -42,200 +42,183 @@ import org.keymg.sym.model.ekmi.PermittedTimesType;
 import org.keymg.sym.model.ekmi.PermittedUsesType;
 
 /**
+ * An implementation of {@link XMLParser} to parse the {@link PermissionsType}
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class PermissionsParser implements XMLParser 
-{
-   private static Logger log = Logger.getLogger( PermissionsParser.class.getCanonicalName() );
+public class PermissionsParser implements XMLParser {
+    private static Logger log = Logger.getLogger(PermissionsParser.class.getCanonicalName());
 
-   public boolean acceptsQName(QName qname) 
-   {
-      return false;
-   }
+    /**
+     * @see XMLParser#acceptsQName(QName)
+     */
+    public boolean acceptsQName(QName qname) {
+        return false;
+    }
 
-   public QName[] getQNames() 
-   {
-      return null;
-   }
+    /**
+     * @see XMLParser#getQNames()
+     */
+    public QName[] getQNames() {
+        return null;
+    }
+    
+    /**
+     * @see XMLParser#handle(XMLEventReader, XMLEvent, Object)
+     */
+    public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException {
+        KeyUsePolicyType keyUsePolicyType = (KeyUsePolicyType) populateObject;
+        PermissionsType permissionsType = new PermissionsType();
+        keyUsePolicyType.setPermissions(permissionsType);
 
-   public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent,
-         Object populateObject) throws XMLStreamException 
-   {
-      KeyUsePolicyType keyUsePolicyType = (KeyUsePolicyType) populateObject;
-      PermissionsType permissionsType = new PermissionsType();
-      keyUsePolicyType.setPermissions( permissionsType );
+        try {
+            while (xmlEventReader.hasNext()) {
+                XMLEvent ev = xmlEventReader.nextEvent();
 
-      try 
-      {
-         while(xmlEventReader.hasNext())
-         {
-            XMLEvent ev = xmlEventReader.nextEvent();
+                switch (ev.getEventType()) {
+                    case XMLStreamConstants.START_ELEMENT:
+                        StartElement nextStartElement = (StartElement) ev;
+                        QName elementName = nextStartElement.getName();
+                        String localPart = elementName.getLocalPart();
 
-            switch(ev.getEventType())
-            {
-               case XMLStreamConstants.START_ELEMENT:
-                  StartElement nextStartElement = (StartElement) ev;
-                  QName elementName = nextStartElement.getName();
-                  String localPart = elementName.getLocalPart();
+                        if (SymKeyConstants.PERMITTED_APPLICATIONS.equals(localPart)) {
+                            PermittedApplicationsType permittedApplicationsType = new PermittedApplicationsType();
 
-                  if( SymKeyConstants.PERMITTED_APPLICATIONS.equals( localPart ))
-                  {  
-                     PermittedApplicationsType permittedApplicationsType = new PermittedApplicationsType(); 
+                            permissionsType.setPermittedApplications(permittedApplicationsType);
 
-                     permissionsType.setPermittedApplications(permittedApplicationsType);
+                            PermittedApplicationsParser permittedApplicationsParser = new PermittedApplicationsParser();
 
-                     PermittedApplicationsParser permittedApplicationsParser = new PermittedApplicationsParser();
+                            Attribute anyAttribute = nextStartElement
+                                    .getAttributeByName(SymKeyConstants.QNameConstants.ANY_QNAME.get());
+                            String anyValue = anyAttribute.getValue();
+                            permittedApplicationsType.setAny(anyValue);
 
-                     Attribute anyAttribute = nextStartElement.getAttributeByName( SymKeyConstants.QNameConstants.ANY_QNAME.get() );
-                     String anyValue = anyAttribute.getValue();
-                     permittedApplicationsType.setAny( anyValue );
+                            if ("false".equalsIgnoreCase(anyValue)) {
+                                permittedApplicationsParser.handle(xmlEventReader, xmlEvent, permittedApplicationsType);
+                            }
+                        } else if (SymKeyConstants.PERMITTED_DATES.equals(localPart)) {
+                            PermittedDatesType permittedDatesType = new PermittedDatesType();
 
-                     if( "false".equalsIgnoreCase(anyValue) )
-                     {
-                        permittedApplicationsParser.handle(xmlEventReader, xmlEvent, permittedApplicationsType);	
-                     } 
-                  }  
-                  else if( SymKeyConstants.PERMITTED_DATES.equals( localPart ))
-                  {  
-                     PermittedDatesType permittedDatesType = new PermittedDatesType();
+                            permissionsType.setPermittedDates(permittedDatesType);
 
-                     permissionsType.setPermittedDates(permittedDatesType);
+                            Attribute anyAttribute = nextStartElement
+                                    .getAttributeByName(SymKeyConstants.QNameConstants.ANY_QNAME.get());
+                            String anyValue = anyAttribute.getValue();
+                            permittedDatesType.setAny(anyValue);
 
-                     Attribute anyAttribute = nextStartElement.getAttributeByName( SymKeyConstants.QNameConstants.ANY_QNAME.get() );
-                     String anyValue = anyAttribute.getValue();
-                     permittedDatesType.setAny( anyValue );
+                            if ("false".equalsIgnoreCase(anyValue)) {
+                                PermittedDatesParser permittedDatesParser = new PermittedDatesParser();
+                                permittedDatesParser.handle(xmlEventReader, xmlEvent, permittedDatesType);
+                            }
+                        } else if (SymKeyConstants.PERMITTED_DAYS.equals(localPart)) {
+                            PermittedDaysType permittedDaysType = new PermittedDaysType();
 
-                     if( "false".equalsIgnoreCase(anyValue) )
-                     {
-                        PermittedDatesParser permittedDatesParser = new PermittedDatesParser();
-                        permittedDatesParser.handle(xmlEventReader, xmlEvent, permittedDatesType);	
-                     } 
-                  } 
-                  else if( SymKeyConstants.PERMITTED_DAYS.equals( localPart ))
-                  {  
-                     PermittedDaysType permittedDaysType = new PermittedDaysType();
+                            permissionsType.setPermittedDays(permittedDaysType);
 
-                     permissionsType.setPermittedDays(permittedDaysType);
+                            Attribute anyAttribute = nextStartElement
+                                    .getAttributeByName(SymKeyConstants.QNameConstants.ANY_QNAME.get());
+                            String anyValue = anyAttribute.getValue();
+                            permittedDaysType.setAny(anyValue);
 
-                     Attribute anyAttribute = nextStartElement.getAttributeByName( SymKeyConstants.QNameConstants.ANY_QNAME.get() );
-                     String anyValue = anyAttribute.getValue();
-                     permittedDaysType.setAny( anyValue );
+                            if ("false".equalsIgnoreCase(anyValue)) {
+                                throw new RuntimeException("Not implemented");
+                            }
+                        } else if (SymKeyConstants.PERMITTED_DURATION.equals(localPart)) {
+                            PermittedDurationType permittedDurationType = new PermittedDurationType();
 
-                     if( "false".equalsIgnoreCase(anyValue) )
-                     {
-                        throw new RuntimeException( "Not implemented");	
-                     } 
-                  } 
-                  else if( SymKeyConstants.PERMITTED_DURATION.equals( localPart ))
-                  {  
-                     PermittedDurationType permittedDurationType = new PermittedDurationType();
+                            permissionsType.setPermittedDuration(permittedDurationType);
 
-                     permissionsType.setPermittedDuration(permittedDurationType);
+                            Attribute anyAttribute = nextStartElement
+                                    .getAttributeByName(SymKeyConstants.QNameConstants.ANY_QNAME.get());
+                            String anyValue = anyAttribute.getValue();
+                            permittedDurationType.setAny(anyValue);
 
-                     Attribute anyAttribute = nextStartElement.getAttributeByName( SymKeyConstants.QNameConstants.ANY_QNAME.get() );
-                     String anyValue = anyAttribute.getValue();
-                     permittedDurationType.setAny( anyValue );
+                            if ("false".equalsIgnoreCase(anyValue)) {
+                                throw new RuntimeException("Not implemented");
+                            }
+                        } else if (SymKeyConstants.PERMITTED_LEVELS.equals(localPart)) {
+                            PermittedLevelsType permittedLevelsType = new PermittedLevelsType();
 
-                     if( "false".equalsIgnoreCase(anyValue) )
-                     {
-                        throw new RuntimeException( "Not implemented");	
-                     } 
-                  } 
-                  else if( SymKeyConstants.PERMITTED_LEVELS.equals( localPart ))
-                  {  
-                     PermittedLevelsType permittedLevelsType = new PermittedLevelsType();
+                            permissionsType.setPermittedLevels(permittedLevelsType);
 
-                     permissionsType.setPermittedLevels(permittedLevelsType);
+                            Attribute anyAttribute = nextStartElement
+                                    .getAttributeByName(SymKeyConstants.QNameConstants.ANY_QNAME.get());
+                            String anyValue = anyAttribute.getValue();
+                            permittedLevelsType.setAny(anyValue);
 
-                     Attribute anyAttribute = nextStartElement.getAttributeByName( SymKeyConstants.QNameConstants.ANY_QNAME.get() );
-                     String anyValue = anyAttribute.getValue();
-                     permittedLevelsType.setAny( anyValue );
+                            if ("false".equalsIgnoreCase(anyValue)) {
+                                throw new RuntimeException("Not implemented");
+                            }
+                        } else if (SymKeyConstants.PERMITTED_LOCATIONS.equals(localPart)) {
+                            PermittedLocationsType permittedLocationsType = new PermittedLocationsType();
 
-                     if( "false".equalsIgnoreCase(anyValue) )
-                     {
-                        throw new RuntimeException( "Not implemented");	
-                     } 
-                  } 
-                  else if( SymKeyConstants.PERMITTED_LOCATIONS.equals( localPart ))
-                  {  
-                     PermittedLocationsType permittedLocationsType = new PermittedLocationsType();
+                            permissionsType.setPermittedLocations(permittedLocationsType);
 
-                     permissionsType.setPermittedLocations(permittedLocationsType);
+                            Attribute anyAttribute = nextStartElement
+                                    .getAttributeByName(SymKeyConstants.QNameConstants.ANY_QNAME.get());
+                            String anyValue = anyAttribute.getValue();
+                            permittedLocationsType.setAny(anyValue);
 
-                     Attribute anyAttribute = nextStartElement.getAttributeByName( SymKeyConstants.QNameConstants.ANY_QNAME.get() );
-                     String anyValue = anyAttribute.getValue();
-                     permittedLocationsType.setAny( anyValue );
+                            if ("false".equalsIgnoreCase(anyValue)) {
+                                throw new RuntimeException("Not implemented");
+                            }
+                        } else if (SymKeyConstants.PERMITTED_NUMBER_OF_TRANSACTIONS.equals(localPart)) {
+                            PermittedNumberOfTransactionsType permittedTransactionsType = new PermittedNumberOfTransactionsType();
 
-                     if( "false".equalsIgnoreCase(anyValue) )
-                     {
-                        throw new RuntimeException( "Not implemented");	
-                     } 
-                  } 
-                  else if( SymKeyConstants.PERMITTED_NUMBER_OF_TRANSACTIONS.equals( localPart ))
-                  {  
-                     PermittedNumberOfTransactionsType permittedTransactionsType = new PermittedNumberOfTransactionsType();
+                            permissionsType.setPermittedNumberOfTransactions(permittedTransactionsType);
 
-                     permissionsType.setPermittedNumberOfTransactions(permittedTransactionsType);
+                            Attribute anyAttribute = nextStartElement
+                                    .getAttributeByName(SymKeyConstants.QNameConstants.ANY_QNAME.get());
+                            String anyValue = anyAttribute.getValue();
+                            permittedTransactionsType.setAny(anyValue);
 
-                     Attribute anyAttribute = nextStartElement.getAttributeByName( SymKeyConstants.QNameConstants.ANY_QNAME.get() );
-                     String anyValue = anyAttribute.getValue();
-                     permittedTransactionsType.setAny( anyValue );
+                            if ("false".equalsIgnoreCase(anyValue)) {
+                                throw new RuntimeException("Not implemented");
+                            }
+                        } else if (SymKeyConstants.PERMITTED_USES.equals(localPart)) {
+                            PermittedUsesType permittedUsesType = new PermittedUsesType();
 
-                     if( "false".equalsIgnoreCase(anyValue) )
-                     {
-                        throw new RuntimeException( "Not implemented");	
-                     } 
-                  } 
-                  else if( SymKeyConstants.PERMITTED_USES.equals( localPart ))
-                  {  
-                     PermittedUsesType permittedUsesType = new PermittedUsesType();
+                            permissionsType.setPermittedUses(permittedUsesType);
 
-                     permissionsType.setPermittedUses(permittedUsesType);
+                            Attribute anyAttribute = nextStartElement
+                                    .getAttributeByName(SymKeyConstants.QNameConstants.ANY_QNAME.get());
+                            String anyValue = anyAttribute.getValue();
+                            permittedUsesType.setAny(anyValue);
 
-                     Attribute anyAttribute = nextStartElement.getAttributeByName( SymKeyConstants.QNameConstants.ANY_QNAME.get() );
-                     String anyValue = anyAttribute.getValue();
-                     permittedUsesType.setAny( anyValue );
+                            if ("false".equalsIgnoreCase(anyValue)) {
+                                throw new RuntimeException("Not implemented");
+                            }
+                        } else if (SymKeyConstants.PERMITTED_TIMES.equals(localPart)) {
+                            PermittedTimesType permittedTimesType = new PermittedTimesType();
 
-                     if( "false".equalsIgnoreCase(anyValue) )
-                     {
-                        throw new RuntimeException( "Not implemented");	
-                     } 
-                  }   
-                  else if( SymKeyConstants.PERMITTED_TIMES.equals( localPart ))
-                  {  
-                     PermittedTimesType permittedTimesType = new PermittedTimesType();
+                            permissionsType.setPermittedTimes(permittedTimesType);
 
-                     permissionsType.setPermittedTimes(permittedTimesType);
+                            Attribute anyAttribute = nextStartElement
+                                    .getAttributeByName(SymKeyConstants.QNameConstants.ANY_QNAME.get());
+                            String anyValue = anyAttribute.getValue();
+                            permittedTimesType.setAny(anyValue);
 
-                     Attribute anyAttribute = nextStartElement.getAttributeByName( SymKeyConstants.QNameConstants.ANY_QNAME.get() );
-                     String anyValue = anyAttribute.getValue();
-                     permittedTimesType.setAny( anyValue );
+                            if ("false".equalsIgnoreCase(anyValue)) {
+                                PermittedTimesParser permittedTimesParser = new PermittedTimesParser();
+                                permittedTimesParser.handle(xmlEventReader, xmlEvent, permittedTimesType);
+                            }
+                        }
+                        break;
 
-                     if( "false".equalsIgnoreCase(anyValue) )
-                     {
-                        PermittedTimesParser permittedTimesParser = new PermittedTimesParser();
-                        permittedTimesParser.handle(xmlEventReader, xmlEvent, permittedTimesType); 
-                     } 
-                  }  
-                  break;
+                    case XMLStreamConstants.END_ELEMENT:
 
-               case XMLStreamConstants.END_ELEMENT: 
+                        EndElement endElement = (EndElement) ev;
+                        localPart = endElement.getName().getLocalPart();
 
-                  EndElement endElement = (EndElement) ev;
-                  localPart = endElement.getName().getLocalPart();
-
-                  if( localPart.equals( SymKeyConstants.PERMISSIONS ) )
-                     return;
-                  break;
-               case XMLStreamConstants.END_DOCUMENT:
-                  return ; 
-            } 
-         }
-      } 
-      catch (XMLStreamException e) 
-      {  
-         log.log( Level.SEVERE, "Unable to parse:" , e );
-      }
-   } 
+                        if (localPart.equals(SymKeyConstants.PERMISSIONS))
+                            return;
+                        break;
+                    case XMLStreamConstants.END_DOCUMENT:
+                        return;
+                }
+            }
+        } catch (XMLStreamException e) {
+            log.log(Level.SEVERE, "Unable to parse:", e);
+        }
+    }
 }

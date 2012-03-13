@@ -33,41 +33,37 @@ import org.w3c.dom.Document;
  * <p>
  * Unit Test the {@code KeyGenerator}
  * </p>
+ * 
  * @author anil@apache.org
  * @since Jun 7, 2010
  */
-public class KeyGeneratorUnitTestCase
-{
-   @Before
-   public void setup() throws Exception
-   {
-      KeyStorage keyStorage = new SimpleFileBasedKeyStorage();
-      KeymgConfigurationManager.setKeyStorage(keyStorage);
-      
-      KeymgConfigurationManager.getInstance().initialize();
-   }
-   
-   @After
-   public void destroy() throws Exception
-   {
-      KeymgConfigurationManager.getInstance().shutdown();
-      
-      File theFile = new File("keystore.dat");
-      System.out.println("path="+ theFile.getAbsolutePath());
-      if(theFile.exists())
-      {
-         boolean del = theFile.delete();
-         System.out.println("keystore dat deleted="+del);
-      }
-   }
-   
-   @Test
-   public void testKeyGen() throws Exception
-   {
-      KeyGenerator gen = new KeyGenerator();
-      gen.setServerID("1");
-      gen.setPolicyStore(new InmemorySymKeyPolicyStore());
-      Document doc = gen.generate( "10514-0-0" );
-      System.out.println( DocumentUtil.asString(doc));
-   } 
+public class KeyGeneratorUnitTestCase {
+    @Before
+    public void setup() throws Exception {
+        KeyStorage keyStorage = new SimpleFileBasedKeyStorage();
+        KeymgConfigurationManager.setKeyStorage(keyStorage);
+
+        KeymgConfigurationManager.getInstance().initialize();
+    }
+
+    @After
+    public void destroy() throws Exception {
+        KeymgConfigurationManager.getInstance().shutdown();
+
+        File theFile = new File("keystore.dat");
+        System.out.println("path=" + theFile.getAbsolutePath());
+        if (theFile.exists()) {
+            boolean del = theFile.delete();
+            System.out.println("keystore dat deleted=" + del);
+        }
+    }
+
+    @Test
+    public void testKeyGen() throws Exception {
+        KeyGenerator gen = new KeyGenerator();
+        gen.setServerID("1");
+        gen.setPolicyStore(new InmemorySymKeyPolicyStore());
+        Document doc = gen.generate("10514-0-0");
+        System.out.println(DocumentUtil.asString(doc));
+    }
 }

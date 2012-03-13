@@ -32,67 +32,67 @@ import org.keymg.sym.model.ekmi.ApplicationsType;
 import org.keymg.sym.model.ekmi.PermittedApplicationsType;
 
 /**
+ * An implementation of {@link XMLParser} to parse the {@link PermittedApplicationsType}
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class PermittedApplicationsParser implements XMLParser 
-{ 
-   private static Logger log = Logger.getLogger( PermittedApplicationsParser.class.getCanonicalName() );
+public class PermittedApplicationsParser implements XMLParser {
+    private static Logger log = Logger.getLogger(PermittedApplicationsParser.class.getCanonicalName());
 
-   public boolean acceptsQName(QName qname) 
-   {
-      return false;
-   }
+    /**
+     * @see XMLParser#acceptsQName(QName)
+     */
+    public boolean acceptsQName(QName qname) {
+        return false;
+    }
 
-   public QName[] getQNames() 
-   {
-      return null;
-   }
+    /**
+     * @see XMLParser#getQNames()
+     */
+    public QName[] getQNames() {
+        return null;
+    }
 
-   public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent,
-         Object populateObject) throws XMLStreamException 
-         {
-      PermittedApplicationsType permittedApplicationsType =  (PermittedApplicationsType) populateObject;
+    /**
+     * @see XMLParser#handle(XMLEventReader, XMLEvent, Object)
+     */
+    public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException {
+        PermittedApplicationsType permittedApplicationsType = (PermittedApplicationsType) populateObject;
 
-      try 
-      {
-         while(xmlEventReader.hasNext())
-         {
-            XMLEvent ev = xmlEventReader.nextEvent();
+        try {
+            while (xmlEventReader.hasNext()) {
+                XMLEvent ev = xmlEventReader.nextEvent();
 
-            switch(ev.getEventType())
-            {
-               case XMLStreamConstants.START_ELEMENT:
-                  StartElement nextStartElement = (StartElement) ev;
-                  QName elementName = nextStartElement.getName();
-                  String localPart = elementName.getLocalPart();
+                switch (ev.getEventType()) {
+                    case XMLStreamConstants.START_ELEMENT:
+                        StartElement nextStartElement = (StartElement) ev;
+                        QName elementName = nextStartElement.getName();
+                        String localPart = elementName.getLocalPart();
 
-                  if( SymKeyConstants.PERMITTED_APPLICATION.equals( localPart ))
-                  { 
-                     ApplicationsType applicationType = new ApplicationsType();
-                     permittedApplicationsType.addPermittedApplication( applicationType );
+                        if (SymKeyConstants.PERMITTED_APPLICATION.equals(localPart)) {
+                            ApplicationsType applicationType = new ApplicationsType();
+                            permittedApplicationsType.addPermittedApplication(applicationType);
 
-                     PermittedApplicationParser permittedApplicationParser = new PermittedApplicationParser();
-                     permittedApplicationParser.handle( xmlEventReader, xmlEvent, applicationType ); 
-                  } 
-                  break;
+                            PermittedApplicationParser permittedApplicationParser = new PermittedApplicationParser();
+                            permittedApplicationParser.handle(xmlEventReader, xmlEvent, applicationType);
+                        }
+                        break;
 
-               case XMLStreamConstants.END_ELEMENT: 
+                    case XMLStreamConstants.END_ELEMENT:
 
-                  EndElement endElement = (EndElement) ev;
-                  localPart = endElement.getName().getLocalPart();
+                        EndElement endElement = (EndElement) ev;
+                        localPart = endElement.getName().getLocalPart();
 
-                  if( localPart.equals( SymKeyConstants.PERMITTED_APPLICATIONS ) )
-                     return;
-                  break;
+                        if (localPart.equals(SymKeyConstants.PERMITTED_APPLICATIONS))
+                            return;
+                        break;
 
-               case XMLStreamConstants.END_DOCUMENT:
-                  return ; 
-            } 
-         }
-      } catch (XMLStreamException e) 
-      { 
-         log.log( Level.SEVERE, "Unable to parse:" , e );
-      }   
-         }  
+                    case XMLStreamConstants.END_DOCUMENT:
+                        return;
+                }
+            }
+        } catch (XMLStreamException e) {
+            log.log(Level.SEVERE, "Unable to parse:", e);
+        }
+    }
 }

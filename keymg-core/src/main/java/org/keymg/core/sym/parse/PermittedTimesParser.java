@@ -33,132 +33,118 @@ import org.keymg.core.sym.SymKeyConstants;
 import org.keymg.sym.model.ekmi.PermittedTimesType;
 
 /**
+ * An implementation of {@link XMLParser} to parse the {@link PermittedTimesType}
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class PermittedTimesParser implements XMLParser 
-{
-   private static Logger log = Logger.getLogger( PermittedTimesParser.class.getCanonicalName() );
+public class PermittedTimesParser implements XMLParser {
+    private static Logger log = Logger.getLogger(PermittedTimesParser.class.getCanonicalName());
 
-   public boolean acceptsQName(QName qname) 
-   {
-      return false;
-   }
+    /**
+     * @see XMLParser#acceptsQName(QName)
+     */
+    public boolean acceptsQName(QName qname) {
+        return false;
+    }
 
-   public QName[] getQNames() 
-   {
-      return null;
-   }
+    /**
+     * @see XMLParser#getQNames()
+     */
+    public QName[] getQNames() {
+        return null;
+    }
 
-   public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException 
-   {
-      PermittedTimesType permittedTimesType = (PermittedTimesType) populateObject;
-      try 
-      {
-         while(xmlEventReader.hasNext())
-         {
-            XMLEvent ev = xmlEventReader.nextEvent();
+    /**
+     * @see XMLParser#handle(XMLEventReader, XMLEvent, Object)
+     */
+    public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException {
+        PermittedTimesType permittedTimesType = (PermittedTimesType) populateObject;
+        try {
+            while (xmlEventReader.hasNext()) {
+                XMLEvent ev = xmlEventReader.nextEvent();
 
-            switch(ev.getEventType())
-            {
-               case XMLStreamConstants.START_ELEMENT:
-                  StartElement nextStartElement = (StartElement) ev;
-                  QName elementName = nextStartElement.getName();
-                  String localPart = elementName.getLocalPart();
+                switch (ev.getEventType()) {
+                    case XMLStreamConstants.START_ELEMENT:
+                        StartElement nextStartElement = (StartElement) ev;
+                        QName elementName = nextStartElement.getName();
+                        String localPart = elementName.getLocalPart();
 
-                  if( SymKeyConstants.PERMITTED_TIME.equals( localPart ))
-                  { 
-                     PermittedTimeParser permittedTimeParser = new PermittedTimeParser();
-                     permittedTimeParser.handle(xmlEventReader, xmlEvent, permittedTimesType); 
-                  } 
-                  break;
+                        if (SymKeyConstants.PERMITTED_TIME.equals(localPart)) {
+                            PermittedTimeParser permittedTimeParser = new PermittedTimeParser();
+                            permittedTimeParser.handle(xmlEventReader, xmlEvent, permittedTimesType);
+                        }
+                        break;
 
-               case XMLStreamConstants.END_ELEMENT: 
-                  EndElement endElement = (EndElement) ev;
-                  localPart = endElement.getName().getLocalPart();
+                    case XMLStreamConstants.END_ELEMENT:
+                        EndElement endElement = (EndElement) ev;
+                        localPart = endElement.getName().getLocalPart();
 
-                  if( localPart.equals( SymKeyConstants.PERMITTED_TIMES ) )
-                     return;
-                  break;
-               case XMLStreamConstants.END_DOCUMENT:
-                  return ; 
-            } 
-         }
-      } 
-      catch (XMLStreamException e) 
-      { 
-         log.log( Level.SEVERE, "Unable to parse:" , e );
-      }  
-   } 
-
-   private static class PermittedTimeParser implements XMLParser
-   {
-      public boolean acceptsQName(QName qname) 
-      {
-         return false;
-      }
-
-      public QName[] getQNames() 
-      {
-         return null;
-      }
-
-      public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException 
-      {	
-         try 
-         {
-            PermittedTimesType permittedTimesType = (PermittedTimesType) populateObject;
-            PermittedTimesType.PermittedTime permittedTime = new PermittedTimesType.PermittedTime();
-
-            permittedTimesType.addPermittedTime(permittedTime);
-
-            while(xmlEventReader.hasNext())
-            {
-               XMLEvent ev = xmlEventReader.nextEvent();
-
-               switch(ev.getEventType())
-               {
-                  case XMLStreamConstants.START_ELEMENT:
-                     StartElement nextStartElement = (StartElement) ev;
-                     QName elementName = nextStartElement.getName();
-                     String localPart = elementName.getLocalPart();
-
-                     if( SymKeyConstants.START_TIME.equals( localPart ))
-                     { 
-                        String startDateStr = xmlEventReader.getElementText();
-
-                        Date startDate = ParserUtil.parseTime( startDateStr );
-                        permittedTime.setStartTime( startDate ); 
-                     }
-                     else if( SymKeyConstants.END_TIME.equals( localPart ))
-                     { 
-                        String endDateStr = xmlEventReader.getElementText();
-
-                        Date endDate = ParserUtil.parseTime(  endDateStr ); 
-                        permittedTime.setEndTime( endDate ); 
-                     }
-                     break;
-
-                  case XMLStreamConstants.END_ELEMENT: 
-                     EndElement endElement = (EndElement) ev;
-                     localPart = endElement.getName().getLocalPart();
-
-                     if( localPart.equals( SymKeyConstants.PERMITTED_TIME) )
+                        if (localPart.equals(SymKeyConstants.PERMITTED_TIMES))
+                            return;
+                        break;
+                    case XMLStreamConstants.END_DOCUMENT:
                         return;
-                     break;
-                  case XMLStreamConstants.END_DOCUMENT:
-                     return ; 
-               } 
+                }
             }
-         } 
-         catch (XMLStreamException e) 
-         { 
-            log.log( Level.SEVERE, "Unable to parse:" , e );
-         } 
-         catch (ParseException e) 
-         {
-            log.log( Level.SEVERE, "Unable to parse:" , e );
-         }   
-      } 
-   }
+        } catch (XMLStreamException e) {
+            log.log(Level.SEVERE, "Unable to parse:", e);
+        }
+    }
+
+    private static class PermittedTimeParser implements XMLParser {
+        public boolean acceptsQName(QName qname) {
+            return false;
+        }
+
+        public QName[] getQNames() {
+            return null;
+        }
+
+        public void handle(XMLEventReader xmlEventReader, XMLEvent xmlEvent, Object populateObject) throws XMLStreamException {
+            try {
+                PermittedTimesType permittedTimesType = (PermittedTimesType) populateObject;
+                PermittedTimesType.PermittedTime permittedTime = new PermittedTimesType.PermittedTime();
+
+                permittedTimesType.addPermittedTime(permittedTime);
+
+                while (xmlEventReader.hasNext()) {
+                    XMLEvent ev = xmlEventReader.nextEvent();
+
+                    switch (ev.getEventType()) {
+                        case XMLStreamConstants.START_ELEMENT:
+                            StartElement nextStartElement = (StartElement) ev;
+                            QName elementName = nextStartElement.getName();
+                            String localPart = elementName.getLocalPart();
+
+                            if (SymKeyConstants.START_TIME.equals(localPart)) {
+                                String startDateStr = xmlEventReader.getElementText();
+
+                                Date startDate = ParserUtil.parseTime(startDateStr);
+                                permittedTime.setStartTime(startDate);
+                            } else if (SymKeyConstants.END_TIME.equals(localPart)) {
+                                String endDateStr = xmlEventReader.getElementText();
+
+                                Date endDate = ParserUtil.parseTime(endDateStr);
+                                permittedTime.setEndTime(endDate);
+                            }
+                            break;
+
+                        case XMLStreamConstants.END_ELEMENT:
+                            EndElement endElement = (EndElement) ev;
+                            localPart = endElement.getName().getLocalPart();
+
+                            if (localPart.equals(SymKeyConstants.PERMITTED_TIME))
+                                return;
+                            break;
+                        case XMLStreamConstants.END_DOCUMENT:
+                            return;
+                    }
+                }
+            } catch (XMLStreamException e) {
+                log.log(Level.SEVERE, "Unable to parse:", e);
+            } catch (ParseException e) {
+                log.log(Level.SEVERE, "Unable to parse:", e);
+            }
+        }
+    }
 }

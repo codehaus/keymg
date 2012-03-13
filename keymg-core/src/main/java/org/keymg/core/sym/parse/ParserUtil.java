@@ -21,20 +21,30 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * A utility class for parsing
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public class ParserUtil 
-{
-   public static Date parseDate( String dateStr ) throws ParseException
-   { 
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd" ) ;
-      return dateFormat.parse( dateStr );  
-   } 
+public class ParserUtil {
+    /**
+     * Given a string to represent date, get the {@link Date} instance
+     * @param dateStr
+     * @return
+     * @throws ParseException
+     */
+    public static Date parseDate(String dateStr) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.parse(dateStr);
+    }
 
-   public static Date parseTime( String timeStr ) throws ParseException
-   {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss" ) ;
-      return dateFormat.parse( timeStr ); 
-   } 
+    /**
+     * Given a string to represent time, get the {@link Date} instance
+     * @param timeStr
+     * @return
+     * @throws ParseException
+     */
+    public static Date parseTime(String timeStr) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        return dateFormat.parse(timeStr);
+    }
 }

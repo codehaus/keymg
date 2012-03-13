@@ -16,13 +16,14 @@
  */
 package org.keymg.sym.model.ekmi;
 
-
-
 /**
- * <p>Java class for StatusType.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
+ * Java class for StatusType.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * 
  * <pre>
  * &lt;simpleType name="StatusType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -37,45 +38,38 @@ package org.keymg.sym.model.ekmi;
  * @author anil@apache.org
  * @since Aug 24, 2009
  */
-public enum StatusType 
-{
+public enum StatusType {
 
     /**
      * 
-     *                         An active policy.  If this element is in the
-     *                         KeyCachePolicy object, it indicates that symmetric 
-     *                         keys may be cached with this KCP.  If it is in the
-     *                         KeyUsePolicy object, it indicates that the symmetric
-     *                         key may be used for encryption.
-     *                     
+     * An active policy. If this element is in the KeyCachePolicy object, it indicates that symmetric keys may be cached with
+     * this KCP. If it is in the KeyUsePolicy object, it indicates that the symmetric key may be used for encryption.
+     * 
      * 
      */
     ACTIVE("Active"),
 
     /**
      * 
-     *                         The default policy in the absence of a named KCP or 
-     *                         KUP.  It is automatically active, unless over-ridden.
-     *                     
+     * The default policy in the absence of a named KCP or KUP. It is automatically active, unless over-ridden.
+     * 
      * 
      */
     DEFAULT("Default"),
 
     /**
      * 
-     *                         A policy that, in the case of the KCP, must not be 
-     *                         used for caching any symmetric keys or in the case
-     *                         of a KUP for encryption.
-     *                     
+     * A policy that, in the case of the KCP, must not be used for caching any symmetric keys or in the case of a KUP for
+     * encryption.
+     * 
      * 
      */
     INACTIVE("Inactive"),
 
     /**
      * 
-     *                         A policy that has an implementation-specific action.  
-     *                         Recommended only for test-use.
-     *                     
+     * A policy that has an implementation-specific action. Recommended only for test-use.
+     * 
      * 
      */
     OTHER("Other");
@@ -90,19 +84,18 @@ public enum StatusType
     }
 
     public static StatusType fromValue(String v) {
-        for (StatusType c: StatusType.values()) {
+        for (StatusType c : StatusType.values()) {
             if (c.value.equals(v)) {
                 return c;
             }
         }
         throw new IllegalArgumentException(v);
     }
-    
-    public String toString()
-    {
-    	StringBuilder builder = new StringBuilder();
-    	builder.append("<ekmi:Status>").append(this.value).append("</ekmi:Status>");
-    	return builder.toString();
+
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("<ekmi:Status>").append(this.value).append("</ekmi:Status>");
+        return builder.toString();
     }
 
 }

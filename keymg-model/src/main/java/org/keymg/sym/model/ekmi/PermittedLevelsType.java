@@ -19,11 +19,12 @@ package org.keymg.sym.model.ekmi;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * <p>Java class for PermittedLevelsType complex type.
+ * <p>
+ * Java class for PermittedLevelsType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="PermittedLevelsType">
@@ -53,21 +54,20 @@ public class PermittedLevelsType {
      * Gets the value of the permittedLevel property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the permittedLevel property.
+     * This accessor method returns a reference to the live list, not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object. This is why there is not a <CODE>set</CODE> method for the
+     * permittedLevel property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getPermittedLevel().add(newItem);
+     * getPermittedLevel().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link LevelClassificationType }
+     * Objects of the following type(s) are allowed in the list {@link LevelClassificationType }
      * 
      * 
      */
@@ -81,10 +81,8 @@ public class PermittedLevelsType {
     /**
      * Gets the value of the other property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Object }
-     *     
+     * @return possible object is {@link Object }
+     * 
      */
     public Object getOther() {
         return other;
@@ -93,10 +91,8 @@ public class PermittedLevelsType {
     /**
      * Sets the value of the other property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link Object }
-     *     
+     * @param value allowed object is {@link Object }
+     * 
      */
     public void setOther(Object value) {
         this.other = value;
@@ -105,10 +101,8 @@ public class PermittedLevelsType {
     /**
      * Gets the value of the any property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getAny() {
         return any;
@@ -117,10 +111,8 @@ public class PermittedLevelsType {
     /**
      * Sets the value of the any property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setAny(String value) {
         this.any = value;

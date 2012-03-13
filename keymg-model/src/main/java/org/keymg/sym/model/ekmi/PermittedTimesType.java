@@ -23,11 +23,12 @@ import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-
 /**
- * <p>Java class for PermittedTimesType complex type.
+ * <p>
+ * Java class for PermittedTimesType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="PermittedTimesType">
@@ -73,46 +74,40 @@ public class PermittedTimesType {
     protected List<PermittedTimesType.PermittedTime> permittedTime = new ArrayList<PermittedTimesType.PermittedTime>();;
     protected String any;
 
-
-    
-    public void addPermittedTime( PermittedTime permittedTime )
-    {
-    	this.permittedTime.add( permittedTime );
+    public void addPermittedTime(PermittedTime permittedTime) {
+        this.permittedTime.add(permittedTime);
     }
+
     /**
      * Gets the value of the permittedTime property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the permittedTime property.
+     * This accessor method returns a reference to the live list, not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object. This is why there is not a <CODE>set</CODE> method for the
+     * permittedTime property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getPermittedTime().add(newItem);
+     * getPermittedTime().add(newItem);
      * </pre>
      * 
      * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link PermittedTimesType.PermittedTime }
+     * Objects of the following type(s) are allowed in the list {@link PermittedTimesType.PermittedTime }
      * 
      * 
      */
-    public List<PermittedTimesType.PermittedTime> getPermittedTime() 
-    {
+    public List<PermittedTimesType.PermittedTime> getPermittedTime() {
         return this.permittedTime;
     }
 
     /**
      * Gets the value of the any property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
+     * 
      */
     public String getAny() {
         return any;
@@ -121,20 +116,19 @@ public class PermittedTimesType {
     /**
      * Sets the value of the any property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
+     * 
      */
     public void setAny(String value) {
         this.any = value;
     }
 
-
     /**
-     * <p>Java class for anonymous complex type.
+     * <p>
+     * Java class for anonymous complex type.
      * 
-     * <p>The following schema fragment specifies the expected content contained within this class.
+     * <p>
+     * The following schema fragment specifies the expected content contained within this class.
      * 
      * <pre>
      * &lt;complexType>
@@ -163,31 +157,25 @@ public class PermittedTimesType {
      * 
      * 
      */
-    public static class PermittedTime
-    {
-        protected Date startTime; 
+    public static class PermittedTime {
+        protected Date startTime;
         protected Date endTime;
 
         /**
          * Gets the value of the startDate property.
          * 
-         * @return
-         *     possible object is
-         *     {@link XMLGregorianCalendar }
-         *     
+         * @return possible object is {@link XMLGregorianCalendar }
+         * 
          */
-        public Date getStartTime()
-        {
+        public Date getStartTime() {
             return startTime;
         }
 
         /**
          * Sets the value of the startDate property.
          * 
-         * @param value
-         *     allowed object is
-         *     {@link XMLGregorianCalendar }
-         *     
+         * @param value allowed object is {@link XMLGregorianCalendar }
+         * 
          */
         public void setStartTime(Date value) {
             this.startTime = value;
@@ -196,10 +184,8 @@ public class PermittedTimesType {
         /**
          * Gets the value of the endDate property.
          * 
-         * @return
-         *     possible object is
-         *     {@link XMLGregorianCalendar }
-         *     
+         * @return possible object is {@link XMLGregorianCalendar }
+         * 
          */
         public Date getEndTime() {
             return endTime;
@@ -208,10 +194,8 @@ public class PermittedTimesType {
         /**
          * Sets the value of the endDate property.
          * 
-         * @param value
-         *     allowed object is
-         *     {@link XMLGregorianCalendar }
-         *     
+         * @param value allowed object is {@link XMLGregorianCalendar }
+         * 
          */
         public void setEndTime(Date value) {
             this.endTime = value;
